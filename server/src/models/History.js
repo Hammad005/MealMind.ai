@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const historySchema = new mongoose.Schema(
   {
-    user: {
+    users: [{
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
-    },
+    }],
     text: {
       type: String,
       required: true,
