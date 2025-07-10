@@ -45,7 +45,7 @@ export const createRecipe = async (req, res) => {
 
     // Save history
     const history = await History.create({
-      users: [req.user._id],
+      users: req.user._id,
       text,
       recipe: {
         name: recipeIntoJSON?.name,
@@ -152,22 +152,20 @@ export const getSavedRecipe = async (req, res) => {
 
 export const clearHistory = async (req, res) => {
   try {
-    const histories = await History.find({ users: req.user._id });
+    // Find all history items for this user
+    const histories = await History.find({ user: req.user._id });
 
-    for (const history of histories) {
-      // Remove user ID from the users array
-      history.users = history.users.filter(
-        (userId) => userId.toString() !== req.user._id.toString()
-      );
+    // Delete associated Cloudinary images (if any)
+    await Promise.all(
+      histories.map(async (item) => {
+        if (item?.recipe?.image?.imageId) {
+          await cloudinary.uploader.destroy(item.recipe.image.imageId);
+        }
+      })
+    );
 
-      if (history.users.length === 0) {
-        // Delete the history if no users are left
-        await History.findByIdAndDelete(history._id);
-      } else {
-        // Save the updated history
-        await history.save();
-      }
-    }
+    // Delete all history entries from DB
+    await History.deleteMany({ user: req.user._id });
 
     return res.status(200).json({ message: "Your history cleared successfully" });
   } catch (error) {
@@ -178,30 +176,20 @@ export const clearHistory = async (req, res) => {
   }
 };
 
+
 export const clearSingleHistory = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const history = await History.findOne({ _id: id, users: req.user._id });
-
+    const history = await History.findById(id);
     if (!history) {
-      return res.status(404).json({ error: "History not found or not accessible" });
+      return res.status(404).json({ error: "History not found" });
     }
-
-    // Remove the user ID from the users array
-    history.users = history.users.filter(
-      (userId) => userId.toString() !== req.user._id.toString()
-    );
-
-    if (history.users.length === 0) {
-      // Delete the history if no users are left
-      await History.findByIdAndDelete(id);
-    } else {
-      // Otherwise, save the updated history
-      await history.save();
+    if (history?.recipe?.image?.imageId) {
+      await cloudinary.uploader.destroy(history.recipe.image.imageId);
     }
-
-    return res.status(200).json({ message: "History entry cleared for this user" });
+    await History.findByIdAndDelete(id);
+    return res.status(200).json({ message: "History cleared successfully" });
   } catch (error) {
     console.error("Error in clearSingleHistory:", error);
     return res.status(500).json({
