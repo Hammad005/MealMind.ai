@@ -3,17 +3,22 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { username, name, email, password } = req.body;
   try {
-    if (!name || !email || !password) {
+    if (!username || !name || !email || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ error: "Email already in use" });
+    }
+    const unniqueUsername = await User.findOne({ username });
+    if (unniqueUsername) {
+      return res.status(400).json({ error: "Username already in use" });
     }
 
     const user = await User.create({
+      username,
       name,
       email,
       password,
@@ -43,34 +48,62 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { usernameOrEmail, password } = req.body;
   try {
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      return res.status(404).json({ error: "Invalid credentials" });
-    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(usernameOrEmail)) {
+      const existingUser = await User.findOne({ email: usernameOrEmail });
+      if (!existingUser) {
+        return res.status(404).json({ error: "Invalid credentials" });
+      }
+      const isPasswordValid = await existingUser.matchPassword(password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ error: "Invalid credentials" });
+      }
 
-    const isPasswordValid = await existingUser.matchPassword(password);
-    if (!isPasswordValid) {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
-
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "3d",
-    });
-    const userWithoutPassword = { ...existingUser._doc };
-    delete userWithoutPassword.password;
-    return res
-      .cookie("MealMindAuth", token, {
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
-        secure: process.env.NODE_ENV === "production",
-      })
-      .status(200)
-      .json({
-        user: userWithoutPassword,
+      const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "3d",
       });
+      const userWithoutPassword = { ...existingUser._doc };
+      delete userWithoutPassword.password;
+      return res
+        .cookie("MealMindAuth", token, {
+          maxAge: 3 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
+          secure: process.env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json({
+          user: userWithoutPassword,
+        });
+    } else {
+      const existingUser = await User.findOne({ username: usernameOrEmail });
+      if (!existingUser) {
+        return res.status(404).json({ error: "Invalid credentials" });
+      }
+      const isPasswordValid = await existingUser.matchPassword(password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ error: "Invalid credentials" });
+      }
+
+      const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "3d",
+      });
+      const userWithoutPassword = { ...existingUser._doc };
+      delete userWithoutPassword.password;
+      return res
+        .cookie("MealMindAuth", token, {
+          maxAge: 3 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
+          secure: process.env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json({
+          user: userWithoutPassword,
+        });
+    }
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
@@ -93,27 +126,31 @@ export const logout = (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { name, email, profile } = req.body;
+  const { username, name, email, profile } = req.body;
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    const cloudinaryResponse = await cloudinary.uploader.upload(profile, {
-      folder: "MealMind/Profile",
-    });
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-      throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
+    if (profile) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(profile, {
+        folder: "MealMind/Profile",
+      });
+      if (!cloudinaryResponse || cloudinaryResponse.error) {
+        throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
+      }
+      return cloudinaryResponse;
     }
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       {
+        username,
         name,
         email,
         profile: {
-          imageId: cloudinaryResponse.public_id,
-          imageUrl: cloudinaryResponse.secure_url,
+          imageId: cloudinaryResponse.public_id || user?.profile?.imageId,
+          imageUrl: cloudinaryResponse.secure_url || user?.profile?.imageUrl,
         },
       },
       { new: true }
