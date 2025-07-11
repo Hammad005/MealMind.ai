@@ -11,6 +11,10 @@ const shareSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  text: {
+    type: String,
+    required: true,
+  },
   recipe: {
     name: {
       type: String,

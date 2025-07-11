@@ -70,7 +70,7 @@ export const createRecipe = async (req, res) => {
 
 export const getHistory = async (req, res) => {
   try {
-    const history = await History.find({ user: req.user._id });
+    const history = await History.find({ user: req.user._id }).sort({ createdAt: -1 });
     return res.status(200).json({ history });
   } catch (error) {
     console.error("Error in getHistory:", error);
