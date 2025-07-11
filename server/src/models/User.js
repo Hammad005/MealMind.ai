@@ -32,18 +32,6 @@ const userSchema = new mongoose.Schema(
         default: null,
       },
     },
-    savedRecipes: [
-      {
-        recipe: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "History",
-        },
-        savedAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
   },
   { timestamps: true }
 );

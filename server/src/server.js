@@ -6,6 +6,7 @@ import connectDB from "./db/db.js";
 import userRoute from "./routes/userRoute.js";
 import historyRecipeRoute from "./routes/historyRecipeRoute.js";
 import shareRecipeRoute from "./routes/shareRecipeRoute.js";
+import savedRecipeRoute from "./routes/savedRecipeRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', userRoute);
 app.use('/api/history', historyRecipeRoute);
+app.use('/api/saved', savedRecipeRoute);
 app.use('/api/shareRecipe', shareRecipeRoute);
 
 

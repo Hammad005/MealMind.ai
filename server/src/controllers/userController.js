@@ -173,4 +173,4 @@ export const getAllUsers = async (req, res) => {
     console.error("Get all users error:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
-}
+};
