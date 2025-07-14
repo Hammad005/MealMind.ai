@@ -1,6 +1,4 @@
-import React from "react";
-import { Button } from "./components/ui/button";
-import { ModeToggle } from "./components/ui/mode-toggle";
+import React, { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -8,65 +6,49 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import FloatingShape from "./components/ui/FloatingShape";
-import { Donut, Ham, Hamburger, IceCream, Pizza } from "lucide-react";
+import {Hamburger, Pizza } from "lucide-react";
+import { useAuthStore } from "./store/useAuthStore";
+import Generate from "./pages/Generate";
 
+const protectRoutes = (condition, children, naivagate) => {
+  return condition ? children : <Navigate to={naivagate} />
+};
 const App = () => {
+  const { checkAuth, getAllUsers, user } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+    getAllUsers();
+  }, [checkAuth, getAllUsers]);
   return (
     <>
-      <div
-        className="min-h-screen flex flex-col items-center 
-      justify-center relative overflow-hidden"
-      >
+      <div className="min-h-screen relative overflow-hidden">
         <FloatingShape
           icon={Pizza}
           color="text-primary/90"
-          size="w-64 h-64"
+          size="w-70 h-70"
           top="-5%"
           left="0%"
           delay={0}
         />
         <FloatingShape
-          icon={IceCream}
-          color="text-primary/90"
-          size="w-64 h-64"
-          top="-5%"
-          left="70%"
-          delay={0}
-        />
-        <FloatingShape
-          icon={Donut}
-          color="text-primary/90"
-          size="w-64 h-64"
-          top="-5%"
-          left="35%"
-          delay={0}
-        />
-        <FloatingShape
-          icon={Ham}
-          color="text-primary/90"
-          size="w-64 h-64"
-          top="20%"
-          left="70%"
-          delay={0}
-        />
-        <FloatingShape
           icon={Hamburger}
           color="text-primary/90"
-          size="w-64 h-64"
+          size="w-70 h-70"
           top="20%"
-          left="10%"
+          left="70%"
           delay={0}
         />
 
         <div className="z-20">
-        <Navbar />
-        <Routes>
-          <Route path="*" element={<Navigate to="/" />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
+          <Navbar />
+          <Routes>
+            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/" element={protectRoutes(user, <Home/>, "/login")} />
+            <Route path="/profile" element={protectRoutes(user, <Profile/>, "/login")} />
+            <Route path="/generate" element={protectRoutes(user, <Generate/>, "/login")} />
+            <Route path="/login" element={protectRoutes(!user, <Login/>, "/")} />
+            <Route path="/signup" element={protectRoutes(!user, <Signup/>, "/")} />
+          </Routes>
         </div>
       </div>
     </>

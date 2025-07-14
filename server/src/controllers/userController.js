@@ -168,7 +168,8 @@ export const updateProfile = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
-    return res.status(200).json({ users });
+    const userWithoutMe = users.filter((user) => user._id !== req.user._id);
+    return res.status(200).json({ users: userWithoutMe });
   } catch (error) {
     console.error("Get all users error:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });

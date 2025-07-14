@@ -79,7 +79,7 @@ const Navbar = () => {
     <>
       <nav
         className={`w-full lg:px-23 px-4 py-6 flex items-center justify-between ${
-          location.pathname === "/login" && "hidden"
+          (location.pathname === "/login" || location.pathname === "/signup") && "hidden"
         }`}
         ref={navRef}
       >
