@@ -44,7 +44,7 @@
 :root {
   --radius: 0.65rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0% 0 0);
+  --foreground: oklch(0.2099 0.0341 263.44);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0% 0 0);
   --popover: oklch(1 0 0);
@@ -115,8 +115,42 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
   }
   body {
     @apply bg-background text-foreground;
+    @apply scroll-smooth;
+  }
+}
+.blink {
+  animation: animate 5s linear infinite;
+}
+@keyframes animate {
+  0%,
+  18%,
+  20%,
+  50.1%,
+  60%,
+  65.1%,
+  80%,
+  90.1%,
+  92% {
+    color: var(--primary);
+    text-shadow: none;
+  }
+  18.1%,
+  20.1%,
+  30%,
+  50%,
+  60.1%,
+  65%,
+  80.1%,
+  90.1%,
+  92.1%,
+  100% {
+    color: var(--primary);
+    text-shadow: 0 0 1px rgb(236, 236, 236), 0 0 2px var(--primary), 0 0 2px var(--primary),
+      0 0 5px var(--primary), 0 0 20px var(--primary);
   }
 }

@@ -14,8 +14,8 @@ export function ModeToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className={"rounded-full"} size={"icon"}>
+      <DropdownMenuTrigger>
+        <Button  className={"px-7 w-full flex justify-start items-center bg-background border border-primary dark:text-white text-black hover:text-white"} size={"icon"}>
           <Sun
             className={`h-[1.2rem] w-[1.2rem] transition-all ${
               theme === "light" ? "scale-100 rotate-0" : "scale-0 -rotate-90"
@@ -27,6 +27,7 @@ export function ModeToggle() {
             }`}
           />
           <span className="sr-only">Toggle theme</span>
+          <p className="first-letter:capitalize">{theme}</p>
         </Button>
       </DropdownMenuTrigger>
 

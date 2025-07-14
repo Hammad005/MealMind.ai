@@ -1,28 +1,250 @@
-import { Home } from 'lucide-react'
-import React, { useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { ModeToggle } from './ui/mode-toggle'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { Button } from './ui/button'
+import React, { useEffect, useRef } from "react";
+import {
+  BrainCircuit,
+  ChartNoAxesGantt,
+  Cookie,
+  History,
+  Home,
+  LogOut,
+  Sparkle,
+  User,
+  X,
+} from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ModeToggle } from "./ui/mode-toggle";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "./ui/button";
+import Logo from "../assets/logo.png";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
-    
+  const location = useLocation();
+  const navRef = useRef();
+
+  const asideRef = useRef();
+  const menuTlRef = useRef();
+
+  useGSAP(() => {
+    gsap.from(navRef.current.children, {
+      opacity: 0,
+      duration: 0.8,
+      y: -100,
+      ease: "power2.out",
+      stagger: 0.4,
+    });
+  });
+
+  const { contextSafe } = useGSAP();
+  const handleMenu = contextSafe(() => {
+    let tl = gsap.timeline({
+      paused: true,
+      onStart: () => {
+        document.body.style.overflow = "hidden"; // Disable scroll
+      },
+      onReverseComplete: () => {
+        document.body.style.overflow = "auto"; // Enable scroll
+      },
+    });
+    tl.to(asideRef.current, {
+      top: 0,
+      duration: 0.5,
+      ease: "power2.out",
+      overflowY: "none",
+    }).from(asideRef.current.children, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      stagger: 0.2,
+    });
+
+    menuTlRef.current = tl;
+  });
+
+  useGSAP(() => {
+    handleMenu();
+  });
+
+  useEffect(() => {
+    menuTlRef.current?.reverse();
+  }, [location.pathname]);
   return (
     <>
-    <nav className='flex justify-between items-center p-2 md:px-20 px-6 bg-background/30 sticky border-b border-primary/50 top-0 backdrop-blur z-50 w-full'>
-            <div className='w-full'>
+      <nav
+        className={`w-full lg:px-23 px-4 py-6 flex items-center justify-between ${
+          location.pathname === "/login" && "hidden"
+        }`}
+        ref={navRef}
+      >
+        <div className="flex gap-2 blink">
+          <img
+            src={Logo}
+            alt="logo"
+            className="h-10 w-auto"
+            style={{
+              WebkitBoxReflect:
+                "below -4px linear-gradient(transparent, #ffffff62)",
+            }}
+          />
+          <p
+            style={{
+              WebkitBoxReflect:
+                "below -22px linear-gradient(transparent, #ffffff62)",
+            }}
+            className="text-[1.8rem] tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
+          >
+            MealMind
+          </p>
+        </div>
 
-            </div>
-            <div className='flex items-center justify-end gap-4 w-full' >
-                <Button asChild variant='outline' size={"icon"} className={'rounded-full'}>
-                <Link to='/'><Home className='h-[1.2rem] w-[1.2rem]'/></Link>
-                </Button>
-                <ModeToggle/>
-            </div>
-    </nav>
+        <div className="flex gap-4">
+          <div className="lg:flex items-center justify-center gap-8 hidden ">
+            <Link
+              to="/"
+              className={`${
+                location.pathname === "/"
+                  ? "font-bold text-sm flex items-start gap-2 text-primary"
+                  : "font-semibold text-sm flex items-start gap-2 hover:text-primary"
+              }`}
+            >
+              <Home size={18} className="text-primary" />
+              Home
+            </Link>
+
+            <Link
+              to="/generate"
+              className={`${
+                location.pathname === "/generate"
+                  ? "font-bold text-sm flex items-start gap-2 text-primary"
+                  : "font-semibold text-sm flex items-start gap-2 hover:text-primary"
+              }`}
+            >
+              <BrainCircuit size={18} className="text-primary" />
+              Generate
+            </Link>
+            <Link
+              to="/privacypolicy"
+              className={
+                location.pathname === "/privacypolicy"
+                  ? "font-bold text-sm flex items-start gap-2 text-primary"
+                  : "font-semibold text-sm flex items-start gap-2 hover:text-primary"
+              }
+            >
+              <Cookie size={18} className="text-primary" />
+              Privacy Policy
+            </Link>
+
+            <ModeToggle />
+          </div>
+
+          <div className="lg:hidden flex items-center justify-center gap-4">
+            <Button
+              onClick={() => menuTlRef.current?.play()}
+              variant="outline"
+              size={"icon"}
+            >
+              <ChartNoAxesGantt size={25} className="rotate-90" />{" "}
+            </Button>
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <p
+                className={
+                  "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
+                }
+              >
+                H
+              </p>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent sideOffset={7} align="end">
+              <DropdownMenuLabel className={"text-primary"}>
+                hammad.x0
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link to="/profile">
+                <DropdownMenuItem>
+                  <User size={18} className="text-primary" />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
+              <Link to="/history">
+                <DropdownMenuItem>
+                  <History size={18} className="text-primary" />
+                  History
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <LogOut size={18} className="text-primary" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </nav>
+
+      <aside
+        ref={asideRef}
+        className="lg:hidden flex flex-col items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-[-100%] z-50 bg-primary/10 overflow-y-auto"
+      >
+        <div>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            onClick={() => menuTlRef.current?.reverse()}
+            className="absolute top-6 right-6 "
+          >
+            <X />
+          </Button>
+        </div>
+        <Link
+          to="/"
+          className={`${
+            location.pathname === "/"
+              ? "font-bold text-xl flex items-start gap-2 text-primary"
+              : "font-semibold text-xl flex items-start gap-2 hover:text-primary"
+          }`}
+        >
+          <Home size={22} className="text-primary" />
+          Home
+        </Link>
+
+        <Link
+          to="/generate"
+          className={`${
+            location.pathname === "/generate"
+              ? "font-bold text-xl flex items-start gap-2 text-primary"
+              : "font-semibold text-xl flex items-start gap-2 hover:text-primary"
+          }`}
+        >
+          <BrainCircuit size={22} className="text-primary" />
+          Generate
+        </Link>
+        <Link
+          to="/privacypolicy"
+          className={
+            location.pathname === "/privacypolicy"
+              ? "font-bold text-xl flex items-start gap-2 text-primary"
+              : "font-semibold text-xl flex items-start gap-2 hover:text-primary"
+          }
+        >
+          <Cookie size={22} className="text-primary" />
+          Privacy Policy
+        </Link>
+        <div className="flex gap-2 mt-4">
+          <ModeToggle />
+          <Button className={"px-8"}>Logout</Button>
+        </div>
+      </aside>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
