@@ -8,6 +8,8 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Checkbox } from "@/components/ui/checkbox";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
 
 const Signup = () => {
   const { signup, userLoading } = useAuthStore();
@@ -21,6 +23,7 @@ const Signup = () => {
   const [conPassword, setConPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showConPass, setShowConPass] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,6 +95,7 @@ const Signup = () => {
   };
   return (
     <>
+    <PrivacyPolicy open={open} setOpen={setOpen}/>
       <div className="flex items-center justify-center min-h-screen lg:px-23 px-4 py-6">
         <div
           ref={cardRef}
@@ -273,6 +277,10 @@ const Signup = () => {
                     </p>
                   )}
                 </div>
+                <p className="text-xs text-gray-400 flex gap-1 items-center mt-1">
+                  <Checkbox required />
+                  I have read and agree to the{" "} <span className="text-primary cursor-pointer hover:underline" onClick={() => setOpen(true)}>Privacy Policy</span>
+                </p>
               </div>
 
               <div className="mt-4 flex justify-center">

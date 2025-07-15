@@ -38,10 +38,8 @@ const Navbar = () => {
 
   useGSAP(() => {
     if (
-      authLoading || // still checking
-      !user || // user not logged in
-      location.pathname === "/login" ||
-      location.pathname === "/signup"
+      authLoading,
+      !user
     )
       return;
     gsap.from(navRef.current.children, {
@@ -51,7 +49,7 @@ const Navbar = () => {
       ease: "power2.out",
       stagger: 0.4,
     });
-  }, [location.pathname, authLoading, user]);
+  }, [authLoading, user]);
 
   const { contextSafe } = useGSAP();
   const handleMenu = contextSafe(() => {

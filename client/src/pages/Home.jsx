@@ -24,7 +24,7 @@ const Home = () => {
     <>
       <div className="w-full lg:px-23 px-4 py-6 md:mt-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-          <div className="space-y-8 relative">
+          <div className="space-y-8 relative" >
             <h1 ref={textRef} className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               <div>
                 <span className="text-gray-900 dark:text-foreground">Generate</span>

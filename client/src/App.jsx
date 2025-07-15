@@ -10,6 +10,8 @@ import {Hamburger, Pizza } from "lucide-react";
 import { useAuthStore } from "./store/useAuthStore";
 import Generate from "./pages/Generate";
 import { Toaster } from "./components/ui/sonner";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Footer from "./components/Footer";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
@@ -51,9 +53,11 @@ const App = () => {
             <Route path="/" element={protectRoutes(user, <Home/>, "/login")} />
             <Route path="/profile" element={protectRoutes(user, <Profile/>, "/login")} />
             <Route path="/generate" element={protectRoutes(user, <Generate/>, "/login")} />
+            <Route path="/privacypolicy" element={protectRoutes(user, <PrivacyPolicy/>, "/login")} />
             <Route path="/login" element={protectRoutes(!user, <Login/>, "/")} />
             <Route path="/signup" element={protectRoutes(!user, <Signup/>, "/")} />
           </Routes>
+          <Footer/>
           <Toaster position="top-center"/>
         </div>
       </div>
