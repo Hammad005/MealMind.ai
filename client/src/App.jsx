@@ -9,6 +9,7 @@ import FloatingShape from "./components/ui/FloatingShape";
 import {Hamburger, Pizza } from "lucide-react";
 import { useAuthStore } from "./store/useAuthStore";
 import Generate from "./pages/Generate";
+import { Toaster } from "./components/ui/sonner";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
@@ -17,8 +18,12 @@ const App = () => {
   const { checkAuth, getAllUsers, user } = useAuthStore();
   useEffect(() => {
     checkAuth();
-    getAllUsers();
-  }, [checkAuth, getAllUsers]);
+  }, [checkAuth]);
+
+  useEffect(() => {
+        if (user) getAllUsers();
+
+  }, [user, getAllUsers]);
   return (
     <>
       <div className="min-h-screen relative overflow-hidden">
@@ -49,6 +54,7 @@ const App = () => {
             <Route path="/login" element={protectRoutes(!user, <Login/>, "/")} />
             <Route path="/signup" element={protectRoutes(!user, <Signup/>, "/")} />
           </Routes>
+          <Toaster position="top-center"/>
         </div>
       </div>
     </>

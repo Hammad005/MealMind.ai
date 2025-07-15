@@ -5,6 +5,7 @@ import {
   Cookie,
   History,
   Home,
+  Loader,
   LogOut,
   Sparkle,
   User,
@@ -24,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Navbar = () => {
   const location = useLocation();
@@ -32,7 +34,16 @@ const Navbar = () => {
   const asideRef = useRef();
   const menuTlRef = useRef();
 
+  const { logout, userLoading, authLoading, user } = useAuthStore();
+
   useGSAP(() => {
+    if (
+      authLoading || // still checking
+      !user || // user not logged in
+      location.pathname === "/login" ||
+      location.pathname === "/signup"
+    )
+      return;
     gsap.from(navRef.current.children, {
       opacity: 0,
       duration: 0.8,
@@ -40,7 +51,7 @@ const Navbar = () => {
       ease: "power2.out",
       stagger: 0.4,
     });
-  });
+  }, [location.pathname, authLoading, user]);
 
   const { contextSafe } = useGSAP();
   const handleMenu = contextSafe(() => {
@@ -79,7 +90,8 @@ const Navbar = () => {
     <>
       <nav
         className={`w-full lg:px-23 px-4 py-6 flex items-center justify-between ${
-          (location.pathname === "/login" || location.pathname === "/signup") && "hidden"
+          (location.pathname === "/login" || location.pathname === "/signup") &&
+          "hidden"
         }`}
         ref={navRef}
       >
@@ -161,12 +173,12 @@ const Navbar = () => {
                   "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
                 }
               >
-                H
+                {user?.username[0].toUpperCase()}
               </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={7} align="end">
               <DropdownMenuLabel className={"text-primary"}>
-                hammad.x0
+                {user?.username}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <Link to="/profile">
@@ -181,9 +193,18 @@ const Navbar = () => {
                   History
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <LogOut size={18} className="text-primary" />
-                Logout
+              <DropdownMenuItem onClick={logout} disabled={userLoading}>
+                {userLoading ? (
+                  <>
+                    <Loader className="animate-spin" size={18} />
+                    logging out...
+                  </>
+                ) : (
+                  <>
+                    <LogOut size={18} className="text-primary" />
+                    Logout
+                  </>
+                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -240,7 +261,12 @@ const Navbar = () => {
         </Link>
         <div className="flex gap-2 mt-4">
           <ModeToggle />
-          <Button className={"px-8"}>Logout</Button>
+          <Button className={"px-8"} disabled={userLoading} onClick={() => {
+            menuTlRef.current?.reverse()
+            logout()
+          }}>
+            {userLoading ? <Loader className="animate-spin" /> : "Logout"}
+          </Button>
         </div>
       </aside>
     </>

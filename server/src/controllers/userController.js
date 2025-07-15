@@ -8,14 +8,17 @@ export const signup = async (req, res) => {
     if (!username || !name || !email || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: "Email already in use" });
-    }
+
     const unniqueUsername = await User.findOne({ username });
     if (unniqueUsername) {
       return res.status(400).json({ error: "Username already in use" });
     }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already in use" });
+    }
+    
 
     const user = await User.create({
       username,
@@ -168,10 +171,16 @@ export const updateProfile = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
-    const userWithoutMe = users.filter((user) => user._id !== req.user._id);
-    return res.status(200).json({ users: userWithoutMe });
+
+    // Exclude the logged-in user
+    const usersWithoutMe = users.filter(
+      (user) => user._id.toString() !== req.user._id.toString()
+    );
+
+    return res.status(200).json({ users: usersWithoutMe });
   } catch (error) {
     console.error("Get all users error:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };
+
