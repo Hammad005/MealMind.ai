@@ -11,7 +11,7 @@ export const saveRecipe = async (req, res) => {
     }
 
     const cloudinaryResponse = await cloudinary.uploader.upload(history.recipe.image.imageUrl, {
-      folder: "MealMind/Recipes/Saved",
+      folder: "MealMind.ai/Recipes/Saved",
     });
     if (!cloudinaryResponse || cloudinaryResponse.error) {
         throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
@@ -51,7 +51,7 @@ export const saveSharedRecipe = async (req, res) => {
     }
 
     const cloudinaryResponse = await cloudinary.uploader.upload(sharedRecipe.recipe.image.imageUrl, {
-      folder: "MealMind/Recipes/Saved",
+      folder: "MealMind.ai/Recipes/Saved",
     });
     if (!cloudinaryResponse || cloudinaryResponse.error) {
         throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");

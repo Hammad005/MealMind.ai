@@ -76,11 +76,11 @@ const Login = () => {
                 className="object-cover h-full mx-auto"
               />
             </div>
-            <h3 className="text-sm xl:text-base font-bold text-center text-primary mt-5">
-              MealMind - Where Ingredients Meet Intelligence
+            <h3 className="text-sm xl:text-base font-bold text-center text-primary mt-5 whitespace-nowrap">
+              MealMind.ai - Where Ingredients Meet Intelligence
             </h3>
             <p className="text-gray-400 text-xs text-center font-mono">
-              Log in to continue your smart cooking journey with AI.
+              Log in to continue your smart cooking journey with MealMind.ai
             </p>
           </div>
           <div className="w-full flex flex-col gap-3 p-10 justify-center">
@@ -90,7 +90,7 @@ const Login = () => {
               </h1>
               <p className="text-xs font-mono">
                 Welcome Back - Log in to continue your smart cooking journey
-                with AI.
+                with MealMind.ai
               </p>
             </div>
 

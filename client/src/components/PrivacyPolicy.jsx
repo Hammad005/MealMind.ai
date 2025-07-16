@@ -18,11 +18,11 @@ const PrivacyPolicy = ({ open, setOpen }) => {
             <h3 className="text-3xl font-bold">
               Privacy Policy for{" "}
               <span className="text-[2.2rem] tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90">
-                MealMind
+                MealMind<span className="text-sm">.ai</span>
               </span>
             </h3>
             <p className="text-xs font-mono">
-              Thank you for choosing MealMind. Your privacy is important to us.
+              Thank you for choosing MealMind.ai. Your privacy is important to us.
               This Privacy Policy explains how we collect, use, disclose, and
               protect your personal information when you use our services.
             </p>
@@ -65,7 +65,7 @@ const PrivacyPolicy = ({ open, setOpen }) => {
 
             <h3 className="text-2xl font-bold"><span className="text-primary">5.</span> AI-Generated Content Disclaimer</h3>
             <ul className="pl-10 font-mono text-sm list-disc">
-              <li>MealMind uses AI to generate recipe suggestions based on user input.</li>
+              <li>MealMind.ai uses AI to generate recipe suggestions based on user input.</li>
               <li><b>All content generated is for informational and entertainment purposes only.</b></li>
               <li>The AI may produce inaccurate or unsuitable results for certain needs.</li>
               <li><b>Users are solely responsible</b> for verifying the safety, accuracy, and appropriateness of generated content.</li>
@@ -80,12 +80,12 @@ const PrivacyPolicy = ({ open, setOpen }) => {
 
             <h3 className="text-2xl font-bold"><span className="text-primary">7.</span> Children's Privacy</h3>
             <p className="pl-6 font-mono text-sm">
-              MealMind is not intended for users under 13. We do not knowingly collect data from children.
+              MealMind.ai is not intended for users under 13. We do not knowingly collect data from children.
             </p>
 
             <h3 className="text-2xl font-bold"><span className="text-primary">8.</span> Changes to This Policy</h3>
             <p className="pl-6 font-mono text-sm">
-              We may update this Privacy Policy. Continued use of MealMind implies acceptance of any updates.
+              We may update this Privacy Policy. Continued use of MealMind.ai implies acceptance of any updates.
             </p>
           </div>
         </div>

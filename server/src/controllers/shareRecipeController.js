@@ -12,7 +12,7 @@ export const shareHistoryRecipe = async (req, res) => {
             return res.status(404).json({ error: "History not found" });
         }
         const cloudinaryResponse = await cloudinary.uploader.upload(history.recipe.image.imageUrl, {
-            folder: "MealMind/Recipes/Shared",
+            folder: "MealMind.ai/Recipes/Shared",
         });
         if (!cloudinaryResponse || cloudinaryResponse.error) {
             throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
@@ -52,7 +52,7 @@ export const shareSavedRecipe = async (req, res) => {
             return res.status(404).json({ error: "Saved recipe not found" });
         }
         const cloudinaryResponse = await cloudinary.uploader.upload(saved.recipe.image.imageUrl, {
-            folder: "MealMind/Recipes/Shared",
+            folder: "MealMind.ai/Recipes/Shared",
         });
         if (!cloudinaryResponse || cloudinaryResponse.error) {
             throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");

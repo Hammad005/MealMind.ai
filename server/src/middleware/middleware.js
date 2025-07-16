@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 export const protectRoute = async (req, res, next) => {
-    const token = req.cookies.MealMindAuth;
+    const token = req.cookies.MealMindAiAuth;
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         try {

@@ -33,7 +33,7 @@ export const createRecipe = async (req, res) => {
 
     if (pexelsImageUrl) {
       const uploadResult = await cloudinary.uploader.upload(pexelsImageUrl, {
-        folder: "MealMind/Recipes/History",
+        folder: "MealMind.ai/Recipes/History",
       });
 
       imageData = {

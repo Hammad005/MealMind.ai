@@ -107,7 +107,7 @@ const Signup = () => {
                 Signup
               </h1>
               <p className="text-xs font-mono ">
-                MealMind - Where Ingredients Meet Intelligence
+                MealMind.ai - Where Ingredients Meet Intelligence
               </p>
             </div>
 
@@ -319,10 +319,10 @@ const Signup = () => {
               />
             </div>
             <h3 className="text-sm xl:text-base font-bold text-center text-primary mt-5">
-              MealMind - Where Ingredients Meet Intelligence
+              MealMind.ai - Where Ingredients Meet Intelligence
             </h3>
             <p className="text-gray-400 text-xs text-center font-mono">
-              Start your smart cooking journey with MealMind.
+              Start your smart cooking journey with MealMind.ai
             </p>
           </div>
         </div>

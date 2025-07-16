@@ -34,7 +34,7 @@ export const signup = async (req, res) => {
     delete userWithoutPassword.password;
 
     return res
-      .cookie("MealMindAuth", token, {
+      .cookie("MealMindAiAuth", token, {
         maxAge: 3 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
       const userWithoutPassword = { ...existingUser._doc };
       delete userWithoutPassword.password;
       return res
-        .cookie("MealMindAuth", token, {
+        .cookie("MealMindAiAuth", token, {
           maxAge: 3 * 24 * 60 * 60 * 1000,
           httpOnly: true,
           sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
@@ -96,7 +96,7 @@ export const login = async (req, res) => {
       const userWithoutPassword = { ...existingUser._doc };
       delete userWithoutPassword.password;
       return res
-        .cookie("MealMindAuth", token, {
+        .cookie("MealMindAiAuth", token, {
           maxAge: 3 * 24 * 60 * 60 * 1000,
           httpOnly: true,
           sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
@@ -116,7 +116,7 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   try {
     res
-      .clearCookie("MealMindAuth", {
+      .clearCookie("MealMindAiAuth", {
         sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
         secure: process.env.NODE_ENV === "production",
       })
@@ -137,7 +137,7 @@ export const updateProfile = async (req, res) => {
     }
     if (profile) {
       const cloudinaryResponse = await cloudinary.uploader.upload(profile, {
-        folder: "MealMind/Profile",
+        folder: "MealMind.ai/Profile",
       });
       if (!cloudinaryResponse || cloudinaryResponse.error) {
         throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");

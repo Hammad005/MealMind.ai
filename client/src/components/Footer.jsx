@@ -29,12 +29,12 @@ const Footer = () => {
                       }}
                       className="text-[1.8rem] tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
                     >
-                      MealMind
+                      MealMind<span className="text-sm">.ai</span>
                     </p>
                   </div>
         </div>
         <p className="text-sm text-primary">
-          Copyright &copy; 2025 MealMind
+          Copyright &copy; 2025 MealMind.ai
         </p>
         <div className="gap-3 md:flex hidden">
           <Link to={"https://www.facebook.com/"} target="_blank">

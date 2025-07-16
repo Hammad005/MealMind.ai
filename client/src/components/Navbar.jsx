@@ -93,7 +93,7 @@ const Navbar = () => {
         }`}
         ref={navRef}
       >
-        <div className="flex gap-2 blink">
+        <Link to={'/'} className="flex gap-2 blink">
           <img
             src={Logo}
             alt="logo"
@@ -106,13 +106,13 @@ const Navbar = () => {
           <p
             style={{
               WebkitBoxReflect:
-                "below -22px linear-gradient(transparent, #ffffff62)",
+                "below -23px linear-gradient(transparent, #ffffff62)",
             }}
-            className="text-[1.8rem] tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
+            className="text-[1.3rem] sm:text-[1.8rem] lg:text-[1.8rem] md:text-[1.8rem] flex items-center tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
           >
-            MealMind
+            MealMind<span className="text-sm">.ai</span>
           </p>
-        </div>
+        </Link>
 
         <div className="flex gap-4">
           <div className="lg:flex items-center justify-center gap-8 hidden ">
