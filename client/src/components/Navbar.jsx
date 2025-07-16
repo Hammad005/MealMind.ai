@@ -93,7 +93,7 @@ const Navbar = () => {
         }`}
         ref={navRef}
       >
-        <Link to={'/'} className="flex gap-2 blink">
+        <Link to={'/'} className="flex gap-2 ">
           <img
             src={Logo}
             alt="logo"

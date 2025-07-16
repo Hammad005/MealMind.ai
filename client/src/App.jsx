@@ -12,12 +12,13 @@ import Generate from "./pages/Generate";
 import { Toaster } from "./components/ui/sonner";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Footer from "./components/Footer";
+import LoadingScreen from "./components/LoadingScreen";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
 };
 const App = () => {
-  const { checkAuth, getAllUsers, user } = useAuthStore();
+  const { checkAuth, getAllUsers, user, authLoading } = useAuthStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -26,6 +27,8 @@ const App = () => {
         if (user) getAllUsers();
 
   }, [user, getAllUsers]);
+
+  if (authLoading) return <LoadingScreen/>
   return (
     <>
       <div className="min-h-screen relative overflow-hidden">

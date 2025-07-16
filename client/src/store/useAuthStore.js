@@ -7,10 +7,20 @@ export const useAuthStore = create((set) => ({
   allUsers: [],
   authLoading: false,
   userLoading: false,
+  progress: 0,
 
   checkAuth: async () => {
-    set({ authLoading: true });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    set({ authLoading: true, progress: 0 });
+
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    const steps = [0, 20, 40, 60, 80, 100];
+
+    for (let value of steps) {
+      await delay(1500);
+      set({ progress: value });
+    }
+
+    await delay(1500);
     try {
       const res = await axios.get("/auth/getProfile");
       set({ authLoading: false, user: res.data.user });

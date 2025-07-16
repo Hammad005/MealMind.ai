@@ -73,7 +73,7 @@ const PrivacyPolicy = () => {
                 </p>
               </span>
             </h1>
-            <div className="md:flex hidden gap-2 blink ">
+            <div className="md:flex hidden gap-2  ">
               <img
                 src={Logo}
                 alt="logo"
