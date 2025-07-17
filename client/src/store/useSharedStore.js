@@ -6,7 +6,7 @@ export const useSharedStore = create((set) => ({
   shareRecipeLoading: false,
 
   getSharedRecipes: async () => {
-   set({shareRecipeLoading: false});
+   set({shareRecipeLoading: true});
    try {
     const res = await axios.get('/shareRecipe/getSharedRecipe');
     set({shareRecipeLoading: false, sharedRecipes: res.data.sharedRecipes});

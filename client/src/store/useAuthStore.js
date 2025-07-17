@@ -13,10 +13,10 @@ export const useAuthStore = create((set) => ({
     set({ authLoading: true, progress: 0 });
 
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-    const steps = [0, 20, 40, 60, 80, 100];
+    const steps = [0, 35, 60, 85, 100];
 
     for (let value of steps) {
-      await delay(1500);
+      await delay(1000);
       set({ progress: value });
     }
 

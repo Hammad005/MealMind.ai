@@ -1,13 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useGSAP } from "@gsap/react";
-import { CloudCheck, Edit, History, Repeat2 } from "lucide-react";
-import React, { useRef } from "react";
+import { Bookmark, CloudCheck, Edit, History, RefreshCcw, Repeat2, Share2 } from "lucide-react";
+import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSavedStore } from "@/store/useSavedStore";
+import { useSharedStore } from "@/store/useSharedStore";
+import NoSavedRecipes from "@/components/NoSavedRecipes";
+import NoSharedRecipes from "@/components/NoSharedRecipes";
+import EditProfile from "@/components/EditProfile";
 
 const Profile = () => {
+  const [open, setOpen] = useState(false);
   const { user } = useAuthStore();
+  const { savedRecipes, savedRecipeLoading, getSavedRecipes } = useSavedStore();
+  const { sharedRecipes, shareRecipeLoading, getSharedRecipes } = useSharedStore();
+
   const profileRef = useRef();
   const tabsRef = useRef();
 
@@ -36,6 +45,7 @@ const Profile = () => {
   });
   return (
     <>
+    <EditProfile open={open} setOpen={setOpen}/>
       <div className="w-full lg:px-23 px-4 py-6 md:mt-10 min-h-screen flex flex-col gap-12">
         <div
           ref={profileRef}
@@ -62,6 +72,7 @@ const Profile = () => {
                 className={
                   "border border-primary dark:text-white text-foreground hover:text-white bg-transparent hover:bg-primary"
                 }
+                onClick={() => setOpen(true)}
               >
                 <Edit />
                 Edit Profile
@@ -81,13 +92,41 @@ const Profile = () => {
           <h3 className="text-3xl font-bold text-primary">Personal Recipes:</h3>
           <Tabs defaultValue="saved" className="w-full">
             <TabsList className="w-full mb-4">
-              <TabsTrigger value="saved"><CloudCheck /> Saved</TabsTrigger>
-              <TabsTrigger value="shared"><Repeat2 /> Shared</TabsTrigger>
+              <TabsTrigger value="saved">
+                <Bookmark/> Saved
+              </TabsTrigger>
+              <TabsTrigger value="shared">
+                <Share2 /> Shared
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="saved">
-              Make changes to your account here.
+              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg p-10">
+                <Button
+                  size={"icon"}
+                  className="absolute top-4 right-4 bg-transparent border border-primary text-foreground hover:text-white"
+                  disabled={savedRecipeLoading}
+                  onClick={getSavedRecipes}
+                >
+                  <RefreshCcw
+                    className={savedRecipeLoading && "animate-spin"}
+                  />
+                </Button>
+                {savedRecipes.length > 0 ? "" : <NoSavedRecipes />}
+              </div>
             </TabsContent>
-            <TabsContent value="shared">Change your password here.</TabsContent>
+            <TabsContent value="shared">
+              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg p-10">
+                <Button
+                  size={"icon"}
+                  className="absolute top-4 right-4 bg-transparent border border-primary text-foreground hover:text-white"
+                  disabled={shareRecipeLoading}
+                  onClick={getSharedRecipes}
+                >
+                  <RefreshCcw className={shareRecipeLoading && "animate-spin"} />
+                </Button>
+                {sharedRecipes.length > 0 ? "" : <NoSharedRecipes />}
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
       </div>
