@@ -318,7 +318,7 @@ const Signup = () => {
                 className="object-cover h-full mx-auto"
               />
             </div>
-            <h3 className="text-sm xl:text-base font-bold text-center text-primary mt-5">
+            <h3 className="text-sm xl:text-base whitespace-nowrap font-bold text-center text-primary mt-5">
               MealMind.ai - Where Ingredients Meet Intelligence
             </h3>
             <p className="text-gray-400 text-xs text-center font-mono">

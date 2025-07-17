@@ -13,26 +13,40 @@ import { Toaster } from "./components/ui/sonner";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Footer from "./components/Footer";
 import LoadingScreen from "./components/LoadingScreen";
+import { useSavedStore } from "./store/useSavedStore";
+import { useHistoryStore } from "./store/useHistoryStore";
+import { useSharedStore } from "./store/useSharedStore";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
 };
 const App = () => {
   const { checkAuth, getAllUsers, user, authLoading } = useAuthStore();
+  const {getSavedRecipes} = useSavedStore();
+  const {getHistoryRecipes} = useHistoryStore();
+  const {getSharedRecipes} = useSharedStore();
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   useEffect(() => {
-        if (user) getAllUsers();
+        if (user) {
+          getAllUsers()
+          getSavedRecipes()
+          getHistoryRecipes()
+          getSharedRecipes()
+        }
 
-  }, [user, getAllUsers]);
+  }, [user, getAllUsers, getSavedRecipes, getHistoryRecipes, getSharedRecipes]);
 
   if (authLoading) return <LoadingScreen/>
   return (
     <>
       <div className="min-h-screen relative overflow-hidden">
-        <FloatingShape
+        
+
+        {/* <FloatingShape
           icon={Pizza}
           color="text-primary/90"
           size="w-70 h-70"
@@ -47,7 +61,7 @@ const App = () => {
           top="20%"
           left="70%"
           delay={0}
-        />
+        /> */}
 
         <div className="z-20">
           <Navbar />
