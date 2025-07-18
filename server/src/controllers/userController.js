@@ -18,7 +18,6 @@ export const signup = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ error: "Email already in use" });
     }
-    
 
     const user = await User.create({
       username,
@@ -130,43 +129,81 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   const { username, name, email, profile } = req.body;
+
   try {
+    // Check for duplicate username
+    if (username !== req.user.username) {
+      const usernameExist = await User.findOne({ username });
+      if (usernameExist) {
+        return res.status(400).json({ error: "Username already in use" });
+      }
+    }
+
+    // Check for duplicate email
+    if (email !== req.user.email) {
+      const emailExist = await User.findOne({ email });
+      if (emailExist) {
+        return res.status(400).json({ error: "Email already in use" });
+      }
+    }
+
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    let updatedUser;
+
+    // If profile image is provided, update it in Cloudinary
     if (profile) {
+      if (user?.profile?.imageId) {
+        await cloudinary.uploader.destroy(user.profile.imageId);
+      }
+
       const cloudinaryResponse = await cloudinary.uploader.upload(profile, {
         folder: "MealMind.ai/Profile",
       });
+
       if (!cloudinaryResponse || cloudinaryResponse.error) {
         throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
       }
-      return cloudinaryResponse;
+
+      updatedUser = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+          username,
+          name,
+          email,
+          profile: {
+            imageId: cloudinaryResponse.public_id,
+            imageUrl: cloudinaryResponse.secure_url,
+          },
+        },
+        { new: true }
+      );
+    } else {
+      // If profile is not provided, update only other fields
+      updatedUser = await User.findByIdAndUpdate(
+        req.user._id,
+        { username, name, email },
+        { new: true }
+      );
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        username,
-        name,
-        email,
-        profile: {
-          imageId: cloudinaryResponse.public_id || user?.profile?.imageId,
-          imageUrl: cloudinaryResponse.secure_url || user?.profile?.imageUrl,
-        },
-      },
-      { new: true }
-    );
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found after update" });
+    }
 
     const userWithoutPassword = { ...updatedUser._doc };
     delete userWithoutPassword.password;
+
     return res.status(200).json({ user: userWithoutPassword });
   } catch (error) {
     console.error("Update profile error:", error);
-    res.status(500).json({ error: error.message || "Internal Server Error" });
+    return res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };
+
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -183,4 +220,3 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };
-

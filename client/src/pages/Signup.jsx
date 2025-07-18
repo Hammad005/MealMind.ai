@@ -31,7 +31,9 @@ const Signup = () => {
 
     if (!data.username) {
       newErrors.username = "Username is required.";
-    } else if (data.username.length <= 3) {
+    } else if (data.username[0].toLowerCase() !== data.username[0]) {
+      newErrors.username = "Must start with a lowercase letter.";
+    }else if (data.username.length <= 3) {
       newErrors.username = "Username must be at least 4 characters.";
     }
 

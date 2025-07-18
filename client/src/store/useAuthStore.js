@@ -4,13 +4,14 @@ import { create } from "zustand";
 
 export const useAuthStore = create((set) => ({
   user: null,
+  authenticated: false,
   allUsers: [],
   authLoading: false,
   userLoading: false,
+  updateUserLoading: false,
   progress: 0,
-
   checkAuth: async () => {
-    set({ authLoading: true, progress: 0 });
+    set({ authLoading: true, authenticated:false, progress: 0 });
 
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     const steps = [0, 35, 60, 85, 100];
@@ -23,9 +24,9 @@ export const useAuthStore = create((set) => ({
     await delay(1500);
     try {
       const res = await axios.get("/auth/getProfile");
-      set({ authLoading: false, user: res.data.user });
+      set({ authLoading: false, user: res.data.user, authenticated: true });
     } catch (error) {
-      set({ authLoading: false, user: null });
+      set({ authLoading: false, user: null, authenticated:false });
       console.error(error);
     } finally {
       set({ authLoading: false });
@@ -33,26 +34,26 @@ export const useAuthStore = create((set) => ({
   },
 
   signup: async (data) => {
-    set({ userLoading: true });
+    set({ userLoading: true, authenticated: false });
     try {
       const res = await axios.post("/auth/signup", data);
-      set({ userLoading: false, user: res.data.user });
+      set({ userLoading: false, user: res.data.user, authenticated: true });
       toast.success("Account created successfully");
     } catch (error) {
-      set({ userLoading: false, user: null });
+      set({ userLoading: false, user: null, authenticated:false });
       toast.error(error.response.data.error);
       console.error(error);
     }
   },
 
   login: async (data) => {
-    set({ userLoading: true });
+    set({ userLoading: true, authenticated:false });
     try {
       const res = await axios.post("/auth/login", data);
-      set({ userLoading: false, user: res.data.user });
+      set({ userLoading: false, user: res.data.user, authenticated: true });
       toast.success("Login successful");
     } catch (error) {
-      set({ userLoading: false, user: null });
+      set({ userLoading: false, user: null, authenticated:false });
       toast.error(error.response.data.error);
       console.error(error);
     }
@@ -62,7 +63,7 @@ export const useAuthStore = create((set) => ({
     set({ userLoading: true });
     try {
       await axios.post("/auth/logout");
-      set({ userLoading: false, user: null });
+      set({ userLoading: false, user: null, authenticated: false });
       toast.success("Logout successful");
     } catch (error) {
       set({ userLoading: false, user: null });
@@ -72,13 +73,14 @@ export const useAuthStore = create((set) => ({
   },
 
   updateProfile: async (data) => {
-    set({ userLoading: true });
+    set({ updateUserLoading: true});
     try {
       const res = await axios.put("/auth/updateProfile", data);
-      set({ userLoading: false, user: res.data.user });
+      set({ updateUserLoading: false, user: res.data.user});
       toast.success("Profile updated successfully");
+      return {success: true};
     } catch (error) {
-      set({ userLoading: false, user: null });
+      set({ updateUserLoading: false});
       toast.error(error.response.data.error);
       console.error(error);
     }

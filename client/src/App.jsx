@@ -21,7 +21,7 @@ const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
 };
 const App = () => {
-  const { checkAuth, getAllUsers, user, authLoading } = useAuthStore();
+  const { checkAuth, getAllUsers, authLoading, authenticated } = useAuthStore();
   const {getSavedRecipes} = useSavedStore();
   const {getHistoryRecipes} = useHistoryStore();
   const {getSharedRecipes} = useSharedStore();
@@ -31,14 +31,14 @@ const App = () => {
   }, [checkAuth]);
 
   useEffect(() => {
-        if (user) {
+        if (authenticated ) {
           getAllUsers()
           getSavedRecipes()
           getHistoryRecipes()
           getSharedRecipes()
         }
 
-  }, [user, getAllUsers, getSavedRecipes, getHistoryRecipes, getSharedRecipes]);
+  }, [authenticated, getAllUsers, getSavedRecipes, getHistoryRecipes, getSharedRecipes]);
 
   if (authLoading) return <LoadingScreen/>
   return (
@@ -67,12 +67,12 @@ const App = () => {
           <Navbar />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/" element={protectRoutes(user, <Home/>, "/login")} />
-            <Route path="/profile" element={protectRoutes(user, <Profile/>, "/login")} />
-            <Route path="/generate" element={protectRoutes(user, <Generate/>, "/login")} />
-            <Route path="/privacypolicy" element={protectRoutes(user, <PrivacyPolicy/>, "/login")} />
-            <Route path="/login" element={protectRoutes(!user, <Login/>, "/")} />
-            <Route path="/signup" element={protectRoutes(!user, <Signup/>, "/")} />
+            <Route path="/" element={protectRoutes(authenticated, <Home/>, "/login")} />
+            <Route path="/profile" element={protectRoutes(authenticated, <Profile/>, "/login")} />
+            <Route path="/generate" element={protectRoutes(authenticated, <Generate/>, "/login")} />
+            <Route path="/privacypolicy" element={protectRoutes(authenticated, <PrivacyPolicy/>, "/login")} />
+            <Route path="/login" element={protectRoutes(!authenticated, <Login/>, "/")} />
+            <Route path="/signup" element={protectRoutes(!authenticated, <Signup/>, "/")} />
           </Routes>
           <Footer/>
           <Toaster position="top-center"/>
