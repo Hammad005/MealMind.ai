@@ -26,6 +26,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/store/useAuthStore";
+import cld from "@/lib/cloudinary";
+import { AdvancedImage } from "@cloudinary/react";
+import { scale } from "@cloudinary/url-gen/actions/resize";
 
 const Navbar = () => {
   const location = useLocation();
@@ -84,6 +87,9 @@ const Navbar = () => {
   useEffect(() => {
     menuTlRef.current?.reverse();
   }, [location.pathname]);
+
+    const profilePic = cld.image(user?.profile?.imageId).format("auto").quality("auto").resize(scale().width(400));
+  
   return (
     <>
       <nav
@@ -166,13 +172,19 @@ const Navbar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <p
+              {user?.profile ? (
+                <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
+                <AdvancedImage cldImg={profilePic} className="h-full w-full object-cover"/>
+              </div>
+              ) : (
+                <p
                 className={
                   "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
                 }
               >
                 {user?.username[0].toUpperCase()}
               </p>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={7} align="end">
               <DropdownMenuLabel className={"text-primary"}>
