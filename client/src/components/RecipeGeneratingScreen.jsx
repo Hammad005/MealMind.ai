@@ -2,15 +2,18 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Progress } from "./ui/progress";
+import { useHistoryStore } from "@/store/useHistoryStore";
 
 const RecipeGeneratingScreen = () => {
+  const {progress} = useHistoryStore();
   // Adjust based on your logic
   const sparkleRef = useRef(null);
   const plateRef = useRef(null);
   const textRef = useRef(null);
 
-  useGSAP(() => {
-    const tl = gsap.timeline();
+    const { contextSafe } = useGSAP();
+    const animation = contextSafe(() => {
+const tl = gsap.timeline();
 
     tl.fromTo(
       plateRef.current,
@@ -35,10 +38,13 @@ const RecipeGeneratingScreen = () => {
         { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
         "<0.5"
       );
+    })
+  useGSAP(() => {
+    animation()
   }, []);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center">
+    <div className="w-full h-screen flex flex-col items-center justify-center pb-20">
       <svg
         width="240"
         height="240"
@@ -100,7 +106,7 @@ const RecipeGeneratingScreen = () => {
         <p className="text-center text-muted-foreground text-sm mb-2">
           Generating up your personalized meal...
         </p>
-        <Progress value={10} />
+        <Progress value={progress} />
       </div>
     </div>
   );

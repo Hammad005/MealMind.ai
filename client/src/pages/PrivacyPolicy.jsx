@@ -11,10 +11,9 @@ const PrivacyPolicy = () => {
   const containerRef = useRef(null);
   const sectionRefs = useRef([]);
 
-  useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initial animation for header
+    const { contextSafe } = useGSAP();
+    const animation = contextSafe(() => {
+      // Initial animation for header
     gsap.from(containerRef.current.children, {
       opacity: 0,
       x: -100,
@@ -42,6 +41,9 @@ const PrivacyPolicy = () => {
         }
       );
     });
+    }) 
+  useGSAP(() => {
+    animation()
   }, []);
 
   return (

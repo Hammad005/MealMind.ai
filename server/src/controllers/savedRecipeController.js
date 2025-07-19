@@ -18,7 +18,7 @@ export const saveRecipe = async (req, res) => {
     };
 
     const savedRecipe = await Saved.create({
-      user: req.user._id,
+      users: req.user._id,
       text: history.text,
       recipe: {
         name: history.recipe.name,
@@ -58,7 +58,7 @@ export const saveSharedRecipe = async (req, res) => {
     };
 
     const savedRecipe = await Saved.create({
-      user: req.user._id,
+      users: req.user._id,
       text: sharedRecipe.text,
       recipe: {
         name: sharedRecipe.recipe.name,
@@ -106,7 +106,7 @@ export const unsaveRecipe = async (req, res) => {
 
 export const getSavedRecipe = async (req, res) => {
   try {
-    const savedRecipes = await Saved.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const savedRecipes = await Saved.find({ users: req.user._id }).sort({ createdAt: -1 });
     return res.status(200).json({ savedRecipes });
   } catch (error) {
     console.error("Error in getSavedRecipe:", error);

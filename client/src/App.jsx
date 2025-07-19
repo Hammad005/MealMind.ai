@@ -17,6 +17,7 @@ import { useSavedStore } from "./store/useSavedStore";
 import { useHistoryStore } from "./store/useHistoryStore";
 import { useSharedStore } from "./store/useSharedStore";
 import Recipe from "./pages/Recipe";
+import History from "./pages/History";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="/profile" element={protectRoutes(authenticated, <Profile/>, "/login")} />
             <Route path="/generate" element={protectRoutes(authenticated, <Generate/>, "/login")} />
             <Route path="/recipe/:id" element={protectRoutes(authenticated, <Recipe/>, "/login")} />
+            <Route path="/history" element={protectRoutes(authenticated, <History/>, "/login")} />
             <Route path="/privacypolicy" element={protectRoutes(authenticated, <PrivacyPolicy/>, "/login")} />
             <Route path="/login" element={protectRoutes(!authenticated, <Login/>, "/")} />
             <Route path="/signup" element={protectRoutes(!authenticated, <Signup/>, "/")} />

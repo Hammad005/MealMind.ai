@@ -5,7 +5,8 @@ import { create } from "zustand";
 export const useHistoryStore = create((set) => ({
   historyRecipes: [],
   historyRecipeLoading: false,
-  creatingRecipe: false,
+  progress: 0,
+
 
   getHistoryRecipes: async () => {
     set({ historyRecipeLoading: true });
@@ -13,7 +14,7 @@ export const useHistoryStore = create((set) => ({
       const res = await axios.get("/history/getHistory");
       set({
         historyRecipeLoading: false,
-        historyRecipes: res.data.historyRecipes,
+        historyRecipes: res.data.history,
       });
     } catch (error) {
       set({ historyRecipeLoading: false, historyRecipes: [] });
@@ -21,19 +22,62 @@ export const useHistoryStore = create((set) => ({
     }
   },
 
-  createRescipe: async (data) => {
-    set({ creatingRecipe: true });
+  createRescipe: async (text) => {
+    
+    set({ progress: 0 });
+
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    const steps = [10, 35, 60, 75];
+
+    for (let value of steps) {
+      await delay(1500);
+      set({ progress: value });
+    }
+
+    await delay(1500);
     try {
-      const res = await axios.post("/history/createRescipe", { data });
+      const res = await axios.post("/history/createRescipe", {text});
       set((state) => ({
-        creatingRecipe: false,
-        historyRecipes: [res.data.historyRecipe, ...state.historyRecipes],
+        progress: 100,
+        historyRecipes: [res.data.history, ...state.historyRecipes],
       }));
+      await delay(1000);
       toast.success("Recipe generated successfully");
-      return {id: res.data?.historyRecipe?._id}
+      return {id: res.data?.history?._id}
     } catch (error) {
-      set({ historyRecipeLoading: false, historyRecipes: [] });
       console.error(error);
     }
   },
+
+  deleteSingleHistory: async (id) => {
+    set({historyRecipeLoading: true});
+    try {
+       const res = await axios.delete(`/history/clearSingleHistory/${id}`);
+      set({
+        historyRecipeLoading: false,
+        historyRecipes: res.data.history,
+      });
+      toast.success("History deleted successfully");
+      return {success: true};
+    } catch (error) {
+      set({ historyRecipeLoading: false});
+      console.error(error);
+    }
+  },
+
+  clearHistory: async () => {
+     set({historyRecipeLoading: true});
+    try {
+       const res = await axios.delete(`/history/clearHistory`);
+      set({
+        historyRecipeLoading: false,
+        historyRecipes: res.data.history,
+      });
+      toast.success("History cleared successfully");
+      return {success: true};
+    } catch (error) {
+      set({ historyRecipeLoading: false});
+      console.error(error);
+    }
+  }
 }));

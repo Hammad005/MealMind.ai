@@ -7,9 +7,11 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import RecipeGeneratingScreen from "@/components/RecipeGeneratingScreen";
+import { useNavigate } from "react-router-dom";
 
 const Generate = () => {
-  // const {createRescipe, creatingRecipe} = useHistoryStore();
+  const {createRescipe} = useHistoryStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0, { behavior: "smooth" });
@@ -24,8 +26,9 @@ const Generate = () => {
   const buttonRef = useRef();
   const endAnimationRef = useRef();
 
-  useGSAP(() => {
-    const tl = gsap.timeline();
+    const { contextSafe } = useGSAP();
+    const animation = contextSafe(() => {
+const tl = gsap.timeline();
     tl.from(stepsRef.current.children, {
       opacity: 0,
       duration: 0.4,
@@ -51,6 +54,9 @@ const Generate = () => {
         },
         "-=0.6"
       );
+    })
+  useGSAP(() => {
+    animation()
   });
 
   // Outro animation (paused initially)
@@ -90,6 +96,10 @@ const Generate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     endAnimationRef.current?.play();
+    const res = await createRescipe(text);
+    if (res?.id) {
+      navigate(`/recipe/${res.id}`);
+    }
   };
 
   return (

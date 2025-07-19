@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const textRef = useRef();
-  useGSAP(() => {
+  const { contextSafe } = useGSAP();
+  const animation = contextSafe(() => {
     const tl = gsap.timeline();
     tl.from(textRef.current.children, {
       opacity: 0,
@@ -19,6 +20,9 @@ const Home = () => {
       ease: "power2.out",
       stagger: 0.2,
     });
+  });
+  useGSAP(() => {
+    animation();
   });
   return (
     <>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useGSAP } from "@gsap/react";
-import { Bookmark, CloudCheck, Edit, History, RefreshCcw, Repeat2, Share2 } from "lucide-react";
+import { Bookmark, CloudCheck, Edit, History, RefreshCcw, Repeat2, Share, Share2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,9 +13,11 @@ import EditProfile from "@/components/EditProfile";
 import cld from "@/lib/cloudinary";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const { savedRecipes, savedRecipeLoading, getSavedRecipes } = useSavedStore();
   const { sharedRecipes, shareRecipeLoading, getSharedRecipes } = useSharedStore();
@@ -88,7 +90,7 @@ const Profile = () => {
                 <Edit />
                 Edit Profile
               </Button>
-              <Button size={"sm"}>
+              <Button size={"sm"} onClick={() => navigate('/history')}>
                 <History />
                 History
               </Button>
@@ -107,7 +109,7 @@ const Profile = () => {
                 <Bookmark/> Saved
               </TabsTrigger>
               <TabsTrigger value="shared">
-                <Share2 /> Shared
+                <Share /> Shared
               </TabsTrigger>
             </TabsList>
             <TabsContent value="saved">

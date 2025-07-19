@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 const Recipe = () => {
     const {historyRecipes} = useHistoryStore();
     const {id} = useParams();
-    const userRecipe = historyRecipes?.filter((recipe) => recipe === id);
+    const userRecipe = historyRecipes?.find((recipe) => recipe?._id.toString() === id);
   return (
     <>
     <h1>{userRecipe.recipe?.name}</h1>

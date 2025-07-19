@@ -5,6 +5,7 @@ import { fetchPexelsImage, prompt } from "../utils/index.js";
 
 export const createRecipe = async (req, res) => {
   const { text } = req.body;
+  
 
   const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
 
@@ -70,7 +71,7 @@ export const createRecipe = async (req, res) => {
 
 export const getHistory = async (req, res) => {
   try {
-    const history = await History.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const history = await History.find({ users: req.user._id }).sort({ createdAt: -1 });
     return res.status(200).json({ history });
   } catch (error) {
     console.error("Error in getHistory:", error);
@@ -83,8 +84,8 @@ export const getHistory = async (req, res) => {
 export const clearHistory = async (req, res) => {
   try {
     // Find all history items for this user
-    const histories = await History.find({ user: req.user._id });
-
+    const histories = await History.find({ users: req.user._id });
+    
     // Delete associated Cloudinary images (if any)
     await Promise.all(
       histories.map(async (item) => {
@@ -95,9 +96,10 @@ export const clearHistory = async (req, res) => {
     );
 
     // Delete all history entries from DB
-    await History.deleteMany({ user: req.user._id });
+    await History.deleteMany({ users: req.user._id });
+    const remainingHistory = await History.find({ users: req.user._id }).sort({ createdAt: -1 });
 
-    return res.status(200).json({ message: "Your history cleared successfully" });
+    return res.status(200).json({ message: "Your history cleared successfully", history:remainingHistory });
   } catch (error) {
     console.error("Error in clearHistory:", error);
     return res.status(500).json({
@@ -119,7 +121,8 @@ export const clearSingleHistory = async (req, res) => {
       await cloudinary.uploader.destroy(history.recipe.image.imageId);
     }
     await History.findByIdAndDelete(id);
-    return res.status(200).json({ message: "History cleared successfully" });
+    const remainingHistory = await History.find({ users: req.user._id }).sort({ createdAt: -1 });
+    return res.status(200).json({ history: remainingHistory, message: "History cleared successfully" });
   } catch (error) {
     console.error("Error in clearSingleHistory:", error);
     return res.status(500).json({
