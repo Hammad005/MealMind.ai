@@ -84,7 +84,7 @@ const History = () => {
                 ref={btnRef}
                 onClick={() => setClearHistory(true)}
                 className={
-                  "flex items-center gap-2 whitespace-nowrap w-fit justify-center border hover:border-primary border-gray-500 text-foreground hover:text-white text-sm font-medium shadow-xs hover:bg-primary/90 cursor-pointer rounded-l-md h-9 px-8 py-4 has-[>svg]:px-8"
+                  "flex z-20 items-center gap-2 whitespace-nowrap w-fit justify-center border hover:border-primary border-gray-500 text-foreground hover:text-white text-sm font-medium shadow-xs hover:bg-primary/90 cursor-pointer rounded-l-md h-9 px-8 py-4 has-[>svg]:px-8"
                 }
               >
                 <Trash2 className="size-4" /> Clear History

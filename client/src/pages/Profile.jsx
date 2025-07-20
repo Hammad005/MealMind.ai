@@ -106,7 +106,7 @@ const Profile = () => {
           <Tabs defaultValue="saved" className="w-full">
             <TabsList className="w-full mb-4">
               <TabsTrigger value="saved">
-                <Bookmark/> Saved
+                <Bookmark className="fill-foreground"/> Saved
               </TabsTrigger>
               <TabsTrigger value="shared">
                 <Share /> Shared

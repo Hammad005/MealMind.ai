@@ -49,7 +49,7 @@ const App = () => {
       <div className="min-h-screen relative overflow-hidden">
         
 
-        {/* <FloatingShape
+        <FloatingShape
           icon={Pizza}
           color="text-primary/90"
           size="w-70 h-70"
@@ -64,7 +64,7 @@ const App = () => {
           top="20%"
           left="70%"
           delay={0}
-        /> */}
+        />
 
         <div className="z-20">
           <Navbar />
