@@ -80,7 +80,9 @@ const Reviews = () => {
               Recipe Showcase
             </span>
           </div>
-          <div className="md:text-sm text-xs text-white">AI-Generated Meals</div>
+          <div className="md:text-sm text-xs text-white">
+            AI-Generated Meals
+          </div>
         </div>
 
         <div className="p-8 md:text-center">
@@ -122,12 +124,15 @@ const Reviews = () => {
 
       {/* Recipe Cards */}
 
-        <h1 ref={headingRef} className="text-xl flex flex-col font-bold text-center text-primary my-16">
-          TESTIMONIALS
-          <span className="text-2xl text-foreground ">
+      <h1
+        ref={headingRef}
+        className="text-xl flex flex-col font-bold text-center text-primary my-16"
+      >
+        TESTIMONIALS
+        <span className="text-2xl text-foreground ">
           Don't trust us. Trust them.
-          </span>
-        </h1>
+        </span>
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {USER_RECIPES.map((entry, index) => (
           <Card
@@ -176,9 +181,11 @@ const Reviews = () => {
                     <h3 className="font-medium text-foreground">
                       Ingredients ({entry.recipe.ingredients.length})
                     </h3>
-                    <p className="text-sm text-muted-foreground whitespace-pre-line">
-                      {entry.recipe.ingredients.slice(0, 5).join(",\n")}...
-                    </p>
+                    <ul className="text-sm text-muted-foreground marker:text-primary list-disc pl-4">
+                      {entry.recipe.ingredients.map((ingredient, index) => (
+                        <li key={index}>{ingredient}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
@@ -187,9 +194,9 @@ const Reviews = () => {
                     <Utensils className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-medium text-foreground">Steps</h3>
+                    <h3 className="font-medium text-foreground">Instructions</h3>
                     <p className="text-sm text-muted-foreground">
-                      {entry.recipe.instructions.length} Instructions
+                      {entry.recipe.instructions.join(',\n').slice(0, 100)}..... 
                     </p>
                   </div>
                 </div>
