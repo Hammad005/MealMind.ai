@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import Saved from "../models/Saved.js";
 import Share from "../models/Share.js";
+import History from "../models/History.js";
 
 export const saveRecipe = async (req, res) => {
   const { id } = req.params;
@@ -21,6 +22,7 @@ export const saveRecipe = async (req, res) => {
       users: req.user._id,
       text: history.text,
       recipe: {
+        id: history._id.toString(),
         name: history.recipe.name,
         description: history.recipe.description,
         ingredients: history.recipe.ingredients,
@@ -95,7 +97,8 @@ export const unsaveRecipe = async (req, res) => {
         throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
     };
     await Saved.findByIdAndDelete(id);
-    return res.status(200).json({ message: "Recipe unsaved successfully" });
+    const savedRecipes = await Saved.find({ users: req.user._id }).sort({ createdAt: -1 });
+    return res.status(200).json({ savedRecipes, message: "Recipe unsaved successfully" });
   } catch (error) {
     console.error("Error in unsaveRecipe:", error);
     return res.status(500).json({

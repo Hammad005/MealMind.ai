@@ -7,11 +7,12 @@ export const prompt = (text) =>
   '" (like a dish name, list of ingredients, or dietary keywords), generate only 1 recipe ideas. ' +
   "Return them in pure JSON format, as an array of objects, strictly following this schema: " +
   "  { " +
-  '    "name": "Recipe name, the name should be simple so the other api that used for image understand easily (String, required)", ' +
+  '    "name": "Recipe name, the name should be simple so the other API that is used for image understands easily (String, required)", ' +
   '    "description": "Short description of the recipe (String, required)", ' +
   '    "ingredients": "Comma-separated list of ingredients (String, required). ⚠️ Do NOT include commas inside individual ingredients (e.g., write \'diced onion\' instead of \'onion, diced\').", ' +
   '    "instructions": "Step-by-step instructions in a single string (String, required)", ' +
-  "    \"category\": \"Category like 'Dessert', 'Main Course', 'Vegan', etc. (String, required)\" " +
+  '    "category": "Category like \'Dessert\', \'Main Course\', \'Vegan\', etc. (String, required)", ' +
+  '    "pexelsQuery": "A simplified, image-search-friendly version of the recipe name to be used with Pexels API (String, required)" ' +
   "  } " +
   "⚠️ Important rules: " +
   "1. DO NOT wrap the JSON in triple backticks (```). " +

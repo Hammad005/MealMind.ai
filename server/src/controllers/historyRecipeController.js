@@ -25,7 +25,7 @@ export const createRecipe = async (req, res) => {
     }
 
     // Fetch image from Pexels using recipe name
-    const pexelsImageUrl = await fetchPexelsImage(recipeIntoJSON?.name);
+    const pexelsImageUrl = await fetchPexelsImage(recipeIntoJSON?.pexelsQuery);
 
     let imageData = {
       imageId: null,

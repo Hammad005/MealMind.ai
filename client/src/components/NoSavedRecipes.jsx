@@ -7,8 +7,8 @@ const NoSavedRecipes = () => {
     const navigate = useNavigate();
   return (
     <>
-      <div className="text-center">
-        <h2 className="md:text-4xl  font-bold md:mb-4 md:mt-0 mt-4 font-mono uppercase text-primary">
+      <div className="text-center md:mt:4 mt-10">
+        <h2 className="md:text-4xl animate-bounce font-bold md:mb-4 md:mt-0 mt-4 font-mono uppercase text-primary">
           No saved recipes yet
         </h2>
         <p className="text-muted-foreground mb-6 max-w-md md:mx-auto md:text-sm text-xs">

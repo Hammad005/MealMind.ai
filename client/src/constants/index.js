@@ -40,7 +40,8 @@ export const USER_RECIPES = [
         "1/4 onion, sliced",
         "1/2 bell pepper, sliced",
         "1 tbsp olive oil",
-        "Salt, black pepper, paprika"
+        "Salt and black pepper",
+        "paprika"
       ],
       instructions: [
         "Season and grill the chicken until fully cooked.",

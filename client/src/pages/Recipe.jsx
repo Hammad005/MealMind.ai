@@ -1,7 +1,15 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import { useGSAP } from "@gsap/react";
-import { Bookmark, CalendarDays, ChefHat, ClipboardList, Share, Utensils } from "lucide-react";
+import {
+  Bookmark,
+  CalendarDays,
+  ChefHat,
+  ClipboardList,
+  Loader,
+  Share,
+  Utensils,
+} from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import gsap from "gsap";
@@ -9,13 +17,18 @@ import cld from "@/lib/cloudinary";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
+import { useSavedStore } from "@/store/useSavedStore";
 
 const Recipe = () => {
   useEffect(() => {
-      window.scrollTo(0, 0, { behavior: "smooth" });
-    }, []);
+    window.scrollTo(0, 0, { behavior: "smooth" });
+  }, []);
   const { historyRecipes } = useHistoryStore();
+  const { saveRecipe, unsaveRecipe, savedRecipeLoading, savedRecipes } = useSavedStore();
   const { id } = useParams();
+  const alreadySaved = savedRecipes?.find(
+    (res) => res?.recipe?.id === id
+  );
   const userRecipe = historyRecipes?.find(
     (recipe) => recipe?._id.toString() === id
   );
@@ -61,12 +74,27 @@ const Recipe = () => {
               <span className="text-foreground">“{userRecipe.text}”</span>
             </p>
             <div className="flex justify-end gap-2">
-            <Button size={"icon"} variant={"outline"}>
-              <Bookmark className="fill-foreground"/>
-            </Button>
-            <Button size={"icon"} variant={"outline"}>
-              <Share/>
-            </Button>
+              {alreadySaved ? (
+                <Button size={"icon"} variant={"outline"} onClick={() => unsaveRecipe(alreadySaved?._id)} disabled={savedRecipeLoading}>
+                  {savedRecipeLoading ? 
+                  <Loader className="animate-spin"/>
+                  :
+                  <Bookmark className="fill-foreground" />
+                  }
+                </Button>
+              ) : (
+                <Button size={"icon"} variant={"outline"} onClick={() => saveRecipe(id)} disabled={savedRecipeLoading}>
+                  {savedRecipeLoading ? 
+                  <Loader className="animate-spin"/>
+                  :
+                  <Bookmark />
+                  }
+                </Button>
+              )}
+
+              <Button size={"icon"} variant={"outline"}>
+                <Share />
+              </Button>
             </div>
           </CardHeader>
 

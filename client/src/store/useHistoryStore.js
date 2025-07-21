@@ -46,6 +46,7 @@ export const useHistoryStore = create((set) => ({
       return {id: res.data?.history?._id}
     } catch (error) {
       console.error(error);
+      toast.error(error.response.data.error);
     }
   },
 

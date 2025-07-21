@@ -12,6 +12,10 @@ const savedSchema = new mongoose.Schema(
       required: true,
     },
     recipe: {
+      id: {
+        type:  String,
+        required: true,
+      },
       name: {
         type: String,
         required: true,

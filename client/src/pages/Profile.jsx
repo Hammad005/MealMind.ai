@@ -14,6 +14,7 @@ import cld from "@/lib/cloudinary";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { useNavigate } from "react-router-dom";
+import SavedRecipes from "@/components/SavedRecipes";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -113,7 +114,7 @@ const Profile = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="saved">
-              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg p-10">
+              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg md:p-10 p-4">
                 <Button
                   size={"icon"}
                   className="absolute top-4 right-4 bg-transparent border border-primary text-foreground hover:text-white"
@@ -124,7 +125,7 @@ const Profile = () => {
                     className={savedRecipeLoading && "animate-spin"}
                   />
                 </Button>
-                {savedRecipes.length > 0 ? "" : <NoSavedRecipes />}
+                {savedRecipes.length > 0 ? <SavedRecipes/> : <NoSavedRecipes />}
               </div>
             </TabsContent>
             <TabsContent value="shared">
