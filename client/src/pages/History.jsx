@@ -5,7 +5,6 @@ import {
   CalendarDays,
   ChefHat,
   Ellipsis,
-  EllipsisVertical,
   Share,
   Trash2,
 } from "lucide-react";
@@ -21,11 +20,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeleteSingleHistory from "@/components/DeleteSingleHistory";
 import DeleteHistory from "@/components/DeleteHistory";
+import SharedByHistory from "@/components/SharedByHistory";
 
 const History = () => {
   useEffect(() => {
     window.scrollTo(0, 0, { behavior: "smooth" });
   }, []);
+
+  const [open, setOpen] = useState(false);
+  const [shareId, setShareId] = useState("");
 
   const navigate = useNavigate();
   const headingRef = useRef();
@@ -42,7 +45,7 @@ const History = () => {
 
     tl.from(headingRef.current, { opacity: 0, duration: 1.3 })
       .from(
-        cardsRef.current.children,
+        cardsRef.current?.children,
         { opacity: 0, duration: 1, y: 20, stagger: 0.2 },
         "-=0.7"
       )
@@ -62,6 +65,7 @@ const History = () => {
   }, []);
   return (
     <>
+    <SharedByHistory open={open} setOpen={setOpen} id={shareId} />
       <DeleteHistory open={clearHistory} setOpen={setClearHistory} />
       <DeleteSingleHistory
         open={deleteSingleHistory}
@@ -110,6 +114,10 @@ const History = () => {
                         <DropdownMenuContent>
                           <DropdownMenuItem
                             onClick={(e) => e.stopPropagation()}
+                            onClickCapture={() => {
+                              setShareId(entry._id);
+                              setOpen(true);
+                            }}
                           >
                             <Share /> Share
                           </DropdownMenuItem>

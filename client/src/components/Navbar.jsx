@@ -45,7 +45,7 @@ const Navbar = () => {
       !user
     )
       return;
-    gsap.from(navRef.current.children, {
+    gsap.from(navRef?.current?.children, {
       opacity: 0,
       duration: 0.8,
       y: -100,
@@ -70,7 +70,7 @@ const Navbar = () => {
       duration: 0.5,
       ease: "power2.out",
       overflowY: "none",
-    }).from(asideRef.current.children, {
+    }).from(asideRef?.current?.children, {
       opacity: 0,
       duration: 0.3,
       ease: "power2.out",
@@ -172,7 +172,7 @@ const Navbar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              {user?.profile ? (
+              {user?.profile?.imageUrl ? (
                 <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
                 <AdvancedImage cldImg={profilePic} className="h-full w-full object-cover"/>
               </div>

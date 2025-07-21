@@ -13,7 +13,7 @@ const Home = () => {
   const { contextSafe } = useGSAP();
   const animation = contextSafe(() => {
     const tl = gsap.timeline();
-    tl.from(textRef.current.children, {
+    tl.from(textRef?.current?.children, {
       opacity: 0,
       duration: 0.6,
       x: -100,

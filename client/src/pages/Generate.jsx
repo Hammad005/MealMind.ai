@@ -29,7 +29,7 @@ const Generate = () => {
     const { contextSafe } = useGSAP();
     const animation = contextSafe(() => {
 const tl = gsap.timeline();
-    tl.from(stepsRef.current.children, {
+    tl.from(stepsRef?.current?.children, {
       opacity: 0,
       duration: 0.4,
       x: -100,
@@ -62,7 +62,7 @@ const tl = gsap.timeline();
   // Outro animation (paused initially)
   useGSAP(() => {
     const tl = gsap.timeline({ paused: true });
-    tl.to(stepsRef.current.children, {
+    tl.to(stepsRef?.current?.children, {
       opacity: 0,
       duration: 0.4,
       x: 100,

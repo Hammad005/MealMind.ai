@@ -21,7 +21,7 @@ const tl = gsap.timeline();
       { opacity: 1, scale: 1, duration: 1, ease: "bounce.out" }
     )
       .fromTo(
-        sparkleRef.current.children,
+        sparkleRef?.current?.children,
         { opacity: 0 },
         {
           opacity: 1,
@@ -58,14 +58,14 @@ const tl = gsap.timeline();
           cy="140"
           rx="60"
           ry="20"
-          className="dark:fill-muted-foreground fill-foreground"
+          className="dark:fill-muted-foreground fill-primary"
         />
         <ellipse
           cx="100"
           cy="150"
           rx="40"
           ry="15"
-          className="dark:fill-muted-foreground/70 fill-foreground/90"
+          className="dark:fill-muted-foreground/70 fill-primary/70"
         />
         <ellipse
           cx="100"
