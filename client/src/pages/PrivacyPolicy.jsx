@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
     const { contextSafe } = useGSAP();
     const animation = contextSafe(() => {
       // Initial animation for header
-    gsap.from(containerRef.current.children, {
+    gsap.from(containerRef?.current?.children, {
       opacity: 0,
       x: -100,
       duration: 1,
