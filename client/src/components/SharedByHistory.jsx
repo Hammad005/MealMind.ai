@@ -1,11 +1,10 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Share } from "lucide-react";
+import { Loader, Share } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -13,12 +12,33 @@ import cld from "@/lib/cloudinary";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSharedStore } from "@/store/useSharedStore";
 
 const SharedByHistory = ({ open, setOpen, id }) => {
+  const { shareHistoryRecipe, sharedRecipes, shareRecipeLoading } =
+    useSharedStore();
+
   const { allUsers } = useAuthStore();
   const [username, setUsername] = useState("");
+  const [recId, setRecId] = useState("");
   const filteredUsers = allUsers?.filter((user) => user.username === username);
+
+  useEffect(() => {
+    if (open) {
+      setUsername("");
+      setRecId("");
+    }
+  }, [open]);
+  const alreadySended = (receiverId) => {
+    return sharedRecipes?.some(
+      (rec) => rec.recipe?.id === id && rec?.receiver === receiverId
+    );
+  };
+
+  const handleShareRecipe = (receiverId) => {
+    shareHistoryRecipe(receiverId, id);
+  };
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -37,40 +57,59 @@ const SharedByHistory = ({ open, setOpen, id }) => {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Card>
-              {filteredUsers?.length > 0 && <Card className="recipe-card dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-border transition-colors overflow-hidden p-4">
-                {filteredUsers?.map((user) => {
-                  const profilePic = cld
-                    .image(user?.profile?.imageId)
-                    .format("auto")
-                    .quality("auto")
-                    .resize(scale().width(400));
-                  return (
-                    <CardContent
-                      key={user._id}
-                      className="flex items-center justify-between dark:bg-card bg-primary/20 p-2 rounded-md cursor-pointer border border-border hover:border-primary transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        {user?.profile?.imageUrl ? (
-                          <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
-                            <AdvancedImage
-                              cldImg={profilePic}
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <p className="dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
-                            {user?.username[0]?.toUpperCase()}
-                          </p>
-                        )}
-                        <h3 className="font-semibold text-sm">
-                          {user?.username}
-                        </h3>
-                      </div>
-                      <Button>Send</Button>
-                    </CardContent>
-                  );
-                })}
-              </Card>}
+              {filteredUsers?.length > 0 && (
+                <Card className="recipe-card dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-border transition-colors overflow-hidden p-4">
+                  {filteredUsers?.map((user) => {
+                    const profilePic = cld
+                      .image(user?.profile?.imageId)
+                      .format("auto")
+                      .quality("auto")
+                      .resize(scale().width(400));
+                    return (
+                      <CardContent
+                        key={user._id}
+                        className="flex md:flex-row flex-col md:items-center gap-2 justify-between dark:bg-card bg-primary/20 p-2 rounded-md cursor-pointer border border-border hover:border-primary transition-colors"
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          {user?.profile?.imageUrl ? (
+                            <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
+                              <AdvancedImage
+                                cldImg={profilePic}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <p className="dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
+                              {user?.username[0]?.toUpperCase()}
+                            </p>
+                          )}
+                          <h3 className="font-semibold text-sm">
+                            {user?.username}
+                          </h3>
+                        </div>
+                        <Button
+                          disabled={
+                            (shareRecipeLoading && recId === user._id) ||
+                            alreadySended(user._id)
+                          }
+                          onClick={() => {
+                            setRecId(user._id);
+                            handleShareRecipe(user._id);
+                          }}
+                        >
+                          {alreadySended(user._id) ? (
+                            "Sended"
+                          ) : shareRecipeLoading && recId === user._id ? (
+                            <Loader className="animate-spin w-4 h-4" />
+                          ) : (
+                            "Send"
+                          )}
+                        </Button>
+                      </CardContent>
+                    );
+                  })}
+                </Card>
+              )}
             </div>
           </DialogHeader>
         </DialogContent>

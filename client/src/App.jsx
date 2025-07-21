@@ -27,7 +27,7 @@ const App = () => {
   const { checkAuth, getAllUsers, authLoading, authenticated } = useAuthStore();
   const {getSavedRecipes} = useSavedStore();
   const {getHistoryRecipes} = useHistoryStore();
-  const {getSharedRecipes} = useSharedStore();
+  const {getSharedRecipes, getSendedRecipe} = useSharedStore();
 
   useEffect(() => {
     checkAuth();
@@ -39,9 +39,10 @@ const App = () => {
           getSavedRecipes()
           getHistoryRecipes()
           getSharedRecipes()
+          getSendedRecipe()
         }
 
-  }, [authenticated, getAllUsers, getSavedRecipes, getHistoryRecipes, getSharedRecipes]);
+  }, [authenticated, getAllUsers, getSavedRecipes, getHistoryRecipes, getSharedRecipes, getSendedRecipe]);
 
   if (authLoading) return <LoadingScreen/>
 

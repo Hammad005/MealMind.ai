@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import Saved from "../models/Saved.js";
 import Share from "../models/Share.js";
+import History from "../models/History.js";
 
 export const shareHistoryRecipe = async (req, res) => {
     const {receiverId} = req.params;
@@ -10,6 +11,14 @@ export const shareHistoryRecipe = async (req, res) => {
         const history = await History.findById(historyId);
         if (!history) {
             return res.status(404).json({ error: "History not found" });
+        }
+        const alreadyShared = await Share.findOne({
+            sender: senderId,
+            receiver: receiverId,
+            "recipe.id": historyId
+        });
+        if (alreadyShared) {
+            return res.status(400).json({ error: "Recipe already shared" });
         }
         const cloudinaryResponse = await cloudinary.uploader.upload(history.recipe.image.imageUrl, {
             folder: "MealMind.ai/Recipes/Shared",
@@ -22,6 +31,7 @@ export const shareHistoryRecipe = async (req, res) => {
             receiver: receiverId,
             text: history.text,
             recipe: {
+                id: history._id,
                 name: history.recipe.name,
                 description: history.recipe.description,
                 ingredients: history.recipe.ingredients,
@@ -88,6 +98,17 @@ export const getSharedRecipe = async (req, res) => {
         return res.status(200).json({ sharedRecipes });
     } catch (error) {
         console.error("Error in getSharedRecipe:", error);
+        return res.status(500).json({
+            error: error.message || "Internal Server Error",
+        });
+    }
+};
+export const getSendedRecipe = async (req, res) => {
+    try {
+        const sendedRecipes = await Share.find({ sender: req.user._id }).sort({ createdAt: -1 });
+        return res.status(200).json({ sendedRecipes });
+    } catch (error) {
+        console.error("Error in getSendedRecipe:", error);
         return res.status(500).json({
             error: error.message || "Internal Server Error",
         });

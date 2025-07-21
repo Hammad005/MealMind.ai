@@ -18,6 +18,7 @@ import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
 import { useSavedStore } from "@/store/useSavedStore";
+import SharedByHistory from "@/components/SharedByHistory";
 
 const Recipe = () => {
   useEffect(() => {
@@ -48,6 +49,8 @@ const Recipe = () => {
   }, []);
 
   const [viewAll, setViewAll] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [shareId, setShareId] = useState("");
 
   const recipeImage = cld
     .image(userRecipe?.recipe?.image?.imageId)
@@ -57,6 +60,7 @@ const Recipe = () => {
 
   return (
     <>
+    <SharedByHistory open={open} setOpen={setOpen} id={shareId}/>
       <div className="flex items-center justify-center lg:px-23 px-4 py-6 md:my-10 min-h-screen">
         <Card
           ref={cardRef}
@@ -92,7 +96,12 @@ const Recipe = () => {
                 </Button>
               )}
 
-              <Button size={"icon"} variant={"outline"}>
+              <Button size={"icon"} variant={"outline"}
+              onClick={() => {
+                setShareId(userRecipe?._id);
+                setOpen(true);
+              }}
+              >
                 <Share />
               </Button>
             </div>
