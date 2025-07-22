@@ -15,8 +15,8 @@ import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { useSharedStore } from "@/store/useSharedStore";
 
-const SharedByHistory = ({ open, setOpen, id }) => {
-  const { shareHistoryRecipe, sendedRecipes, shareRecipeLoading } =
+const SharedBySaved = ({ open, setOpen, id }) => {
+    const { shareSavedRecipe, sendedRecipes, shareRecipeLoading } =
     useSharedStore();
 
   const { allUsers } = useAuthStore();
@@ -37,7 +37,7 @@ const SharedByHistory = ({ open, setOpen, id }) => {
   };
 
   const handleShareRecipe = (receiverId) => {
-    shareHistoryRecipe(receiverId, id);
+    shareSavedRecipe(receiverId, id);
   };
   return (
     <>
@@ -115,7 +115,7 @@ const SharedByHistory = ({ open, setOpen, id }) => {
         </DialogContent>
       </Dialog>
     </>
-  );
-};
+  )
+}
 
-export default SharedByHistory;
+export default SharedBySaved

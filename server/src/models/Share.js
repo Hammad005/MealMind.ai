@@ -51,7 +51,7 @@ const shareSchema = new mongoose.Schema({
       required: true,
     },
   },
-});
+}, { timestamps: true });
 
 const Share = mongoose.model("Share", shareSchema);
 export default Share;

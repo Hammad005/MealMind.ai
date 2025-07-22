@@ -72,6 +72,7 @@ export const shareSavedRecipe = async (req, res) => {
             receiver: receiverId,
             text: saved.text,
             recipe: {
+                id: saved._id,
                 name: saved.recipe.name,
                 description: saved.recipe.description,
                 ingredients: saved.recipe.ingredients,
@@ -94,7 +95,10 @@ export const shareSavedRecipe = async (req, res) => {
 
 export const getSharedRecipe = async (req, res) => {
     try {
-        const sharedRecipes = await Share.find({ receiver: req.user._id }).sort({ createdAt: -1 });
+        const sharedRecipes = await Share.find({ receiver: req.user._id }).sort({ createdAt: -1 }).populate({
+            path: "sender",
+            select: "username profile"
+        });
         return res.status(200).json({ sharedRecipes });
     } catch (error) {
         console.error("Error in getSharedRecipe:", error);
@@ -131,7 +135,12 @@ export const deleteSharedRecipe = async (req, res) => {
             await cloudinary.uploader.destroy(sharedRecipe.recipe.image.imageId);
         }
         await Share.findByIdAndDelete(id);
-        return res.status(200).json({ message: "Shared recipe deleted successfully" });
+
+        const remainingSharedRecipe = await Share.find({ receiver: req.user._id }).sort({ createdAt: -1 }).populate({
+            path: "sender",
+            select: "username profile"
+        });
+        return res.status(200).json({ sharedRecipes: remainingSharedRecipe, message: "Shared recipe deleted successfully" });
     } catch (error) {
         console.error("Error in deleteSharedRecipe:", error);
         return res.status(500).json({

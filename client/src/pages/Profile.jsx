@@ -15,6 +15,7 @@ import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { useNavigate } from "react-router-dom";
 import SavedRecipes from "@/components/SavedRecipes";
+import SharedRecipes from "@/components/SharedRecipes";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -129,7 +130,7 @@ const Profile = () => {
               </div>
             </TabsContent>
             <TabsContent value="shared">
-              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg p-10">
+              <div className="relative dark:bg-input/50 bg-input backdrop-blur-sm border border-border rounded-lg md:p-10 p-4">
                 <Button
                   size={"icon"}
                   className="absolute top-4 right-4 bg-transparent border border-primary text-foreground hover:text-white"
@@ -138,7 +139,7 @@ const Profile = () => {
                 >
                   <RefreshCcw className={shareRecipeLoading && "animate-spin"} />
                 </Button>
-                {sharedRecipes.length > 0 ? "" : <NoSharedRecipes />}
+                {sharedRecipes.length > 0 ? <SharedRecipes/> : <NoSharedRecipes />}
               </div>
             </TabsContent>
           </Tabs>

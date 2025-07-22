@@ -34,7 +34,7 @@ export const useSharedStore = create((set) => ({
       const res = await axios.post(`/shareRecipe/shareHistoryRecipe/${receiverId}`, {historyId});
       set((state) => ({
         shareRecipeLoading: false,
-        sharedRecipes: [res.data.shareRecipe, ...state.sharedRecipes],
+        sendedRecipes: [res.data.shareRecipe, ...state.sendedRecipes],
       }))
       toast.success("Recipe sent successfully");
     } catch (error) {
@@ -42,5 +42,32 @@ export const useSharedStore = create((set) => ({
       toast.error(error.response.data.error);
       console.error(error);
     }
+  },
+  shareSavedRecipe: async (receiverId, savedId) => {
+    set({shareRecipeLoading: true});
+    try {
+      const res = await axios.post(`/shareRecipe/shareSavedRecipe/${receiverId}`, {savedId});
+      set((state) => ({
+        shareRecipeLoading: false,
+        sendedRecipes: [res.data.shareRecipe, ...state.sendedRecipes],
+      }))
+      toast.success("Recipe sent successfully");
+    } catch (error) {
+      set({shareRecipeLoading: false});
+      toast.error(error.response.data.error);
+      console.error(error);
+    }
+  },
+
+  deleteSharedRecipe: async (id) => {
+    set({shareRecipeLoading: true});
+   try {
+    const res = await axios.delete(`/shareRecipe/deleteSharedRecipe/${id}`);
+    set({shareRecipeLoading: false, sharedRecipes: res.data.sharedRecipes});
+    toast.success("Shared recipe deleted successfully");
+   } catch (error) {
+    set({shareRecipeLoading: false});
+    console.error(error);
+   }
   }
 }));

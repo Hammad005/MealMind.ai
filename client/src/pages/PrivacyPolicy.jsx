@@ -69,7 +69,7 @@ const PrivacyPolicy = () => {
                     WebkitBoxReflect:
                       "below -14px linear-gradient(transparent, #ffffff50)",
                   }}
-                  className="text-4xl md:text-6xl lg:text-7xl tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden "
+                  className="text-4xl md:text-6xl lg:text-7xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden "
                 >
                   MealMind<span className="text-2xl">.ai</span>
                 </p>
@@ -90,7 +90,7 @@ const PrivacyPolicy = () => {
                   WebkitBoxReflect:
                     "below -22px linear-gradient(transparent, #ffffff50)",
                 }}
-                className="text-5xl md:text-6xl lg:text-7xl tracking-widest font-semibold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
+                className="text-5xl md:text-6xl lg:text-7xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
               >
                 MealMind<span className="text-2xl">.ai</span>
               </p>
@@ -117,7 +117,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">1.</span> Information We Collect
             </h3>
-            <div className="pl-6 font-mono text-sm space-y-2">
+            <div className="pl-6  text-sm space-y-2">
               <p>
                 <b>a. Information You Provide to Us</b>
               </p>
@@ -151,7 +151,7 @@ const PrivacyPolicy = () => {
               <span className="text-primary">2.</span> How We Use Your
               Information
             </h3>
-            <ul className="pl-10 font-mono text-sm list-disc">
+            <ul className="pl-10  text-sm list-disc">
               <li>Provide, maintain, and improve our services</li>
               <li>Personalize your experience</li>
               <li>Respond to your inquiries or support requests</li>
@@ -163,7 +163,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">3.</span> Sharing Your Information
             </h3>
-            <ul className="pl-10 font-mono text-sm list-disc">
+            <ul className="pl-10  text-sm list-disc">
               <li>
                 We do <b>not sell</b> or rent your personal information to third
                 parties.
@@ -178,7 +178,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">4.</span> Data Security
             </h3>
-            <p className="pl-6 font-mono text-sm">
+            <p className="pl-6  text-sm">
               We implement industry-standard security measures. However, no
               method of storage or transmission is 100% secure.
             </p>
@@ -188,7 +188,7 @@ const PrivacyPolicy = () => {
               <span className="text-primary">5.</span> AI-Generated Content
               Disclaimer
             </h3>
-            <ul className="pl-10 font-mono text-sm list-disc">
+            <ul className="pl-10  text-sm list-disc">
               <li>
                 MealMind.ai uses AI to generate recipe suggestions based on user
                 input.
@@ -221,7 +221,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">6.</span> Third-Party Links
             </h3>
-            <p className="pl-6 font-mono text-sm">
+            <p className="pl-6  text-sm">
               Our platform may contain links to external sites. We are not
               responsible for their privacy practices or content.
             </p>
@@ -230,7 +230,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">7.</span> Children's Privacy
             </h3>
-            <p className="pl-6 font-mono text-sm">
+            <p className="pl-6  text-sm">
               MealMind.ai is not intended for users under 13. We do not
               knowingly collect data from children.
             </p>
@@ -239,7 +239,7 @@ const PrivacyPolicy = () => {
             <h3 className="text-2xl font-bold">
               <span className="text-primary">8.</span> Changes to This Policy
             </h3>
-            <p className="pl-6 font-mono text-sm">
+            <p className="pl-6  text-sm">
               We may update this Privacy Policy. Continued use of MealMind.ai
               implies acceptance of any updates.
             </p>

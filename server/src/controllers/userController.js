@@ -207,7 +207,7 @@ export const updateProfile = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find().select("-password -email -name");
 
     // Exclude the logged-in user
     const usersWithoutMe = users.filter(

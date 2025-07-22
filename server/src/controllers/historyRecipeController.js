@@ -23,7 +23,7 @@ export const createRecipe = async (req, res) => {
     } catch (parseErr) {
       throw new Error("Failed to parse AI response into JSON.");
     }
-
+    
     // Fetch image from Pexels using recipe name
     const pexelsImageUrl = await fetchPexelsImage(recipeIntoJSON?.pexelsQuery);
 
