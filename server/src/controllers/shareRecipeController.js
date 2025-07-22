@@ -93,6 +93,47 @@ export const shareSavedRecipe = async (req, res) => {
     }
 };
 
+export const shareSharedRecipe = async (req, res) => {
+  const {receiverId} = req.params;
+    const senderId = req.user._id;
+    const {sharedId} = req.body;
+    try {
+        const shared = await Share.findById(sharedId);
+        if (!shared) {
+            return res.status(404).json({ error: "Shared recipe not found" });
+        }
+        const cloudinaryResponse = await cloudinary.uploader.upload(shared.recipe.image.imageUrl, {
+            folder: "MealMind.ai/Recipes/Shared",
+        });
+        if (!cloudinaryResponse || cloudinaryResponse.error) {
+            throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
+        };
+        const shareRecipe = await Share.create({
+            sender: senderId,
+            receiver: receiverId,
+            text: shared.text,
+            recipe: {
+                id: shared._id,
+                name: shared.recipe.name,
+                description: shared.recipe.description,
+                ingredients: shared.recipe.ingredients,
+                instructions: shared.recipe.instructions,
+                image: {
+                    imageId: cloudinaryResponse.public_id,
+                    imageUrl: cloudinaryResponse.secure_url
+                },
+                category: shared.recipe.category
+            }
+        });
+        return res.status(200).json({ shareRecipe });
+    } catch (error) {
+        console.error("Error in shareSharedRecipe:", error);
+        return res.status(500).json({
+            error: error.message || "Internal Server Error",
+        });
+    }  
+};
+
 export const getSharedRecipe = async (req, res) => {
     try {
         const sharedRecipes = await Share.find({ receiver: req.user._id }).sort({ createdAt: -1 }).populate({

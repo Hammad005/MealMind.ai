@@ -63,6 +63,7 @@ export const saveSharedRecipe = async (req, res) => {
       users: req.user._id,
       text: sharedRecipe.text,
       recipe: {
+        id: sharedRecipe._id.toString(),
         name: sharedRecipe.recipe.name,
         description: sharedRecipe.recipe.description,
         ingredients: sharedRecipe.recipe.ingredients,

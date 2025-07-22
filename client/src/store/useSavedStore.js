@@ -46,4 +46,19 @@ export const useSavedStore = create((set) => ({
       console.error(error);
     }
   },
+
+  saveSharedRecipe: async (id) => {
+    set({ savedRecipeLoading: true });
+    try {
+      const res = await axios.post(`/saved/saveSharedRescipe/${id}`);
+      set((state) => ({
+        savedRecipeLoading: false,
+        savedRecipes: [res.data.savedRecipe, ...state.savedRecipes],
+      }));
+      toast.success("Recipe saved successfully");
+    } catch (error) {
+      set({ savedRecipeLoading: false });
+      console.error(error);
+    }
+  }
 }));

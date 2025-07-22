@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useHistoryStore } from "@/store/useHistoryStore";
 import { useGSAP } from "@gsap/react";
 import {
   Bookmark,
@@ -8,6 +7,7 @@ import {
   ClipboardList,
   Loader,
   Share,
+  Type,
   Utensils,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,23 +17,23 @@ import cld from "@/lib/cloudinary";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
+import { useSharedStore } from "@/store/useSharedStore";
 import { useSavedStore } from "@/store/useSavedStore";
-import SharedByHistory from "@/components/SharedByHistory";
+import SharedByShared from "@/components/SharedByShared";
 
-const Recipe = () => {
+const SharedRecipe = () => {
   useEffect(() => {
     window.scrollTo(0, 0, { behavior: "smooth" });
   }, []);
-  const { historyRecipes } = useHistoryStore();
-  const { saveRecipe, unsaveRecipe, savedRecipeLoading, savedRecipes } = useSavedStore();
+  const { sharedRecipes } = useSharedStore();
+  const { savedRecipeLoading, savedRecipes, saveSharedRecipe, unsaveRecipe } = useSavedStore();
   const { id } = useParams();
-  const alreadySaved = savedRecipes?.find(
-    (res) => res?.recipe?.id === id
-  );
-  const userRecipe = historyRecipes?.find(
+  const alreadySaved = savedRecipes?.find((res) => res?.recipe?.id === id);
+  const userRecipe = sharedRecipes?.find(
     (recipe) => recipe?._id.toString() === id
   );
   const cardRef = useRef();
+
   const { contextSafe } = useGSAP();
   const animation = contextSafe(() => {
     gsap.from(cardRef.current, {
@@ -58,9 +58,15 @@ const Recipe = () => {
     .quality("auto")
     .resize(scale().width("auto"));
 
+  const profilePic = cld
+    .image(userRecipe?.sender?.profile?.imageId)
+    .format("auto")
+    .quality("auto")
+    .resize(scale().width(400));
+
   return (
     <>
-    <SharedByHistory open={open} setOpen={setOpen} id={shareId}/>
+      <SharedByShared open={open} setOpen={setOpen} id={shareId} />
       <div className="flex items-center justify-center lg:px-23 px-4 py-6 md:my-10 min-h-screen">
         <Card
           ref={cardRef}
@@ -72,54 +78,100 @@ const Recipe = () => {
               className="h-full w-full object-cover hover:scale-120 transition-transform"
             />
           </div>
-          <CardHeader className="px-5">
-            <p className="text-sm text-primary text-center italic">
-              You asked for:{" "}
-              <span className="text-foreground">“{userRecipe?.text}”</span>
-            </p>
-            <div className="flex justify-end gap-2">
-              {alreadySaved ? (
-                <Button size={"icon"} variant={"outline"} onClick={() => unsaveRecipe(alreadySaved?._id)} disabled={savedRecipeLoading}>
-                  {savedRecipeLoading ? 
-                  <Loader className="animate-spin"/>
-                  :
-                  <Bookmark className="fill-foreground" />
-                  }
+          <CardHeader className="px-5 w-full">
+            <div className="grid grid-cols-2 gap-5">
+              <div className="flex items-center gap-3 w-full">
+                {userRecipe?.sender?.profile?.imageUrl ? (
+                  <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
+                    <AdvancedImage
+                      cldImg={profilePic}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <p
+                    className={
+                      "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
+                    }
+                  >
+                    {userRecipe?.sender?.username[0].toUpperCase()}
+                  </p>
+                )}
+                <div className="flex-1">
+                  <h3 className="font-medium text-foreground">Shared by</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {userRecipe?.sender?.username}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                {alreadySaved ? (
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    onClick={() => unsaveRecipe(alreadySaved?._id)}
+                    disabled={savedRecipeLoading}
+                  >
+                    {savedRecipeLoading ? (
+                      <Loader className="animate-spin" />
+                    ) : (
+                      <Bookmark className="fill-foreground" />
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    onClick={() => {saveSharedRecipe(userRecipe?._id)}}
+                    disabled={savedRecipeLoading}
+                  >
+                    {savedRecipeLoading ? (
+                      <Loader className="animate-spin" />
+                    ) : (
+                      <Bookmark />
+                    )}
+                  </Button>
+                )}
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => {
+                    setShareId(userRecipe?._id);
+                    setOpen(true);
+                  }}
+                >
+                  <Share />
                 </Button>
-              ) : (
-                <Button size={"icon"} variant={"outline"} onClick={() => saveRecipe(id)} disabled={savedRecipeLoading}>
-                  {savedRecipeLoading ? 
-                  <Loader className="animate-spin"/>
-                  :
-                  <Bookmark />
-                  }
-                </Button>
-              )}
-
-              <Button size={"icon"} variant={"outline"}
-              onClick={() => {
-                setShareId(userRecipe?._id);
-                setOpen(true);
-              }}
-              >
-                <Share />
-              </Button>
+              </div>
             </div>
           </CardHeader>
 
           <CardContent className="px-5 pb-6">
             <div className="space-y-5">
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
-                  <ChefHat className="h-5 w-5" />
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
+                    <ChefHat className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-foreground">
+                      {userRecipe?.recipe?.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {userRecipe?.recipe?.category}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-foreground">
-                    {userRecipe?.recipe?.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {userRecipe?.recipe?.category}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
+                    <Type className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-foreground">Asked for</h3>
+                    <p className="text-sm text-muted-foreground">
+                      “{userRecipe?.text}”
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -130,7 +182,7 @@ const Recipe = () => {
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">
                     Ingredients (
-                    {userRecipe?.recipe?.ingredients?.split(",").length})
+                    {userRecipe?.recipe?.ingredients?.split(",")?.length})
                   </h3>
                   <ul className="md:text-sm hidden text-xs text-muted-foreground list-disc marker:text-primary list-inside md:grid grid-cols-2 pt-2">
                     {userRecipe?.recipe?.ingredients
@@ -140,7 +192,7 @@ const Recipe = () => {
                       ))}
                   </ul>
                   <ul className="md:text-sm md:hidden text-xs text-muted-foreground list-disc marker:text-primary list-inside  pt-2">
-                    {(viewAll
+                    {(viewAll 
                       ? userRecipe?.recipe?.ingredients?.split(",")
                       : userRecipe?.recipe?.ingredients?.split(",").slice(0, 8)
                     )?.map((ingredient, index) => (
@@ -176,7 +228,7 @@ const Recipe = () => {
                   <CalendarDays className="h-5 w-5" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-foreground">Generated At</h3>
+                  <h3 className="font-medium text-foreground">Shared At</h3>
                   <p className="text-sm text-muted-foreground">
                     {new Date(userRecipe?.createdAt).toLocaleString("en-GB", {
                       day: "2-digit",
@@ -206,4 +258,4 @@ const Recipe = () => {
   );
 };
 
-export default Recipe;
+export default SharedRecipe;

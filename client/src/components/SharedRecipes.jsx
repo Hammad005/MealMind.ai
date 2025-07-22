@@ -26,7 +26,7 @@ const SharedRecipes = () => {
     return (
       <Card
         key={entry._id}
-        onClick={() => navigate(`/saved-recipe/${entry._id}`)}
+        onClick={() => navigate(`/shared-recipe/${entry._id}`)}
         className="recipe-card cursor-pointer dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-border hover:border-primary/50 transition-colors overflow-hidden md:mt-4 mt-10"
       >
         <CardContent className="px-5 pb-6">

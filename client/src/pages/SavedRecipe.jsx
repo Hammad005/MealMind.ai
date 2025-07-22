@@ -70,7 +70,7 @@ const SavedRecipe = () => {
           <CardHeader className="px-5">
             <p className="text-sm text-primary text-center italic">
               You asked for:{" "}
-              <span className="text-foreground">“{userRecipe.text}”</span>
+              <span className="text-foreground">“{userRecipe?.text}”</span>
             </p>
             <div className="flex justify-end gap-2">
               <Button
@@ -94,10 +94,10 @@ const SavedRecipe = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">
-                    {userRecipe.recipe.name}
+                    {userRecipe?.recipe?.name}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {userRecipe.recipe.category}
+                    {userRecipe?.recipe?.category}
                   </p>
                 </div>
               </div>
@@ -109,24 +109,24 @@ const SavedRecipe = () => {
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">
                     Ingredients (
-                    {userRecipe.recipe.ingredients.split(",").length})
+                    {userRecipe?.recipe?.ingredients?.split(",").length})
                   </h3>
                   <ul className="md:text-sm hidden text-xs text-muted-foreground list-disc marker:text-primary list-inside md:grid grid-cols-2 pt-2">
-                    {userRecipe.recipe.ingredients
-                      .split(",")
-                      .map((ingredient, index) => (
+                    {userRecipe?.recipe?.ingredients
+                      ?.split(",")
+                      ?.map((ingredient, index) => (
                         <li key={index}>{ingredient.trim()}</li>
                       ))}
                   </ul>
                   <ul className="md:text-sm md:hidden text-xs text-muted-foreground list-disc marker:text-primary list-inside  pt-2">
                     {(viewAll
-                      ? userRecipe.recipe.ingredients.split(",")
-                      : userRecipe.recipe.ingredients.split(",").slice(0, 8)
-                    ).map((ingredient, index) => (
+                      ? userRecipe?.recipe?.ingredients?.split(",")
+                      : userRecipe?.recipe?.ingredients?.split(",").slice(0, 8)
+                    )?.map((ingredient, index) => (
                       <li key={index}>{ingredient.trim()}</li>
                     ))}
 
-                    {userRecipe.recipe.ingredients.split(",").length > 8 && (
+                    {userRecipe?.recipe?.ingredients?.split(",").length > 8 && (
                       <span
                         className="text-primary font-semibold hover:underline cursor-pointer col-span-full"
                         onClick={() => setViewAll(!viewAll)}
@@ -145,7 +145,7 @@ const SavedRecipe = () => {
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">Instructions</h3>
                   <p className="text-sm text-muted-foreground">
-                    {userRecipe.recipe.instructions}
+                    {userRecipe?.recipe?.instructions}
                   </p>
                 </div>
               </div>
@@ -157,7 +157,7 @@ const SavedRecipe = () => {
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">Saved At</h3>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(userRecipe.createdAt).toLocaleString("en-GB", {
+                    {new Date(userRecipe?.createdAt).toLocaleString("en-GB", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
@@ -175,7 +175,7 @@ const SavedRecipe = () => {
             <div className="mt-5">
               <p className="text-sm text-muted-foreground line-clamp-4">
                 <span className="text-primary">&gt; </span>
-                {userRecipe.recipe.description}
+                {userRecipe?.recipe?.description}
               </p>
             </div>
           </CardContent>

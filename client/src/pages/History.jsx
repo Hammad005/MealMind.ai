@@ -44,12 +44,7 @@ const History = () => {
     const tl = gsap.timeline();
 
     tl.from(headingRef.current, { opacity: 0, duration: 1.3 })
-      .from(
-        cardsRef.current?.children,
-        { opacity: 0, duration: 1, y: 20, stagger: 0.2 },
-        "-=0.7"
-      )
-      .fromTo(
+    .fromTo(
         btnRef.current,
         { width: 0, opacity: 0 },
         {
@@ -57,8 +52,13 @@ const History = () => {
           opacity: 1,
           duration: 0.5,
         },
-        "-=0.5"
-      );
+        "-=0.7"
+      )
+      .from(
+        cardsRef.current?.children,
+        { opacity: 0, duration: 1, y: 20, stagger: 0.2 },
+        "-=0.7"
+      )
   });
   useGSAP(() => {
     animation();

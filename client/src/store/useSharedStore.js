@@ -58,6 +58,21 @@ export const useSharedStore = create((set) => ({
       console.error(error);
     }
   },
+  shareSharedRecipe: async (receiverId, sharedId) => {
+    set({shareRecipeLoading: true});
+    try {
+      const res = await axios.post(`/shareRecipe/shareSharedRecipe/${receiverId}`, {sharedId});
+      set((state) => ({
+        shareRecipeLoading: false,
+        sendedRecipes: [res.data.shareRecipe, ...state.sendedRecipes],
+      }))
+      toast.success("Recipe sent successfully");
+    } catch (error) {
+      set({shareRecipeLoading: false});
+      toast.error(error.response.data.error);
+      console.error(error);
+    }
+  },
 
   deleteSharedRecipe: async (id) => {
     set({shareRecipeLoading: true});
@@ -65,6 +80,7 @@ export const useSharedStore = create((set) => ({
     const res = await axios.delete(`/shareRecipe/deleteSharedRecipe/${id}`);
     set({shareRecipeLoading: false, sharedRecipes: res.data.sharedRecipes});
     toast.success("Shared recipe deleted successfully");
+    return {success: true};
    } catch (error) {
     set({shareRecipeLoading: false});
     console.error(error);
