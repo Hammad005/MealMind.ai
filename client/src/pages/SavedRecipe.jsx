@@ -22,8 +22,8 @@ import download from "downloadjs";
 
 const SavedRecipe = () => {
   useEffect(() => {
-    window.scrollTo(0, 0, { behavior: "smooth" });
-  }, []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
   const { savedRecipes } = useSavedStore();
   const { id } = useParams();
   const userRecipe = savedRecipes?.find(

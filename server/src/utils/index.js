@@ -10,7 +10,7 @@ export const prompt = (text) =>
   "  { " +
   '    "name": "Recipe name, the name should be simple so the other API that is used for image understands easily (String, required)", ' +
   '    "description": "Short description of the recipe (String, required)", ' +
-  '    "ingredients": "Comma-separated list of ingredients (String, required). ⚠️ Do NOT include commas inside individual ingredients (e.g., write \'diced onion\' instead of \'onion, diced\').", ' +
+  '    "ingredients": "Comma-separated list of ingredients with quantities (String, required). ⚠️ Do NOT include commas inside individual ingredients (e.g., write \'diced onion\' instead of \'onion, diced\').", ' +
   '    "instructions": "Step-by-step instructions in a single string (String, required)", ' +
   '    "category": "Category like \'Dessert\', \'Main Course\', \'Vegan\', etc. (String, required)", ' +
   '    "pexelsQuery": "A simplified, image-search-friendly version of the recipe name (in English). ⚠️ This must vary slightly every time, even if the recipe name is reused, to prevent repeated images from the Pexels API." ' +

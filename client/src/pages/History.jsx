@@ -24,8 +24,8 @@ import SharedByHistory from "@/components/SharedByHistory";
 
 const History = () => {
   useEffect(() => {
-    window.scrollTo(0, 0, { behavior: "smooth" });
-  }, []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
 
   const [open, setOpen] = useState(false);
   const [shareId, setShareId] = useState("");

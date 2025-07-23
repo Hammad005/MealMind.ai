@@ -26,8 +26,8 @@ import { toPng } from "html-to-image";
 
 const SharedRecipe = () => {
   useEffect(() => {
-    window.scrollTo(0, 0, { behavior: "smooth" });
-  }, []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
   const { sharedRecipes } = useSharedStore();
   const { savedRecipeLoading, savedRecipes, saveSharedRecipe, unsaveRecipe } = useSavedStore();
   const { id } = useParams();

@@ -25,8 +25,8 @@ import { toPng } from "html-to-image";
 
 const Recipe = () => {
   useEffect(() => {
-    window.scrollTo(0, 0, { behavior: "smooth" });
-  }, []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
   const { historyRecipes } = useHistoryStore();
   const { saveRecipe, unsaveRecipe, savedRecipeLoading, savedRecipes } =
     useSavedStore();

@@ -14,8 +14,8 @@ const Generate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0, { behavior: "smooth" });
-  }, []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
 
   const [text, setText] = useState("");
   const [creatingRecipe, setCreatingRecipe] = useState(false);

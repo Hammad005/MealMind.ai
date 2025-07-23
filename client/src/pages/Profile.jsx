@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useGSAP } from "@gsap/react";
 import { Bookmark, CloudCheck, Edit, History, RefreshCcw, Repeat2, Share, Share2 } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSavedStore } from "@/store/useSavedStore";
@@ -18,6 +18,9 @@ import SavedRecipes from "@/components/SavedRecipes";
 import SharedRecipes from "@/components/SharedRecipes";
 
 const Profile = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuthStore();
