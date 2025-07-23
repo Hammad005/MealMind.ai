@@ -130,7 +130,7 @@ const Recipe = () => {
                     cacheBust: true,
                     useCORS: true,
                     style: {
-                      background: isDark ? "black" : "white",
+                      background: isDark ? "#161618" : "#CCDFB3",
                     },
                   })
                     .then((dataUrl) => {
