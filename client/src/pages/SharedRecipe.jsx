@@ -5,6 +5,7 @@ import {
   CalendarDays,
   ChefHat,
   ClipboardList,
+  Download,
   Loader,
   Share,
   Type,
@@ -20,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import { useSharedStore } from "@/store/useSharedStore";
 import { useSavedStore } from "@/store/useSavedStore";
 import SharedByShared from "@/components/SharedByShared";
+import download from "downloadjs";
+import { toPng } from "html-to-image";
 
 const SharedRecipe = () => {
   useEffect(() => {
@@ -142,6 +145,29 @@ const SharedRecipe = () => {
                 >
                   <Share />
                 </Button>
+                <Button
+                                size={"icon"}
+                                variant={"outline"}
+                                onClick={() => {
+                                  if (!cardRef.current) return;
+                                  const isDark = document.documentElement.classList.contains("dark");
+                                  toPng(cardRef.current, {
+                                    cacheBust: true,
+                                    useCORS: true,
+                                    style: {
+                                      background: isDark ? "black" : "white",
+                                    },
+                                  })
+                                    .then((dataUrl) => {
+                                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                                    })
+                                    .catch((err) => {
+                                      console.error("Error exporting image:", err);
+                                    });
+                                }}
+                              >
+                                <Download />
+                              </Button>
               </div>
             </div>
           </CardHeader>

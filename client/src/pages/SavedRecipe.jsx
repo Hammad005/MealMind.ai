@@ -1,11 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGSAP } from "@gsap/react";
 import {
-  Bookmark,
   CalendarDays,
   ChefHat,
   ClipboardList,
-  Loader,
+  Download,
   Share,
   Utensils,
 } from "lucide-react";
@@ -18,6 +17,8 @@ import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
 import { useSavedStore } from "@/store/useSavedStore";
 import SharedBySaved from "@/components/SharedBySaved";
+import { toPng } from "html-to-image";
+import download from "downloadjs";
 
 const SavedRecipe = () => {
   useEffect(() => {
@@ -82,6 +83,31 @@ const SavedRecipe = () => {
                 }}
               >
                 <Share />
+              </Button>
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                onClick={() => {
+                  if (!cardRef.current) return;
+                  const isDark =
+                    document.documentElement.classList.contains("dark");
+
+                  toPng(cardRef.current, {
+                    cacheBust: true,
+                    useCORS: true,
+                    style: {
+                      background: isDark ? "black" : "white",
+                    },
+                  })
+                    .then((dataUrl) => {
+                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                    })
+                    .catch((err) => {
+                      console.error("Error exporting image:", err);
+                    });
+                }}
+              >
+                <Download />
               </Button>
             </div>
           </CardHeader>

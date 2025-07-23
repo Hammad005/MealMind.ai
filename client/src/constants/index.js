@@ -14,17 +14,17 @@ export const USER_RECIPES = [
         "1 tbsp olive oil",
         "1 garlic clove, minced",
         "Juice of 1 lemon",
-        "Salt and pepper to taste"
+        "Salt and pepper to taste",
       ],
       instructions: [
         "Cook quinoa according to package instructions.",
         "Sauté spinach in olive oil until wilted.",
         "Roast chickpeas with garlic, salt, and pepper for 15 minutes.",
         "Combine quinoa, spinach, and chickpeas in a bowl.",
-        "Drizzle with lemon juice and serve."
+        "Drizzle with lemon juice and serve.",
       ],
-      category: "Healthy Bowl"
-    }
+      category: "Healthy Bowl",
+    },
   },
   {
     id: 2,
@@ -41,15 +41,15 @@ export const USER_RECIPES = [
         "1/2 bell pepper, sliced",
         "1 tbsp olive oil",
         "Salt and black pepper",
-        "paprika"
+        "paprika",
       ],
       instructions: [
         "Season and grill the chicken until fully cooked.",
         "Sauté onions and bell pepper in olive oil.",
-        "Serve chicken over warm rice and top with sautéed veggies."
+        "Serve chicken over warm rice and top with sautéed veggies.",
       ],
-      category: "Post-Workout"
-    }
+      category: "Post-Workout",
+    },
   },
   {
     id: 3,
@@ -66,16 +66,18 @@ export const USER_RECIPES = [
         "2 cups vegetable broth",
         "1 clove garlic, minced",
         "1 tsp cumin",
-        "Salt and pepper"
+        "Salt and pepper",
       ],
       instructions: [
         "Sauté garlic and carrot for 3 minutes.",
         "Add sweet potato, lentils, broth, and spices.",
         "Simmer for 25–30 minutes until soft.",
-        "Serve hot with fresh herbs if desired."
+        "Serve hot with fresh herbs if desired.",
       ],
-      category: "Vegan Dinner"
-    }
-  }
+      category: "Vegan Dinner",
+    },
+  },
 ];
+
+
 

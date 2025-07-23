@@ -6,6 +6,7 @@ import {
   CalendarDays,
   ChefHat,
   ClipboardList,
+  Download,
   Loader,
   Share,
   Utensils,
@@ -19,17 +20,18 @@ import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
 import { useSavedStore } from "@/store/useSavedStore";
 import SharedByHistory from "@/components/SharedByHistory";
+import download from "downloadjs";
+import { toPng } from "html-to-image";
 
 const Recipe = () => {
   useEffect(() => {
     window.scrollTo(0, 0, { behavior: "smooth" });
   }, []);
   const { historyRecipes } = useHistoryStore();
-  const { saveRecipe, unsaveRecipe, savedRecipeLoading, savedRecipes } = useSavedStore();
+  const { saveRecipe, unsaveRecipe, savedRecipeLoading, savedRecipes } =
+    useSavedStore();
   const { id } = useParams();
-  const alreadySaved = savedRecipes?.find(
-    (res) => res?.recipe?.id === id
-  );
+  const alreadySaved = savedRecipes?.find((res) => res?.recipe?.id === id);
   const userRecipe = historyRecipes?.find(
     (recipe) => recipe?._id.toString() === id
   );
@@ -60,7 +62,7 @@ const Recipe = () => {
 
   return (
     <>
-    <SharedByHistory open={open} setOpen={setOpen} id={shareId}/>
+      <SharedByHistory open={open} setOpen={setOpen} id={shareId} />
       <div className="flex items-center justify-center lg:px-23 px-4 py-6 md:my-10 min-h-screen">
         <Card
           ref={cardRef}
@@ -79,30 +81,67 @@ const Recipe = () => {
             </p>
             <div className="flex justify-end gap-2">
               {alreadySaved ? (
-                <Button size={"icon"} variant={"outline"} onClick={() => unsaveRecipe(alreadySaved?._id)} disabled={savedRecipeLoading}>
-                  {savedRecipeLoading ? 
-                  <Loader className="animate-spin"/>
-                  :
-                  <Bookmark className="fill-foreground" />
-                  }
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => unsaveRecipe(alreadySaved?._id)}
+                  disabled={savedRecipeLoading}
+                >
+                  {savedRecipeLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <Bookmark className="fill-foreground" />
+                  )}
                 </Button>
               ) : (
-                <Button size={"icon"} variant={"outline"} onClick={() => saveRecipe(id)} disabled={savedRecipeLoading}>
-                  {savedRecipeLoading ? 
-                  <Loader className="animate-spin"/>
-                  :
-                  <Bookmark />
-                  }
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => saveRecipe(id)}
+                  disabled={savedRecipeLoading}
+                >
+                  {savedRecipeLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <Bookmark />
+                  )}
                 </Button>
               )}
 
-              <Button size={"icon"} variant={"outline"}
-              onClick={() => {
-                setShareId(userRecipe?._id);
-                setOpen(true);
-              }}
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                onClick={() => {
+                  setShareId(userRecipe?._id);
+                  setOpen(true);
+                }}
               >
                 <Share />
+              </Button>
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                onClick={() => {
+                  if (!cardRef.current) return;
+                  const isDark =
+                    document.documentElement.classList.contains("dark");
+
+                  toPng(cardRef.current, {
+                    cacheBust: true,
+                    useCORS: true,
+                    style: {
+                      background: isDark ? "black" : "white",
+                    },
+                  })
+                    .then((dataUrl) => {
+                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                    })
+                    .catch((err) => {
+                      console.error("Error exporting image:", err);
+                    });
+                }}
+              >
+                <Download />
               </Button>
             </div>
           </CardHeader>
