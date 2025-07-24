@@ -61,20 +61,35 @@ const PrivacyPolicy = () => {
             ref={containerRef}
             className="space-y-8 relative flex flex-col justify-center"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+            <h1 className="md:text-5xl text-4xl text-start font-bold tracking-tight">
               <span className="text-gray-900 dark:text-foreground">
-                Privacy Policy For{" "}
+                Privacy Policy 
                 <p
                   style={{
                     WebkitBoxReflect:
                       "below -14px linear-gradient(transparent, #ffffff50)",
                   }}
-                  className="text-4xl md:text-6xl lg:text-7xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden "
+                  className="md:text-5xl text-4xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden "
                 >
                   MealMind<span className="text-2xl">.ai</span>
                 </p>
               </span>
             </h1>
+            
+            <div className="relative">
+              <div className="h-[120px] w-full overflow-hidden absolute transform translate-x-1/3  translate-y-2/2 md:hidden">
+                <img
+                  src={privacyHero}
+                  alt=""
+                  className="object-cover h-full mx-auto"
+                />
+              </div>
+              <p className="tracking-widest text-start">
+                Thank you for choosing MealMind.ai, Your privacy is important to
+                us. This Privacy Policy explains how we collect, use, disclose,
+                and protect your personal information when you use our services.
+              </p>
+            </div>
             <div className="md:flex hidden gap-2  ">
               <img
                 src={Logo}
@@ -88,32 +103,18 @@ const PrivacyPolicy = () => {
               <p
                 style={{
                   WebkitBoxReflect:
-                    "below -22px linear-gradient(transparent, #ffffff50)",
+                    "below -33px linear-gradient(transparent, #ffffff50)",
                 }}
-                className="text-5xl md:text-6xl lg:text-7xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
+                className="text-5xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
               >
                 MealMind<span className="text-2xl">.ai</span>
-              </p>
-            </div>
-            <div className="relative md:mt-10">
-              <div className="h-[120px] w-full overflow-hidden absolute transform translate-x-1/3  translate-y-2/2 md:hidden">
-                <img
-                  src={privacyHero}
-                  alt=""
-                  className="object-cover h-full mx-auto"
-                />
-              </div>
-              <p className="tracking-widest">
-                Thank you for choosing MealMind.ai, Your privacy is important to
-                us. This Privacy Policy explains how we collect, use, disclose,
-                and protect your personal information when you use our services.
               </p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-4 my-16">
-          <div ref={(el) => (sectionRefs.current[0] = el)}>
+          <div ref={(el) => (sectionRefs.current[0] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">1.</span> Information We Collect
             </h3>
@@ -146,7 +147,7 @@ const PrivacyPolicy = () => {
               </ul>
             </div>
           </div>
-          <div ref={(el) => (sectionRefs.current[1] = el)}>
+          <div ref={(el) => (sectionRefs.current[1] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">2.</span> How We Use Your
               Information
@@ -159,7 +160,7 @@ const PrivacyPolicy = () => {
               <li>Communicate updates, promotions, or policy changes</li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[2] = el)}>
+          <div ref={(el) => (sectionRefs.current[2] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">3.</span> Sharing Your Information
             </h3>
@@ -174,7 +175,7 @@ const PrivacyPolicy = () => {
               </li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[3] = el)}>
+          <div ref={(el) => (sectionRefs.current[3] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">4.</span> Data Security
             </h3>
@@ -183,7 +184,7 @@ const PrivacyPolicy = () => {
               method of storage or transmission is 100% secure.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[4] = el)}>
+          <div ref={(el) => (sectionRefs.current[4] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">5.</span> AI-Generated Content
               Disclaimer
@@ -217,7 +218,7 @@ const PrivacyPolicy = () => {
               </li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[5] = el)}>
+          <div ref={(el) => (sectionRefs.current[5] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">6.</span> Third-Party Links
             </h3>
@@ -226,7 +227,7 @@ const PrivacyPolicy = () => {
               responsible for their privacy practices or content.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[6] = el)}>
+          <div ref={(el) => (sectionRefs.current[6] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">7.</span> Children's Privacy
             </h3>
@@ -235,7 +236,7 @@ const PrivacyPolicy = () => {
               knowingly collect data from children.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[7] = el)} >
+          <div ref={(el) => (sectionRefs.current[7] = el)} className="border-b dark:border-border border-gray-400 pb-4">
             <h3 className="text-2xl font-bold">
               <span className="text-primary">8.</span> Changes to This Policy
             </h3>
