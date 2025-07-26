@@ -222,7 +222,6 @@ npm start
 
 - Ensure that `.env` files are properly configured in both the client and server folders.
 - All external APIs and services (MongoDB, Gemini, Cloudinary, Pexels) must be active and authorized.
-- The application will not function correctly without valid API credentials.
 
 ---
 
