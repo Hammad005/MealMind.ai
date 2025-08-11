@@ -12,7 +12,7 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useRef, useState } from "react";
-import { Info, Loader, Upload } from "lucide-react";
+import { Info, Loader, Upload, X } from "lucide-react";
 
 const EditProfile = ({ open, setOpen }) => {
   const btnRef = useRef();
@@ -24,7 +24,6 @@ const EditProfile = ({ open, setOpen }) => {
     email: user?.email || "",
     profile: user?.profile?.imageUrl || "",
   });
-  const [imageName, setImageName] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -35,7 +34,6 @@ const EditProfile = ({ open, setOpen }) => {
         email: user?.email || "",
         profile: "",
       });
-      setImageName("");
       setErrors({});
     }
   }, [open, user]);
@@ -75,15 +73,16 @@ const EditProfile = ({ open, setOpen }) => {
 
   const handleProfileChange = (e) => {
     const file = e.target.files[0];
-    setImageName(file.name);
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
       reader.onload = () => {
         setData({ ...data, profile: reader.result });
+        e.target.value = ""; // reset so same file can be selected again
       };
+      reader.readAsDataURL(file);
     }
-  }
+  };
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -162,7 +161,9 @@ const EditProfile = ({ open, setOpen }) => {
                     name="email"
                     placeholder="Enter your email"
                     value={data.email}
-                    onChange={(e) => setData({ ...data, email: e.target.value })}
+                    onChange={(e) =>
+                      setData({ ...data, email: e.target.value })
+                    }
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs flex gap-1 items-center">
@@ -178,28 +179,51 @@ const EditProfile = ({ open, setOpen }) => {
                 >
                   Profile Image:
                 </Label>
-                  <input
-                    type="file"
-                    name="profile"
-                    className="hidden"
-                    accept="jpeg,jpg,png"
-                    ref={btnRef}
-                    onChange={handleProfileChange}
-                  />
-                  <div className="flex items-center gap-3">
-                  <button type="button" onClick={() => btnRef.current.click()} className="flex items-center justify-center text-sm gap-2 dark:bg-input/30 active:border-ring active:ring-ring/50 active:ring-[3px] border dark:border-input border-gray-500 h-9 w-[100px] cursor-pointer rounded-md  p-2">
-                    <Upload className="size-[1rem]"/> {data.profile ? "Uploaded" : "Upload"}
+                <input
+                  type="file"
+                  name="profile"
+                  className="hidden"
+                  accept="jpeg,jpg,png"
+                  ref={btnRef}
+                  onChange={handleProfileChange}
+                />
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => btnRef.current.click()}
+                    className="flex items-center justify-center text-sm gap-2 dark:bg-input/30 active:border-ring active:ring-ring/50 active:ring-[3px] border dark:border-input border-gray-500 h-9 w-[100px] cursor-pointer rounded-md  p-2"
+                  >
+                    <Upload className="size-[1rem]" />{" "}
+                    {data.profile ? "Uploaded" : "Upload"}
                   </button>
-                  <p className="text-xs text-muted-foreground underline">{imageName}</p>
-                  </div>
+                </div>
               </div>
+              {data.profile && (
+                <div className="flex relative w-12 h-12 border border-primary rounded-md object-contain overflow-hidden">
+                  <X
+                    className="size-[1rem] absolute top-0 right-0 cursor-pointer"
+                    onClick={() => setData({ ...data, profile: "" })}
+                  />
+                  <img
+                    src={data.profile}
+                    alt="avatar"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
             </div>
             <DialogFooter className={"pt-5 mt-5 border-t border-primary"}>
               <DialogClose asChild>
-                <Button variant="outline" disabled={updateUserLoading}>Cancel</Button>
+                <Button variant="outline" disabled={updateUserLoading}>
+                  Cancel
+                </Button>
               </DialogClose>
               <Button type="submit" disabled={updateUserLoading}>
-                {updateUserLoading ? <Loader className="animate-spin" /> : "Save changes"}
+                {updateUserLoading ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  "Save changes"
+                )}
               </Button>
             </DialogFooter>
           </form>

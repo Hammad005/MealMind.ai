@@ -63,7 +63,7 @@ export const useAuthStore = create((set) => ({
     set({ userLoading: true });
     try {
       await axios.post("/auth/logout");
-      set({ userLoading: false, user: null, authenticated: false });
+      set({ userLoading: false, user: null, allUsers: [], authenticated: false });
       toast.success("Logout successful");
     } catch (error) {
       set({ userLoading: false, user: null });
