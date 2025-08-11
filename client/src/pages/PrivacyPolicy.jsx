@@ -181,12 +181,12 @@ const PrivacyPolicy = () => {
               method of storage or transmission is 100% secure.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[4] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">5.</span> AI-Generated Content
+          <div ref={(el) => (sectionRefs.current[4] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase">
+              AI-Generated Content
               Disclaimer
             </h3>
-            <ul className="pl-10  text-sm list-disc">
+            <ul className="pl-10  text-sm md:text-base list-disc">
               <li>
                 MealMind.ai uses AI to generate recipe suggestions based on user
                 input.
@@ -215,29 +215,29 @@ const PrivacyPolicy = () => {
               </li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[5] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">6.</span> Third-Party Links
+          <div ref={(el) => (sectionRefs.current[5] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase">
+              Third-Party Links
             </h3>
-            <p className="pl-6  text-sm">
+            <p className="pl-6  text-sm md:text-base">
               Our platform may contain links to external sites. We are not
               responsible for their privacy practices or content.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[6] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">7.</span> Children's Privacy
+          <div ref={(el) => (sectionRefs.current[6] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase">
+              Children's Privacy
             </h3>
-            <p className="pl-6  text-sm">
+            <p className="pl-6  text-sm md:text-base">
               MealMind.ai is not intended for users under 13. We do not
               knowingly collect data from children.
             </p>
           </div>
-          <div ref={(el) => (sectionRefs.current[7] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">8.</span> Changes to This Policy
+          <div ref={(el) => (sectionRefs.current[7] = el)} className=" flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase">
+              Changes to This Policy
             </h3>
-            <p className="pl-6  text-sm">
+            <p className="pl-6  text-sm md:text-base">
               We may update this Privacy Policy. Continued use of MealMind.ai
               implies acceptance of any updates.
             </p>
