@@ -230,7 +230,6 @@ npm start
 #### Special thanks to the APIs and services that made this project possible:
 
 - [Google Gemini](https://deepmind.google/technologies/gemini/)
-- [Pexels](https://www.pexels.com/)
 - [Cloudinary](https://cloudinary.com/)
 
 #### Made with ❤️ by [Hammad Khatri](https://github.com/Hammad005)

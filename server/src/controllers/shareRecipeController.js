@@ -1,4 +1,3 @@
-import cloudinary from "../lib/cloudinary.js";
 import Saved from "../models/Saved.js";
 import Share from "../models/Share.js";
 import History from "../models/History.js";
@@ -20,12 +19,7 @@ export const shareHistoryRecipe = async (req, res) => {
         if (alreadyShared) {
             return res.status(400).json({ error: "Recipe already shared" });
         }
-        const cloudinaryResponse = await cloudinary.uploader.upload(history.recipe.image.imageUrl, {
-            folder: "MealMind.ai/Recipes/Shared",
-        });
-        if (!cloudinaryResponse || cloudinaryResponse.error) {
-            throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-        };
+        
         const shareRecipe = await Share.create({
             sender: senderId,
             receiver: receiverId,
@@ -36,10 +30,6 @@ export const shareHistoryRecipe = async (req, res) => {
                 description: history.recipe.description,
                 ingredients: history.recipe.ingredients,
                 instructions: history.recipe.instructions,
-                image: {
-                    imageId: cloudinaryResponse.public_id,
-                    imageUrl: cloudinaryResponse.secure_url
-                },
                 category: history.recipe.category
             }
         });
@@ -61,12 +51,6 @@ export const shareSavedRecipe = async (req, res) => {
         if (!saved) {
             return res.status(404).json({ error: "Saved recipe not found" });
         }
-        const cloudinaryResponse = await cloudinary.uploader.upload(saved.recipe.image.imageUrl, {
-            folder: "MealMind.ai/Recipes/Shared",
-        });
-        if (!cloudinaryResponse || cloudinaryResponse.error) {
-            throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-        };
         const shareRecipe = await Share.create({
             sender: senderId,
             receiver: receiverId,
@@ -77,10 +61,6 @@ export const shareSavedRecipe = async (req, res) => {
                 description: saved.recipe.description,
                 ingredients: saved.recipe.ingredients,
                 instructions: saved.recipe.instructions,
-                image: {
-                    imageId: cloudinaryResponse.public_id,
-                    imageUrl: cloudinaryResponse.secure_url
-                },
                 category: saved.recipe.category
             }
         });
@@ -102,12 +82,6 @@ export const shareSharedRecipe = async (req, res) => {
         if (!shared) {
             return res.status(404).json({ error: "Shared recipe not found" });
         }
-        const cloudinaryResponse = await cloudinary.uploader.upload(shared.recipe.image.imageUrl, {
-            folder: "MealMind.ai/Recipes/Shared",
-        });
-        if (!cloudinaryResponse || cloudinaryResponse.error) {
-            throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-        };
         const shareRecipe = await Share.create({
             sender: senderId,
             receiver: receiverId,
@@ -118,10 +92,6 @@ export const shareSharedRecipe = async (req, res) => {
                 description: shared.recipe.description,
                 ingredients: shared.recipe.ingredients,
                 instructions: shared.recipe.instructions,
-                image: {
-                    imageId: cloudinaryResponse.public_id,
-                    imageUrl: cloudinaryResponse.secure_url
-                },
                 category: shared.recipe.category
             }
         });
@@ -171,10 +141,6 @@ export const deleteSharedRecipe = async (req, res) => {
         if (sharedRecipe.sender.toString() === req.user._id.toString()) {
             return res.status(400).json({ error: "You cannot delete your own shared recipe" });
         };
-
-        if (sharedRecipe.recipe.image.imageId) {
-            await cloudinary.uploader.destroy(sharedRecipe.recipe.image.imageId);
-        }
         await Share.findByIdAndDelete(id);
 
         const remainingSharedRecipe = await Share.find({ receiver: req.user._id }).sort({ createdAt: -1 }).populate({

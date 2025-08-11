@@ -49,7 +49,6 @@ CLOUDINARY_API_KEY=         # Cloudinary API key
 CLOUDINARY_API_SECRET=      # Cloudinary API secret
 
 GEMINI_API_KEY=             # Gemini AI API key
-PEXELS_API_KEY=             # Pexels API key
 ```
 
 ### 3.📡 API Endpoints
@@ -295,7 +294,6 @@ npm run preview
 #### Special thanks to the APIs and services that made this project possible:
 
 - [Google Gemini](https://deepmind.google/technologies/gemini/)
-- [Pexels](https://www.pexels.com/)
 - [Cloudinary](https://cloudinary.com/)
 
 #### Made with ❤️ by [Hammad Khatri](https://github.com/Hammad005)

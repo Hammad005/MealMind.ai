@@ -1,7 +1,6 @@
 import History from "../models/History.js";
-import cloudinary from "../lib/cloudinary.js";
 import { GoogleGenAI } from "@google/genai";
-import { fetchPexelsImage, prompt } from "../utils/index.js";
+import { prompt } from "../utils/index.js";
 
 export const createRecipe = async (req, res) => {
   const { text } = req.body;
@@ -23,25 +22,6 @@ export const createRecipe = async (req, res) => {
     } catch (parseErr) {
       throw new Error("Failed to parse AI response into JSON.");
     }
-    
-    // Fetch image from Pexels using recipe name
-    const pexelsImageUrl = await fetchPexelsImage(recipeIntoJSON?.pexelsQuery);
-
-    let imageData = {
-      imageId: null,
-      imageUrl: null,
-    };
-
-    if (pexelsImageUrl) {
-      const uploadResult = await cloudinary.uploader.upload(pexelsImageUrl, {
-        folder: "MealMind.ai/Recipes/History",
-      });
-
-      imageData = {
-        imageId: uploadResult.public_id,
-        imageUrl: uploadResult.secure_url,
-      };
-    }
 
     // Save history
     const history = await History.create({
@@ -53,7 +33,6 @@ export const createRecipe = async (req, res) => {
         ingredients: recipeIntoJSON?.ingredients,
         instructions: recipeIntoJSON?.instructions,
         category: recipeIntoJSON?.category,
-        image: imageData,
       },
     });
 
@@ -85,15 +64,6 @@ export const clearHistory = async (req, res) => {
   try {
     // Find all history items for this user
     const histories = await History.find({ users: req.user._id });
-    
-    // Delete associated Cloudinary images (if any)
-    await Promise.all(
-      histories.map(async (item) => {
-        if (item?.recipe?.image?.imageId) {
-          await cloudinary.uploader.destroy(item.recipe.image.imageId);
-        }
-      })
-    );
 
     // Delete all history entries from DB
     await History.deleteMany({ users: req.user._id });
@@ -116,9 +86,6 @@ export const clearSingleHistory = async (req, res) => {
     const history = await History.findById(id);
     if (!history) {
       return res.status(404).json({ error: "History not found" });
-    }
-    if (history?.recipe?.image?.imageId) {
-      await cloudinary.uploader.destroy(history.recipe.image.imageId);
     }
     await History.findByIdAndDelete(id);
     const remainingHistory = await History.find({ users: req.user._id }).sort({ createdAt: -1 });

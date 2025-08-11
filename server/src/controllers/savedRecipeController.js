@@ -1,4 +1,3 @@
-import cloudinary from "../lib/cloudinary.js";
 import Saved from "../models/Saved.js";
 import Share from "../models/Share.js";
 import History from "../models/History.js";
@@ -11,13 +10,6 @@ export const saveRecipe = async (req, res) => {
       return res.status(404).json({ error: "History not found" });
     }
 
-    const cloudinaryResponse = await cloudinary.uploader.upload(history.recipe.image.imageUrl, {
-      folder: "MealMind.ai/Recipes/Saved",
-    });
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-        throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-    };
-
     const savedRecipe = await Saved.create({
       users: req.user._id,
       text: history.text,
@@ -27,10 +19,6 @@ export const saveRecipe = async (req, res) => {
         description: history.recipe.description,
         ingredients: history.recipe.ingredients,
         instructions: history.recipe.instructions,
-        image: {
-          imageId: cloudinaryResponse.public_id,
-          imageUrl: cloudinaryResponse.secure_url,
-        },
         category: history.recipe.category
       }    
     });
@@ -52,13 +40,6 @@ export const saveSharedRecipe = async (req, res) => {
       return res.status(404).json({ error: "Shared recipe not found" });
     }
 
-    const cloudinaryResponse = await cloudinary.uploader.upload(sharedRecipe.recipe.image.imageUrl, {
-      folder: "MealMind.ai/Recipes/Saved",
-    });
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-        throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-    };
-
     const savedRecipe = await Saved.create({
       users: req.user._id,
       text: sharedRecipe.text,
@@ -68,10 +49,6 @@ export const saveSharedRecipe = async (req, res) => {
         description: sharedRecipe.recipe.description,
         ingredients: sharedRecipe.recipe.ingredients,
         instructions: sharedRecipe.recipe.instructions,
-        image: {
-          imageId: cloudinaryResponse.public_id,
-          imageUrl: cloudinaryResponse.secure_url,
-        },
         category: sharedRecipe.recipe.category
       }    
     });
@@ -93,10 +70,6 @@ export const unsaveRecipe = async (req, res) => {
     if (!savedRecipe) {
       return res.status(404).json({ error: "Saved recipe not found" });
     }
-    const cloudinaryResponse = await cloudinary.uploader.destroy(savedRecipe.recipe.image.imageId);
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-        throw new Error(cloudinaryResponse.error || "Unknown Cloudinary Error");
-    };
     await Saved.findByIdAndDelete(id);
     const savedRecipes = await Saved.find({ users: req.user._id }).sort({ createdAt: -1 });
     return res.status(200).json({ savedRecipes, message: "Recipe unsaved successfully" });

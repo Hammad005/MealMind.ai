@@ -36,16 +36,6 @@ const shareSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    image: {
-      imageId: {
-        type: String,
-        default: null,
-      },
-      imageUrl: {
-        type: String,
-        default: null,
-      },
-    },
     category: {
       type: String,
       required: true,

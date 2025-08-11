@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const prompt = (text) =>
   "You are a JSON recipe generator for a web app. " +
   'Based on the input "' +
@@ -35,30 +33,3 @@ export const prompt = (text) =>
   text +
   '" and return only the valid JSON object described above — nothing else.';
 
-
-const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
-
-export const fetchPexelsImage = async (query) => {
-  try {
-    const response = await axios.get("https://api.pexels.com/v1/search", {
-      headers: {
-        Authorization: PEXELS_API_KEY,
-      },
-      params: {
-        query: query,
-        per_page: 1,
-        orientation: "landscape",
-      },
-    });
-
-    const photos = response.data.photos;
-    if (photos && photos.length > 0) {
-      return photos[0].src.large; // or use 'original' or 'medium'
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.error("Pexels API error:", error.message);
-    return null;
-  }
-};
