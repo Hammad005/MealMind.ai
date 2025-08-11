@@ -8,6 +8,7 @@ import {
   Loader,
   LogIn,
   LogOut,
+  MessageSquareQuote,
   Sparkle,
   User,
   X,
@@ -33,6 +34,7 @@ const Navbar = () => {
   const navRef = useRef();
 
   const asideRef = useRef();
+  const asideDataRef = useRef();
   const menuTlRef = useRef();
 
   const { logout, userLoading, authLoading, user } = useAuthStore();
@@ -66,7 +68,7 @@ const Navbar = () => {
       duration: 0.5,
       ease: "power2.out",
       overflowY: "none",
-    }).from(asideRef?.current?.children, {
+    }).from(asideDataRef?.current?.children, {
       opacity: 0,
       duration: 0.3,
       ease: "power2.out",
@@ -142,6 +144,17 @@ const Navbar = () => {
             >
               <BrainCircuit size={18} className="text-primary" />
               Generate
+            </Link>
+            <Link
+              to="/faq"
+              className={
+                location.pathname === "/faq"
+                  ? "font-bold text-sm flex items-start gap-2 text-primary"
+                  : "font-semibold text-sm flex items-start gap-2 hover:text-primary"
+              }
+            >
+              <MessageSquareQuote size={18} className="text-primary" />
+              FAQ
             </Link>
             <Link
               to="/privacypolicy"
@@ -225,8 +238,9 @@ const Navbar = () => {
 
       <aside
         ref={asideRef}
-        className="lg:hidden flex flex-col items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-[-100%] z-50 bg-primary/10 overflow-y-auto"
+        className="lg:hidden flex items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-[-100%] z-50 bg-primary/10 overflow-y-auto"
       >
+        <div ref={asideDataRef} className="flex flex-col items-start justify-center gap-4">
         <div>
           <Button
             variant={"outline"}
@@ -261,6 +275,17 @@ const Navbar = () => {
           Generate
         </Link>
         <Link
+          to="/faq"
+          className={
+            location.pathname === "/faq"
+              ? "font-bold text-xl flex items-start gap-2 text-primary"
+              : "font-semibold text-xl flex items-start gap-2 hover:text-primary"
+          }
+        >
+          <MessageSquareQuote size={22} className="text-primary" />
+          FAQ
+        </Link>
+        <Link
           to="/privacypolicy"
           className={
             location.pathname === "/privacypolicy"
@@ -285,6 +310,7 @@ const Navbar = () => {
             <Link to="/login"><LogIn/> Login</Link>
           </Button>
           }
+        </div>
         </div>
       </aside>
     </>

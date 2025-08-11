@@ -54,10 +54,10 @@ const Profile = () => {
   return (
     <>
     <EditProfile open={open} setOpen={setOpen}/>
-      <div className="w-full lg:px-23 px-4 py-6 md:mt-10 min-h-screen flex flex-col gap-12">
+      <div className="w-full lg:px-23 px-4 py-6 md:mt-10 min-h-screen flex flex-col items-center gap-12">
         <div
           ref={profileRef}
-          className="flex md:flex-row flex-col md:items-center gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6"
+          className="flex flex-col items-center gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6 w-1/2"
         >
           <div className="flex flex-col gap-2 items-center">
             {user?.profile?.imageUrl ? (
@@ -72,7 +72,7 @@ const Profile = () => {
 
             <h3 className="text-xl font-bold text-center">{user?.name}</h3>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <h1 className="text-3xl text-primary font-bold font-mono">
               {user?.username}
             </h1>
