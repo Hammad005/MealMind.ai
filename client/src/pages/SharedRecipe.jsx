@@ -14,9 +14,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import gsap from "gsap";
-import cld from "@/lib/cloudinary";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
 import { useSharedStore } from "@/store/useSharedStore";
 import { useSavedStore } from "@/store/useSavedStore";
@@ -26,10 +23,11 @@ import { toPng } from "html-to-image";
 
 const SharedRecipe = () => {
   useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, []);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const { sharedRecipes } = useSharedStore();
-  const { savedRecipeLoading, savedRecipes, saveSharedRecipe, unsaveRecipe } = useSavedStore();
+  const { savedRecipeLoading, savedRecipes, saveSharedRecipe, unsaveRecipe } =
+    useSavedStore();
   const { id } = useParams();
   const alreadySaved = savedRecipes?.find((res) => res?.recipe?.id === id);
   const userRecipe = sharedRecipes?.find(
@@ -55,18 +53,6 @@ const SharedRecipe = () => {
   const [open, setOpen] = useState(false);
   const [shareId, setShareId] = useState("");
 
-  const recipeImage = cld
-    .image(userRecipe?.recipe?.image?.imageId)
-    .format("auto")
-    .quality("auto")
-    .resize(scale().width("auto"));
-
-  const profilePic = cld
-    .image(userRecipe?.sender?.profile?.imageId)
-    .format("auto")
-    .quality("auto")
-    .resize(scale().width(400));
-
   return (
     <>
       <SharedByShared open={open} setOpen={setOpen} id={shareId} />
@@ -76,8 +62,9 @@ const SharedRecipe = () => {
           className="max-w-4xl  dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-primary/50 transition-colors overflow-hidden p-0"
         >
           <div className="w-full md:h-[350px] h-[300px] overflow-hidden">
-            <AdvancedImage
-              cldImg={recipeImage}
+            <img
+              src={userRecipe?.recipe?.image?.imageUrl}
+              alt="recipe"
               className="h-full w-full object-cover hover:scale-120 transition-transform"
             />
           </div>
@@ -86,8 +73,9 @@ const SharedRecipe = () => {
               <div className="flex items-center gap-3 w-full">
                 {userRecipe?.sender?.profile?.imageUrl ? (
                   <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                    <AdvancedImage
-                      cldImg={profilePic}
+                    <img
+                      src={userRecipe?.sender?.profile?.imageUrl}
+                      alt="avatar"
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -125,7 +113,9 @@ const SharedRecipe = () => {
                   <Button
                     size={"icon"}
                     variant={"outline"}
-                    onClick={() => {saveSharedRecipe(userRecipe?._id)}}
+                    onClick={() => {
+                      saveSharedRecipe(userRecipe?._id);
+                    }}
                     disabled={savedRecipeLoading}
                   >
                     {savedRecipeLoading ? (
@@ -146,28 +136,29 @@ const SharedRecipe = () => {
                   <Share />
                 </Button>
                 <Button
-                                size={"icon"}
-                                variant={"outline"}
-                                onClick={() => {
-                                  if (!cardRef.current) return;
-                                  const isDark = document.documentElement.classList.contains("dark");
-                                  toPng(cardRef.current, {
-                                    cacheBust: true,
-                                    useCORS: true,
-                                    style: {
-                                      background: isDark ? "#161618" : "#CCDFB3",
-                                    },
-                                  })
-                                    .then((dataUrl) => {
-                                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
-                                    })
-                                    .catch((err) => {
-                                      console.error("Error exporting image:", err);
-                                    });
-                                }}
-                              >
-                                <Download />
-                              </Button>
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => {
+                    if (!cardRef.current) return;
+                    const isDark =
+                      document.documentElement.classList.contains("dark");
+                    toPng(cardRef.current, {
+                      cacheBust: true,
+                      useCORS: true,
+                      style: {
+                        background: isDark ? "#161618" : "#CCDFB3",
+                      },
+                    })
+                      .then((dataUrl) => {
+                        download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                      })
+                      .catch((err) => {
+                        console.error("Error exporting image:", err);
+                      });
+                  }}
+                >
+                  <Download />
+                </Button>
               </div>
             </div>
           </CardHeader>
@@ -218,7 +209,7 @@ const SharedRecipe = () => {
                       ))}
                   </ul>
                   <ul className="md:text-sm md:hidden text-xs text-muted-foreground list-disc marker:text-primary list-inside  pt-2">
-                    {(viewAll 
+                    {(viewAll
                       ? userRecipe?.recipe?.ingredients?.split(",")
                       : userRecipe?.recipe?.ingredients?.split(",").slice(0, 8)
                     )?.map((ingredient, index) => (

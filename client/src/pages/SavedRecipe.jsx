@@ -11,9 +11,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import gsap from "gsap";
-import cld from "@/lib/cloudinary";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "@/components/ui/button";
 import { useSavedStore } from "@/store/useSavedStore";
 import SharedBySaved from "@/components/SharedBySaved";
@@ -22,8 +19,8 @@ import download from "downloadjs";
 
 const SavedRecipe = () => {
   useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, []);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const { savedRecipes } = useSavedStore();
   const { id } = useParams();
   const userRecipe = savedRecipes?.find(
@@ -49,11 +46,6 @@ const SavedRecipe = () => {
   const [open, setOpen] = useState(false);
   const [shareId, setShareId] = useState("");
 
-  const recipeImage = cld
-    .image(userRecipe?.recipe?.image?.imageId)
-    .format("auto")
-    .quality("auto")
-    .resize(scale().width("auto"));
   return (
     <>
       <SharedBySaved open={open} setOpen={setOpen} id={shareId} />
@@ -63,8 +55,9 @@ const SavedRecipe = () => {
           className="max-w-4xl  dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-primary/50 transition-colors overflow-hidden p-0"
         >
           <div className="w-full md:h-[350px] h-[300px] overflow-hidden">
-            <AdvancedImage
-              cldImg={recipeImage}
+            <img
+              src={userRecipe?.recipe?.image?.imageUrl}
+              alt={"recipe"}
               className="h-full w-full object-cover hover:scale-120 transition-transform"
             />
           </div>

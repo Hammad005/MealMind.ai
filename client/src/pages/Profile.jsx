@@ -10,9 +10,6 @@ import { useSharedStore } from "@/store/useSharedStore";
 import NoSavedRecipes from "@/components/NoSavedRecipes";
 import NoSharedRecipes from "@/components/NoSharedRecipes";
 import EditProfile from "@/components/EditProfile";
-import cld from "@/lib/cloudinary";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import { AdvancedImage } from "@cloudinary/react";
 import { useNavigate } from "react-router-dom";
 import SavedRecipes from "@/components/SavedRecipes";
 import SharedRecipes from "@/components/SharedRecipes";
@@ -54,7 +51,6 @@ const Profile = () => {
     );
   });
 
-  const profilePic = cld.image(user?.profile?.imageId).format("auto").quality("auto").resize(scale().width(400));
   return (
     <>
     <EditProfile open={open} setOpen={setOpen}/>
@@ -66,7 +62,7 @@ const Profile = () => {
           <div className="flex flex-col gap-2 items-center">
             {user?.profile?.imageUrl ? (
               <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-22 rounded-full border-2 border-primary flex items-center justify-center">
-                <AdvancedImage cldImg={profilePic} className="h-full w-full object-cover"/>
+                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover"/>
               </div>
             ) : (
             <p className="dark:bg-primary/50 bg-primary/80 text-white size-22 text-4xl rounded-full border-2 border-primary flex items-center justify-center">

@@ -5,9 +5,6 @@ import { CalendarDays, ChefHat, Loader, Trash2, Type } from "lucide-react";
 import { Button } from "./ui/button";
 import DeleteSharedRecipe from "./DeleteSharedRecipe";
 import { useSharedStore } from "@/store/useSharedStore";
-import cld from "@/lib/cloudinary";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import { AdvancedImage } from "@cloudinary/react";
 
 const SharedRecipes = () => {
   const { sharedRecipes } = useSharedStore();
@@ -17,11 +14,6 @@ const SharedRecipes = () => {
   const [open, setOpen] = useState(null);
 
   const renderRecipeCard = (entry) => {
-    const profilePic = cld
-      .image(entry?.sender?.profile?.imageId)
-      .format("auto")
-      .quality("auto")
-      .resize(scale().width(400));
 
     return (
       <Card
@@ -47,7 +39,7 @@ const SharedRecipes = () => {
             <div className="flex items-start gap-3">
               {entry?.sender?.profile?.imageUrl ? (
                 <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                <AdvancedImage cldImg={profilePic} className="h-full w-full object-cover"/>
+                <img src={entry?.sender?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover"/>
               </div>
               ) : (
                 <p

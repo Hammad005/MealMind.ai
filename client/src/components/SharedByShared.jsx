@@ -8,9 +8,6 @@ import { Loader, Share } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { useAuthStore } from "@/store/useAuthStore";
-import cld from "@/lib/cloudinary";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import { AdvancedImage } from "@cloudinary/react";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { useSharedStore } from "@/store/useSharedStore";
@@ -44,7 +41,7 @@ const SharedByShared = ({ open, setOpen, id }) => {
         <DialogContent className={"max-h-[80vh] overflow-y-auto p-4"}>
           <DialogHeader>
             <DialogTitle className={"flex gap-1 items-end"}>
-              <Share className="w-5 h-5 text-primary" /> Share Recipe
+              <Share className="w-5 h-5 text-primary" /> Share This Recipe
             </DialogTitle>
             <div className="flex flex-col gap-4 mt-4">
               <Card className="recipe-card cursor-pointer dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-border transition-colors overflow-hidden p-4">
@@ -59,11 +56,6 @@ const SharedByShared = ({ open, setOpen, id }) => {
               {filteredUsers?.length > 0 && (
                 <Card className="recipe-card dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-border transition-colors overflow-hidden p-4">
                   {filteredUsers?.map((user) => {
-                    const profilePic = cld
-                      .image(user?.profile?.imageId)
-                      .format("auto")
-                      .quality("auto")
-                      .resize(scale().width(400));
                     return (
                       <CardContent
                         key={user._id}
@@ -72,8 +64,9 @@ const SharedByShared = ({ open, setOpen, id }) => {
                         <div className="flex items-center justify-center gap-2">
                           {user?.profile?.imageUrl ? (
                             <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
-                              <AdvancedImage
-                                cldImg={profilePic}
+                              <img
+                                src={user?.profile?.imageUrl}
+                                alt="avatar"
                                 className="h-full w-full object-cover"
                               />
                             </div>

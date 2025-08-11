@@ -1,13 +1,7 @@
 import NoHistory from "@/components/NoHistory";
 import { Card, CardContent } from "@/components/ui/card";
 import { useHistoryStore } from "@/store/useHistoryStore";
-import {
-  CalendarDays,
-  ChefHat,
-  Ellipsis,
-  Share,
-  Trash2,
-} from "lucide-react";
+import { CalendarDays, ChefHat, Ellipsis, Share, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -24,8 +18,11 @@ import SharedByHistory from "@/components/SharedByHistory";
 
 const History = () => {
   useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, []);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const [open, setOpen] = useState(false);
   const [shareId, setShareId] = useState("");
@@ -44,7 +41,7 @@ const History = () => {
     const tl = gsap.timeline();
 
     tl.from(headingRef.current, { opacity: 0, duration: 1.3 })
-    .fromTo(
+      .fromTo(
         btnRef.current,
         { width: 0, opacity: 0 },
         {
@@ -58,14 +55,14 @@ const History = () => {
         cardsRef.current?.children,
         { opacity: 0, duration: 1, y: 20, stagger: 0.2 },
         "-=0.7"
-      )
+      );
   });
   useGSAP(() => {
     animation();
   }, []);
   return (
     <>
-    <SharedByHistory open={open} setOpen={setOpen} id={shareId} />
+      <SharedByHistory open={open} setOpen={setOpen} id={shareId} />
       <DeleteHistory open={clearHistory} setOpen={setClearHistory} />
       <DeleteSingleHistory
         open={deleteSingleHistory}
@@ -96,9 +93,12 @@ const History = () => {
             </div>
             <div
               ref={cardsRef}
-              className={`grid grid-cols-1 ${historyRecipes?.length >= 2 ? "md:grid-cols-2" : "md:grid-cols-1"} gap-8 mt-10`}
+              className={`grid grid-cols-1 ${
+                historyRecipes?.length >= 2
+                  ? "md:grid-cols-2"
+                  : "md:grid-cols-1"
+              } gap-8 mt-10`}
             >
-                
               {historyRecipes?.map((entry) => (
                 <Card
                   key={entry._id}
