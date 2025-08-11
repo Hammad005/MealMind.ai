@@ -2,7 +2,7 @@
 
 ![Demo App](/client/public/banner.png)
 
-MealMind.ai is a full-stack AI-powered meal inspiration web app designed to generate smart, creative recipe ideas using AI and you can also save, share and download the recipes. This repository contains both the server and client code.
+MealMind.ai (Client-site) AI-powered meal inspiration web app designed to generate smart, creative recipe ideas using AI and you can also save, share and download the recipes.
 
 ---
 

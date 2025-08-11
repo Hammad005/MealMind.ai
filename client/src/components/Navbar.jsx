@@ -6,6 +6,7 @@ import {
   History,
   Home,
   Loader,
+  LogIn,
   LogOut,
   Sparkle,
   User,
@@ -26,9 +27,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/store/useAuthStore";
-import cld from "@/lib/cloudinary";
-import { AdvancedImage } from "@cloudinary/react";
-import { scale } from "@cloudinary/url-gen/actions/resize";
 
 const Navbar = () => {
   const location = useLocation();
@@ -39,12 +37,11 @@ const Navbar = () => {
 
   const { logout, userLoading, authLoading, user } = useAuthStore();
 
-  useGSAP(() => {
-    if (
-      authLoading,
-      !user
-    )
-      return;
+  
+  const { contextSafe } = useGSAP();
+
+  const animateNav = contextSafe(() => {
+    if (authLoading) return;
     gsap.from(navRef?.current?.children, {
       opacity: 0,
       duration: 0.8,
@@ -52,9 +49,8 @@ const Navbar = () => {
       ease: "power2.out",
       stagger: 0.4,
     });
-  }, [authLoading, user]);
+  });
 
-  const { contextSafe } = useGSAP();
   const handleMenu = contextSafe(() => {
     let tl = gsap.timeline({
       paused: true,
@@ -83,12 +79,14 @@ const Navbar = () => {
   useGSAP(() => {
     handleMenu();
   });
+  useGSAP(() => {
+    animateNav()
+  }, [authLoading]);
 
   useEffect(() => {
     menuTlRef.current?.reverse();
   }, [location.pathname]);
 
-    const profilePic = cld.image(user?.profile?.imageId).format("auto").quality("auto").resize(scale().width(400));
   
   return (
     <>
@@ -96,7 +94,7 @@ const Navbar = () => {
         className={`w-full lg:px-23 px-4 py-6 flex items-center justify-between ${
           (location.pathname === "/login" || location.pathname === "/signup") &&
           "hidden"
-        }`}
+        } z-50`}
         ref={navRef}
       >
         <Link to={'/'} className="flex gap-2 ">
@@ -160,7 +158,7 @@ const Navbar = () => {
             <ModeToggle />
           </div>
 
-          <div className="lg:hidden flex items-center justify-center gap-4">
+          <div className="lg:hidden flex items-center justify-center gap-4 z-50">
             <Button
               onClick={() => menuTlRef.current?.play()}
               variant="outline"
@@ -170,11 +168,11 @@ const Navbar = () => {
             </Button>
           </div>
 
-          <DropdownMenu>
+          {user ? <DropdownMenu>
             <DropdownMenuTrigger>
               {user?.profile?.imageUrl ? (
                 <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                <AdvancedImage cldImg={profilePic} className="h-full w-full object-cover"/>
+                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover"/>
               </div>
               ) : (
                 <p
@@ -217,7 +215,11 @@ const Navbar = () => {
                 )}
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> : 
+          <Button asChild className={"lg:flex hidden"}>
+            <Link to="/login"><LogIn size={18} /> Login</Link>
+          </Button>
+          }
         </div>
       </nav>
 
@@ -271,12 +273,18 @@ const Navbar = () => {
         </Link>
         <div className="flex gap-2 mt-4">
           <ModeToggle />
-          <Button className={"px-8"} disabled={userLoading} onClick={() => {
+          {user ? <Button className={"px-8"} disabled={userLoading} onClick={() => {
             menuTlRef.current?.reverse()
             logout()
           }}>
             {userLoading ? <Loader className="animate-spin" /> : "Logout"}
+          </Button> : 
+          <Button className={"px-8"} onClick={() => {
+            menuTlRef.current?.reverse()
+          }} asChild>
+            <Link to="/login"><LogIn/> Login</Link>
           </Button>
+          }
         </div>
       </aside>
     </>

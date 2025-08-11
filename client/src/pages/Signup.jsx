@@ -2,14 +2,13 @@ import React, { useRef, useState } from "react";
 import signupHero from "../assets/singup.png";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Info, Loader } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Info, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Checkbox } from "@/components/ui/checkbox";
-import PrivacyPolicy from "@/components/PrivacyPolicy";
 
 const Signup = () => {
   const { signup, userLoading } = useAuthStore();
@@ -23,7 +22,6 @@ const Signup = () => {
   const [conPassword, setConPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showConPass, setShowConPass] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +31,7 @@ const Signup = () => {
       newErrors.username = "Username is required.";
     } else if (data.username[0].toLowerCase() !== data.username[0]) {
       newErrors.username = "Must start with a lowercase letter.";
-    }else if (data.username.length <= 3) {
+    } else if (data.username.length <= 3) {
       newErrors.username = "Username must be at least 4 characters.";
     }
 
@@ -97,12 +95,19 @@ const Signup = () => {
   };
   return (
     <>
-    <PrivacyPolicy open={open} setOpen={setOpen}/>
       <div className="flex items-center justify-center min-h-screen lg:px-23 px-4 py-6">
         <div
           ref={cardRef}
-          className="grid grid-cols-1 lg:grid-cols-2 max-w-4xl rounded-2xl border border-primary shadow-xl dark:shadow-primary/20 shadow-primary/50 overflow-hidden"
+          className="relative grid grid-cols-1 lg:grid-cols-2 max-w-4xl rounded-2xl border border-primary shadow-xl dark:shadow-primary/20 shadow-primary/50 overflow-hidden"
         >
+          <Button
+            className={"absolute top-3 left-2"}
+            onClick={handleNavigateToLogin}
+            size={"sm"}
+            variant={"ghost"}
+          >
+            <ArrowLeft />
+          </Button>
           <div className="w-full flex flex-col gap-3 p-10">
             <div className="mb-3">
               <h1 className="text-4xl font-bold tracking-tight uppercase text-primary text-shadow-lg dark:text-shadow-primary/30 text-shadow-primary/60">
@@ -280,8 +285,13 @@ const Signup = () => {
                   )}
                 </div>
                 <p className="text-xs text-gray-400 flex gap-1 items-center mt-1">
-                  <Checkbox required />
-                  I have read and agree to the{" "} <span className="text-primary cursor-pointer hover:underline" onClick={() => setOpen(true)}>Privacy Policy</span>
+                  <Checkbox required />I have read and agree to the{" "}
+                  <span
+                    className="text-primary cursor-pointer hover:underline"
+                    onClick={() => navigate("/privacypolicy")}
+                  >
+                    Privacy Policy
+                  </span>
                 </p>
               </div>
 

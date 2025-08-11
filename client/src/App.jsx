@@ -73,14 +73,14 @@ const App = () => {
           <Navbar />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/" element={protectRoutes(authenticated, <Home/>, "/login")} />
+            <Route path="/" element={<Home/>} />
             <Route path="/profile" element={protectRoutes(authenticated, <Profile/>, "/login")} />
             <Route path="/generate" element={protectRoutes(authenticated, <Generate/>, "/login")} />
             <Route path="/recipe/:id" element={protectRoutes(authenticated, <Recipe/>, "/login")} />
             <Route path="/saved-recipe/:id" element={protectRoutes(authenticated, <SavedRecipe/>, "/login")} />
             <Route path="/shared-recipe/:id" element={protectRoutes(authenticated, <SharedRecipe/>, "/login")} />
             <Route path="/history" element={protectRoutes(authenticated, <History/>, "/login")} />
-            <Route path="/privacypolicy" element={protectRoutes(authenticated, <PrivacyPolicy/>, "/login")} />
+            <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
             <Route path="/login" element={protectRoutes(!authenticated, <Login/>, "/")} />
             <Route path="/signup" element={protectRoutes(!authenticated, <Signup/>, "/")} />
           </Routes>

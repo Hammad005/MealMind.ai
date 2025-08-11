@@ -69,7 +69,7 @@ const PrivacyPolicy = () => {
                     WebkitBoxReflect:
                       "below -14px linear-gradient(transparent, #ffffff50)",
                   }}
-                  className="md:text-5xl text-4xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden "
+                  className="md:text-5xl text-4xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 md:hidden font-mono"
                 >
                   MealMind<span className="text-2xl">.ai</span>
                 </p>
@@ -105,7 +105,7 @@ const PrivacyPolicy = () => {
                   WebkitBoxReflect:
                     "below -33px linear-gradient(transparent, #ffffff50)",
                 }}
-                className="text-5xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90"
+                className="text-5xl tracking-widest font-semibold  bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 font-mono"
               >
                 MealMind<span className="text-2xl">.ai</span>
               </p>
@@ -113,12 +113,12 @@ const PrivacyPolicy = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 my-16">
-          <div ref={(el) => (sectionRefs.current[0] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">1.</span> Information We Collect
+        <div className="flex flex-col gap-12 my-16 items-center w-full">
+          <div ref={(el) => (sectionRefs.current[0] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase"> 
+              Information We Collect
             </h3>
-            <div className="pl-6  text-sm space-y-2">
+            <div className="pl-6  text-sm md:text-base space-y-2">
               <p>
                 <b>a. Information You Provide to Us</b>
               </p>
@@ -147,12 +147,11 @@ const PrivacyPolicy = () => {
               </ul>
             </div>
           </div>
-          <div ref={(el) => (sectionRefs.current[1] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">2.</span> How We Use Your
+          <div ref={(el) => (sectionRefs.current[1] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase"> How We Use Your
               Information
             </h3>
-            <ul className="pl-10  text-sm list-disc">
+            <ul className="pl-10  text-sm md:text-base list-disc">
               <li>Provide, maintain, and improve our services</li>
               <li>Personalize your experience</li>
               <li>Respond to your inquiries or support requests</li>
@@ -160,11 +159,10 @@ const PrivacyPolicy = () => {
               <li>Communicate updates, promotions, or policy changes</li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[2] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">3.</span> Sharing Your Information
+          <div ref={(el) => (sectionRefs.current[2] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase"> Sharing Your Information
             </h3>
-            <ul className="pl-10  text-sm list-disc">
+            <ul className="pl-10 text-sm md:text-base list-disc">
               <li>
                 We do <b>not sell</b> or rent your personal information to third
                 parties.
@@ -175,11 +173,10 @@ const PrivacyPolicy = () => {
               </li>
             </ul>
           </div>
-          <div ref={(el) => (sectionRefs.current[3] = el)} className="border-b dark:border-border border-gray-400 pb-4">
-            <h3 className="text-2xl font-bold">
-              <span className="text-primary">4.</span> Data Security
+          <div ref={(el) => (sectionRefs.current[3] = el)} className="border-b dark:border-border border-gray-400 pb-4 flex flex-col gap-4 w-full">
+            <h3 className="md:text-4xl font-bold text-center text-primary uppercase"> Data Security
             </h3>
-            <p className="pl-6  text-sm">
+            <p className="pl-6  text-sm md:text-base">
               We implement industry-standard security measures. However, no
               method of storage or transmission is 100% secure.
             </p>

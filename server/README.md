@@ -1,6 +1,6 @@
 <h1 align="center">MealMind.ai (API/SERVER)🧠🍽️</h1>
 
-MealMind.ai (API/SERVER) Designed to generate smart, creative recipe ideas using AI and image APIs and you can also save and share the recipes.
+MealMind.ai (API/SERVER) Designed to generate smart, creative recipe ideas using AI and you can also save and share the recipes.
 
 ---
 

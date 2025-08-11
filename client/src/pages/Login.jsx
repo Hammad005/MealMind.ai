@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Info, Loader } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Info, Loader } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import loginHero from "../assets/login.png";
 import { Input } from "@/components/ui/input";
@@ -68,7 +68,10 @@ const Login = () => {
           ref={cardRef}
           className="grid grid-cols-1 max-w-4xl lg:grid-cols-2 rounded-2xl  border border-primary shadow-xl dark:shadow-primary/20 shadow-primary/50 overflow-hidden"
         >
-          <div className="w-full dark:bg-primary/10 bg-primary/20 hidden lg:flex flex-col justify-center p-10">
+          <div className="w-full dark:bg-primary/10 bg-primary/20 hidden lg:flex flex-col justify-center p-10 relative">
+          <Button className={"absolute top-5 left-5"} onClick={() => navigate("/")} size={"sm"} variant={"ghost"}>
+            <ArrowLeft/>
+          </Button>
             <div className="h-[300px] w-full overflow-hidden md:mt-0 mt-5">
               <img
                 src={loginHero}
@@ -83,7 +86,10 @@ const Login = () => {
               Log in to continue your smart cooking journey with MealMind.ai
             </p>
           </div>
-          <div className="w-full flex flex-col gap-3 p-10 justify-center">
+          <div className="w-full flex flex-col gap-3 p-10 justify-center relative">
+            <Button className={"absolute top-3 left-2 lg:hidden"} onClick={() => navigate("/")} size={"sm"} variant={"ghost"}>
+            <ArrowLeft/>
+          </Button>
             <div className="mb-3">
               <h1 className="text-4xl font-bold tracking-tight uppercase text-primary text-shadow-lg dark:text-shadow-primary/30 text-shadow-primary/60">
                 Login
