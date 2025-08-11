@@ -253,7 +253,6 @@ npm install
 
 ```env
 VITE_API_URL=                    # Your backend API base URL (e.g., http://localhost:5000)
-VITE_CLOUDINARY_CLOUD_NAME=      # Cloudinary cloud name
 ```
 
 ### 3. 🧪 Run Client
