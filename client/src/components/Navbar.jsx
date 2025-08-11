@@ -238,7 +238,7 @@ const Navbar = () => {
 
       <aside
         ref={asideRef}
-        className="lg:hidden flex items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-[-100%] z-50 bg-primary/10 overflow-y-auto"
+        className="lg:hidden flex items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed -top-[100%] z-50 bg-primary/10 overflow-y-auto"
       >
         <div ref={asideDataRef} className="flex flex-col items-start justify-center gap-4">
         <div>
