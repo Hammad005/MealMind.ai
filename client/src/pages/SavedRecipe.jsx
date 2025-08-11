@@ -6,6 +6,7 @@ import {
   ClipboardList,
   Download,
   Share,
+  Speech,
   Utensils,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -54,54 +55,69 @@ const SavedRecipe = () => {
           ref={cardRef}
           className="max-w-4xl  dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-primary/50 transition-colors overflow-hidden p-0"
         >
-          <div className="w-full md:h-[350px] h-[300px] overflow-hidden">
-            <img
-              src={userRecipe?.recipe?.image?.imageUrl}
-              alt={"recipe"}
-              className="h-full w-full object-cover hover:scale-120 transition-transform"
-            />
+          <div className="flex flex-col items-center justify-center gap-3 px-5 pt-7">
+            <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5 animate-bounce">
+              <ChefHat className="size-10" />
+            </div>
+            <div className="flex-1 text-center">
+              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 uppercase italic">
+                {userRecipe?.recipe?.name}
+              </h3>
+              <p className="text-muted-foreground text-base italic">
+                {userRecipe?.recipe?.category}
+              </p>
+            </div>
           </div>
-          <CardHeader className="px-5">
-            <p className="text-sm text-primary text-center italic">
-              You asked for:{" "}
-              <span className="text-foreground">“{userRecipe?.text}”</span>
-            </p>
-            <div className="flex justify-end gap-2">
-              <Button
-                size={"icon"}
-                variant={"outline"}
-                onClick={() => {
-                  setShareId(userRecipe?._id);
-                  setOpen(true);
-                }}
-              >
-                <Share />
-              </Button>
-              <Button
-                size={"icon"}
-                variant={"outline"}
-                onClick={() => {
-                  if (!cardRef.current) return;
-                  const isDark =
-                    document.documentElement.classList.contains("dark");
+          <CardHeader className="px-5 mt-5">
+            <div className="flex md:flex-row flex-col-reverse md:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="p-2 rounded-md bg-primary/10 text-primary w-fit">
+                  <Speech className="size-5" />
+                </span>
+                <div className="flex-1">
+                  <h3 className="font-medium text-foreground">You asked for:</h3>
+                  <p className="text-sm text-muted-foreground">
+                    “{userRecipe?.text}”
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => {
+                    setShareId(userRecipe?._id);
+                    setOpen(true);
+                  }}
+                >
+                  <Share />
+                </Button>
+                <Button
+                  size={"icon"}
+                  variant={"outline"}
+                  onClick={() => {
+                    if (!cardRef.current) return;
+                    const isDark =
+                      document.documentElement.classList.contains("dark");
 
-                  toPng(cardRef.current, {
-                    cacheBust: true,
-                    useCORS: true,
-                    style: {
-                      background: isDark ? "#161618" : "#CCDFB3",
-                    },
-                  })
-                    .then((dataUrl) => {
-                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                    toPng(cardRef.current, {
+                      cacheBust: true,
+                      useCORS: true,
+                      style: {
+                        background: isDark ? "#161618" : "#CCDFB3",
+                      },
                     })
-                    .catch((err) => {
-                      console.error("Error exporting image:", err);
-                    });
-                }}
-              >
-                <Download />
-              </Button>
+                      .then((dataUrl) => {
+                        download(dataUrl, `${userRecipe?.recipe?.name}.png`);
+                      })
+                      .catch((err) => {
+                        console.error("Error exporting image:", err);
+                      });
+                  }}
+                >
+                  <Download />
+                </Button>
+              </div>
             </div>
           </CardHeader>
 

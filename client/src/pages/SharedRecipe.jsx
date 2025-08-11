@@ -8,7 +8,7 @@ import {
   Download,
   Loader,
   Share,
-  Type,
+  Speech,
   Utensils,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -61,40 +61,20 @@ const SharedRecipe = () => {
           ref={cardRef}
           className="max-w-4xl  dark:bg-card/90 bg-primary/30 backdrop-blur-sm border border-primary/50 transition-colors overflow-hidden p-0"
         >
-          <div className="w-full md:h-[350px] h-[300px] overflow-hidden">
-            <img
-              src={userRecipe?.recipe?.image?.imageUrl}
-              alt="recipe"
-              className="h-full w-full object-cover hover:scale-120 transition-transform"
-            />
+          <div className="flex flex-col items-center justify-center gap-3 px-5 pt-7">
+            <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5 animate-bounce">
+              <ChefHat className="size-10" />
+            </div>
+            <div className="flex-1 text-center">
+              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 uppercase italic">
+                {userRecipe?.recipe?.name}
+              </h3>
+              <p className="text-muted-foreground text-base italic">
+                {userRecipe?.recipe?.category}
+              </p>
+            </div>
           </div>
-          <CardHeader className="px-5 w-full">
-            <div className="grid grid-cols-2 gap-5">
-              <div className="flex items-center gap-3 w-full">
-                {userRecipe?.sender?.profile?.imageUrl ? (
-                  <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                    <img
-                      src={userRecipe?.sender?.profile?.imageUrl}
-                      alt="avatar"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <p
-                    className={
-                      "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
-                    }
-                  >
-                    {userRecipe?.sender?.username[0].toUpperCase()}
-                  </p>
-                )}
-                <div className="flex-1">
-                  <h3 className="font-medium text-foreground">Shared by</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {userRecipe?.sender?.username}
-                  </p>
-                </div>
-              </div>
+          <CardHeader className="px-5">
               <div className="flex justify-end gap-2">
                 {alreadySaved ? (
                   <Button
@@ -160,28 +140,39 @@ const SharedRecipe = () => {
                   <Download />
                 </Button>
               </div>
-            </div>
           </CardHeader>
 
           <CardContent className="px-5 pb-6">
             <div className="space-y-5">
               <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
-                    <ChefHat className="h-5 w-5" />
+                <div className="flex items-center gap-3 w-full">
+                {userRecipe?.sender?.profile?.imageUrl ? (
+                  <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
+                    <img
+                      src={userRecipe?.sender?.profile?.imageUrl}
+                      alt="avatar"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium text-foreground">
-                      {userRecipe?.recipe?.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {userRecipe?.recipe?.category}
-                    </p>
-                  </div>
+                ) : (
+                  <p
+                    className={
+                      "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
+                    }
+                  >
+                    {userRecipe?.sender?.username[0].toUpperCase()}
+                  </p>
+                )}
+                <div className="flex-1">
+                  <h3 className="font-medium text-foreground">Shared by</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {userRecipe?.sender?.username}
+                  </p>
                 </div>
+              </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
-                    <Type className="h-5 w-5" />
+                    <Speech className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-medium text-foreground">Asked for</h3>
