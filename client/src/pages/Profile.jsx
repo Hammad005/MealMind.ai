@@ -57,12 +57,12 @@ const Profile = () => {
       <div className="w-full lg:px-23 px-4 py-6 md:mt-10 min-h-screen flex flex-col items-center gap-12">
         <div
           ref={profileRef}
-          className="flex flex-col items-center gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6 md:w-1/2"
+          className="flex flex-col items-center gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6 md:w-1/2 w-full"
         >
           <div className="flex flex-col gap-2 items-center">
             {user?.profile?.imageUrl ? (
               <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-22 rounded-full border-2 border-primary flex items-center justify-center">
-                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover"/>
+                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover object-top"/>
               </div>
             ) : (
             <p className="dark:bg-primary/50 bg-primary/80 text-white size-22 text-4xl rounded-full border-2 border-primary flex items-center justify-center">
