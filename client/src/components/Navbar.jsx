@@ -185,7 +185,7 @@ const Navbar = () => {
             <DropdownMenuTrigger>
               {user?.profile?.imageUrl ? (
                 <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover"/>
+                <img src={user?.profile?.imageUrl} alt="avatar" className="h-full w-full object-cover object-top"/>
               </div>
               ) : (
                 <p
