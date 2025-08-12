@@ -66,7 +66,7 @@ const SharedRecipe = () => {
               <ChefHat className="size-10" />
             </div>
             <div className="flex-1 text-center">
-              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 uppercase italic">
+              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r dark:from-primary/90 dark:via-[#91ff02] dark:to-primary/90 from-primary/90 via-[#75ce01] to-primary/90 uppercase italic">
                 {userRecipe?.recipe?.name}
               </h3>
               <p className="text-muted-foreground text-base italic">
@@ -75,101 +75,101 @@ const SharedRecipe = () => {
             </div>
           </div>
           <CardHeader className="px-5">
-              <div className="flex justify-end gap-2">
-                {alreadySaved ? (
-                  <Button
-                    size={"icon"}
-                    variant={"outline"}
-                    onClick={() => unsaveRecipe(alreadySaved?._id)}
-                    disabled={savedRecipeLoading}
-                  >
-                    {savedRecipeLoading ? (
-                      <Loader className="animate-spin" />
-                    ) : (
-                      <Bookmark className="fill-foreground" />
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    size={"icon"}
-                    variant={"outline"}
-                    onClick={() => {
-                      saveSharedRecipe(userRecipe?._id);
-                    }}
-                    disabled={savedRecipeLoading}
-                  >
-                    {savedRecipeLoading ? (
-                      <Loader className="animate-spin" />
-                    ) : (
-                      <Bookmark />
-                    )}
-                  </Button>
-                )}
+            <div className="flex justify-end gap-2">
+              {alreadySaved ? (
                 <Button
                   size={"icon"}
                   variant={"outline"}
-                  onClick={() => {
-                    setShareId(userRecipe?._id);
-                    setOpen(true);
-                  }}
+                  onClick={() => unsaveRecipe(alreadySaved?._id)}
+                  disabled={savedRecipeLoading}
                 >
-                  <Share />
+                  {savedRecipeLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <Bookmark className="fill-foreground" />
+                  )}
                 </Button>
+              ) : (
                 <Button
                   size={"icon"}
                   variant={"outline"}
                   onClick={() => {
-                    if (!cardRef.current) return;
-                    const isDark =
-                      document.documentElement.classList.contains("dark");
-                    toPng(cardRef.current, {
-                      cacheBust: true,
-                      useCORS: true,
-                      style: {
-                        background: isDark ? "#161618" : "#CCDFB3",
-                      },
+                    saveSharedRecipe(userRecipe?._id);
+                  }}
+                  disabled={savedRecipeLoading}
+                >
+                  {savedRecipeLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <Bookmark />
+                  )}
+                </Button>
+              )}
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                onClick={() => {
+                  setShareId(userRecipe?._id);
+                  setOpen(true);
+                }}
+              >
+                <Share />
+              </Button>
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                onClick={() => {
+                  if (!cardRef.current) return;
+                  const isDark =
+                    document.documentElement.classList.contains("dark");
+                  toPng(cardRef.current, {
+                    cacheBust: true,
+                    useCORS: true,
+                    style: {
+                      background: isDark ? "#161618" : "#CCDFB3",
+                    },
+                  })
+                    .then((dataUrl) => {
+                      download(dataUrl, `${userRecipe?.recipe?.name}.png`);
                     })
-                      .then((dataUrl) => {
-                        download(dataUrl, `${userRecipe?.recipe?.name}.png`);
-                      })
-                      .catch((err) => {
-                        console.error("Error exporting image:", err);
-                      });
-                  }}
-                >
-                  <Download />
-                </Button>
-              </div>
+                    .catch((err) => {
+                      console.error("Error exporting image:", err);
+                    });
+                }}
+              >
+                <Download />
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent className="px-5 pb-6">
             <div className="space-y-5">
               <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
                 <div className="flex items-center gap-3 w-full">
-                {userRecipe?.sender?.profile?.imageUrl ? (
-                  <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
-                    <img
-                      src={userRecipe?.sender?.profile?.imageUrl}
-                      alt="avatar"
-                      className="h-full w-full object-cover"
-                    />
+                  {userRecipe?.sender?.profile?.imageUrl ? (
+                    <div className="dark:bg-primary/50 bg-primary/80 overflow-hidden size-9 rounded-full border-2 border-primary flex items-center justify-center">
+                      <img
+                        src={userRecipe?.sender?.profile?.imageUrl}
+                        alt="avatar"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <p
+                      className={
+                        "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
+                      }
+                    >
+                      {userRecipe?.sender?.username[0].toUpperCase()}
+                    </p>
+                  )}
+                  <div className="flex-1">
+                    <h3 className="font-medium text-foreground">Shared by</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {userRecipe?.sender?.username}
+                    </p>
                   </div>
-                ) : (
-                  <p
-                    className={
-                      "dark:bg-primary/50 bg-primary/80 text-white shadow-xs hover:bg-primary/90 dark:hover:bg-primary/90 size-9 rounded-full border-2 border-primary flex items-center justify-center"
-                    }
-                  >
-                    {userRecipe?.sender?.username[0].toUpperCase()}
-                  </p>
-                )}
-                <div className="flex-1">
-                  <h3 className="font-medium text-foreground">Shared by</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {userRecipe?.sender?.username}
-                  </p>
                 </div>
-              </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
                     <Speech className="h-5 w-5" />

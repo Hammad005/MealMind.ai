@@ -65,7 +65,7 @@ const Recipe = () => {
               <ChefHat className="size-10" />
             </div>
             <div className="flex-1 text-center">
-              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-primary/90 via-[#91ff02] to-primary/90 uppercase italic">
+              <h3 className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r dark:from-primary/90 dark:via-[#91ff02] dark:to-primary/90 from-primary/90 via-[#75ce01] to-primary/90 uppercase italic">
                 {userRecipe?.recipe?.name}
               </h3>
               <p className="text-muted-foreground text-base italic">
