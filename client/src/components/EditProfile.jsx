@@ -183,7 +183,7 @@ const EditProfile = ({ open, setOpen }) => {
                   type="file"
                   name="profile"
                   className="hidden"
-                  accept="jpeg,jpg,png"
+                  accept=".jpeg,.jpg,.png,.webp"
                   ref={btnRef}
                   onChange={handleProfileChange}
                 />
