@@ -306,12 +306,13 @@ const Signup = () => {
               </div>
               <p className="text-sm text-center z-20">
                 Already have an account?{" "}
-                <span
+                <button
+                  type="button"
                   onClick={handleNavigateToLogin}
                   className="text-primary font-semibold hover:underline cursor-pointer"
                 >
                   Login
-                </span>
+                </button>
               </p>
               <div className="h-[130px] lg:hidden block absolute bottom-0 right-0 transform translate-x-1/2 pl-5 translate-y-1/2">
                 <img

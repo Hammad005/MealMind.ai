@@ -184,12 +184,13 @@ const Login = () => {
               </div>
               <p className="text-sm text-center mt-2 z-20">
                 Don&apos;t have an account?{" "}
-                <span
+                <button
+                  type="button"
                   onClick={handleNavigateToSignup}
                   className="text-primary font-semibold hover:underline cursor-pointer"
                 >
                   Sign Up
-                </span>
+                </button>
               </p>
              
 
