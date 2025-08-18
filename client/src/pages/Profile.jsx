@@ -101,7 +101,7 @@ const Profile = () => {
 
         <div
           ref={tabsRef}
-          className="flex flex-col gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6"
+          className="flex flex-col gap-8 dark:bg-card/90 bg-primary/30 backdrop-blur border border-primary/40 rounded-lg overflow-hidden p-6 w-full"
         >
           <h3 className="text-3xl font-bold text-primary">Personal Recipes:</h3>
           <Tabs defaultValue="saved" className="w-full">
