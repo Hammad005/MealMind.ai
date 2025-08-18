@@ -21,7 +21,6 @@ const EditProfile = ({ open, setOpen }) => {
   const [data, setData] = useState({
     username: user?.username || "",
     name: user?.name || "",
-    email: user?.email || "",
     profile: user?.profile?.imageUrl || "",
   });
   const [errors, setErrors] = useState({});
@@ -31,7 +30,6 @@ const EditProfile = ({ open, setOpen }) => {
       setData({
         username: user?.username || "",
         name: user?.name || "",
-        email: user?.email || "",
         profile: "",
       });
       setErrors({});
@@ -54,12 +52,6 @@ const EditProfile = ({ open, setOpen }) => {
       newErrors.name = "Name is required.";
     } else if (data.name.length <= 3) {
       newErrors.name = "Name must be at least 4 characters.";
-    }
-
-    if (!data.email) {
-      newErrors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-      newErrors.email = "Email is invalid.";
     }
 
     setErrors(newErrors);
@@ -142,32 +134,6 @@ const EditProfile = ({ open, setOpen }) => {
                   {errors.name && (
                     <p className="text-red-500 text-xs flex gap-1 items-center">
                       <Info className="size-[0.75rem]" /> {errors.name}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <Label
-                  className={`${
-                    errors.email ? "text-red-500" : "text-foreground"
-                  } text-xs tracking-wide font-bold`}
-                  htmlFor="email"
-                >
-                  Email:
-                </Label>
-                <div className="flex flex-col gap-1">
-                  <Input
-                    type="text"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={data.email}
-                    onChange={(e) =>
-                      setData({ ...data, email: e.target.value })
-                    }
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-xs flex gap-1 items-center">
-                      <Info className="size-[0.75rem]" /> {errors.email}
                     </p>
                   )}
                 </div>

@@ -39,7 +39,7 @@ passport.use(
           username: profile.emails[0].value.split("@")[0],
           name: profile.displayName,
           email: profile.emails[0].value,
-          profilePic: {
+          profile: {
             imageId: null,
             imageUrl: profile.photos[0].value,
             isUpdated: false,

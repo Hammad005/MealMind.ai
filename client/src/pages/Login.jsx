@@ -8,6 +8,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import loginHero from "../assets/login.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import GoogleLogo from '../assets/googleLogo.png';
 
 const Login = () => {
   const { login, userLoading } = useAuthStore();
@@ -61,6 +62,10 @@ const Login = () => {
       onComplete: () => navigate("/signup"),
     });
   };
+
+  const handleGoogleSignup = () => {
+    window.open(`${import.meta.env.VITE_API_URL}/api/auth/google`, "_self");
+  };
   return (
     <>
       <div className="flex items-center justify-center min-h-screen lg:px-23 px-4 py-6">
@@ -69,9 +74,14 @@ const Login = () => {
           className="grid grid-cols-1 max-w-4xl lg:grid-cols-2 rounded-2xl  border border-primary shadow-xl dark:shadow-primary/20 shadow-primary/50 overflow-hidden"
         >
           <div className="w-full dark:bg-primary/10 bg-primary/20 hidden lg:flex flex-col justify-center p-10 relative">
-          <Button className={"absolute top-5 left-5"} onClick={() => navigate("/")} size={"sm"} variant={"ghost"}>
-            <ArrowLeft/>
-          </Button>
+            <Button
+              className={"absolute top-5 left-5"}
+              onClick={() => navigate("/")}
+              size={"sm"}
+              variant={"ghost"}
+            >
+              <ArrowLeft />
+            </Button>
             <div className="h-[300px] w-full overflow-hidden md:mt-0 mt-5">
               <img
                 src={loginHero}
@@ -87,9 +97,14 @@ const Login = () => {
             </p>
           </div>
           <div className="w-full flex flex-col gap-3 p-10 justify-center relative">
-            <Button className={"absolute top-3 left-2 lg:hidden"} onClick={() => navigate("/")} size={"sm"} variant={"ghost"}>
-            <ArrowLeft/>
-          </Button>
+            <Button
+              className={"absolute top-3 left-2 lg:hidden"}
+              onClick={() => navigate("/")}
+              size={"sm"}
+              variant={"ghost"}
+            >
+              <ArrowLeft />
+            </Button>
             <div className="mb-3">
               <h1 className="text-4xl font-bold tracking-tight uppercase text-primary text-shadow-lg dark:text-shadow-primary/30 text-shadow-primary/60">
                 Login
@@ -173,7 +188,7 @@ const Login = () => {
                   )}
                 </div>
               </div>
-               <div className="flex justify-center">
+              <div className="flex justify-center">
                 <Button
                   className={"px-12"}
                   type="submit"
@@ -182,26 +197,41 @@ const Login = () => {
                   {userLoading ? <Loader className="animate-spin" /> : "Login"}
                 </Button>
               </div>
-              <p className="text-sm text-center mt-2 z-20">
-                Don&apos;t have an account?{" "}
-                <button
-                  type="button"
-                  onClick={handleNavigateToSignup}
-                  className="text-primary font-semibold hover:underline cursor-pointer"
-                >
-                  Sign Up
-                </button>
-              </p>
-             
-
-              <div className="h-[130px] lg:hidden block absolute bottom-0 left-0 transform -translate-x-1/2 pr-10 translate-y-1/2">
-                <img
-                  src={loginHero}
-                  alt="login"
-                  className="object-cover h-full mx-auto"
-                />
-              </div>
             </form>
+            <div className="w-full flex items-center justify-center">
+              <span className="text-sm font-semibold text-center text-primary">
+                or
+              </span>
+            </div>
+            <Button
+              type="button"
+              className={"w-full"}
+              variant={"outline"}
+              onClick={handleGoogleSignup}
+              disabled={userLoading}
+            >
+              <img src={GoogleLogo} alt="Google" className="w-4 h-4" />
+              Continue with Google
+            </Button>
+
+            <p className="text-sm text-center mt-2 z-20">
+              Don&apos;t have an account?{" "}
+              <button
+                type="button"
+                onClick={handleNavigateToSignup}
+                className="text-primary font-semibold hover:underline cursor-pointer"
+              >
+                Sign Up
+              </button>
+            </p>
+
+            <div className="h-[130px] lg:hidden block absolute bottom-0 left-0 transform -translate-x-1/3 pr-10 translate-y-1/6">
+              <img
+                src={loginHero}
+                alt="login"
+                className="object-cover h-full mx-auto"
+              />
+            </div>
           </div>
         </div>
       </div>

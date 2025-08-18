@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Checkbox } from "@/components/ui/checkbox";
+import GoogleLogo from "../assets/googleLogo.png";
 
 const Signup = () => {
   const { signup, userLoading } = useAuthStore();
@@ -93,6 +94,10 @@ const Signup = () => {
       onComplete: () => navigate("/login"),
     });
   };
+
+  const handleGoogleSignup = () => {
+    window.open(`${import.meta.env.VITE_API_URL}/api/auth/google`, "_self");
+  };
   return (
     <>
       <div className="flex items-center justify-center min-h-screen lg:px-23 px-4 py-6">
@@ -117,7 +122,21 @@ const Signup = () => {
                 MealMind.ai - Where Ingredients Meet Intelligence
               </p>
             </div>
-
+            <Button
+              type="button"
+              className={"w-full"}
+              variant={"outline"}
+              onClick={handleGoogleSignup}
+              disabled={userLoading}
+            >
+              <img src={GoogleLogo} alt="Google" className="w-4 h-4" />
+              Continue with Google
+            </Button>
+            <div className="w-full  flex items-center justify-center">
+              <span className="text-sm font-semibold text-center text-primary">
+                or
+              </span>
+            </div>
             <form
               onSubmit={handleSubmit}
               className="flex flex-col gap-3 relative"
@@ -304,24 +323,24 @@ const Signup = () => {
                   {userLoading ? <Loader className="animate-spin" /> : "Signup"}
                 </Button>
               </div>
-              <p className="text-sm text-center z-20">
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  onClick={handleNavigateToLogin}
-                  className="text-primary font-semibold hover:underline cursor-pointer"
-                >
-                  Login
-                </button>
-              </p>
-              <div className="h-[130px] lg:hidden block absolute bottom-0 right-0 transform translate-x-1/2 pl-5 translate-y-1/2">
-                <img
-                  src={signupHero}
-                  alt="signup"
-                  className="object-cover h-full mx-auto"
-                />
-              </div>
             </form>
+            <p className="text-sm text-center z-20">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={handleNavigateToLogin}
+                className="text-primary font-semibold hover:underline cursor-pointer"
+              >
+                Login
+              </button>
+            </p>
+            <div className="h-[130px] lg:hidden block absolute bottom-0 right-0 transform translate-x-1/6 translate-y-1/4 pl-5">
+              <img
+                src={signupHero}
+                alt="signup"
+                className="object-cover h-full mx-auto"
+              />
+            </div>
           </div>
           <div className="w-full dark:bg-primary/10 bg-primary/20 hidden lg:flex flex-col justify-center p-10">
             <div className="h-[300px] w-full overflow-hidden md:mt-0 mt-5">
