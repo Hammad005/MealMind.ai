@@ -7,6 +7,8 @@ import userRoute from "./routes/userRoute.js";
 import historyRecipeRoute from "./routes/historyRecipeRoute.js";
 import shareRecipeRoute from "./routes/shareRecipeRoute.js";
 import savedRecipeRoute from "./routes/savedRecipeRoute.js";
+import passport from 'passport';
+import './config/passport.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -20,6 +22,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 
 app.use('/api/auth', userRoute);

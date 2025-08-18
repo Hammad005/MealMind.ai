@@ -128,7 +128,7 @@ export const logout = (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { username, name, email, profile } = req.body;
+  const { username, name, profile } = req.body;
 
   try {
     // Check for duplicate username
@@ -136,14 +136,6 @@ export const updateProfile = async (req, res) => {
       const usernameExist = await User.findOne({ username });
       if (usernameExist) {
         return res.status(400).json({ error: "Username already in use" });
-      }
-    }
-
-    // Check for duplicate email
-    if (email !== req.user.email) {
-      const emailExist = await User.findOne({ email });
-      if (emailExist) {
-        return res.status(400).json({ error: "Email already in use" });
       }
     }
 
@@ -173,10 +165,10 @@ export const updateProfile = async (req, res) => {
         {
           username,
           name,
-          email,
           profile: {
             imageId: cloudinaryResponse.public_id,
             imageUrl: cloudinaryResponse.secure_url,
+            isUpdated: true,
           },
         },
         { new: true }
@@ -185,7 +177,7 @@ export const updateProfile = async (req, res) => {
       // If profile is not provided, update only other fields
       updatedUser = await User.findByIdAndUpdate(
         req.user._id,
-        { username, name, email },
+        { username, name },
         { new: true }
       );
     }
@@ -219,4 +211,19 @@ export const getAllUsers = async (req, res) => {
     console.error("Get all users error:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
+};
+
+export const sendToken = (user, res) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "3d",
+  });
+
+  res.cookie("MealMindAiAuth", token, {
+    maxAge: 3 * 24 * 60 * 60 * 1000, // 5 days
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
+    secure: process.env.NODE_ENV === "production",
+  })
+    .status(200)
+    .redirect(process.env.CLIENT_URL);
 };
