@@ -48,6 +48,10 @@ CLOUDINARY_CLOUD_NAME=      # Cloudinary cloud name
 CLOUDINARY_API_KEY=         # Cloudinary API key
 CLOUDINARY_API_SECRET=      # Cloudinary API secret
 
+GOOGLE_CLIENT_ID=           # Google Client Id (for google authentication)
+GOOGLE_CLIENT_SECRET=       # Google CLient Secret (for google authentication)
+GOOGLE_CALLBACK_URL=        # http://localhost:(PORT)/api/auth/google/callback (Make sure add the same url that you gave on google cloud platform)
+
 GEMINI_API_KEY=             # Gemini AI API key
 ```
 
@@ -84,7 +88,7 @@ GEMINI_API_KEY=             # Gemini AI API key
 
 - **URL**:              `/api/auth/updateProfile`
 - **Method**:           `PUT`
-- **Body**:             `username(Optional), name(Optional), email(Optional), profile(Optional`
+- **Body**:             `username(Optional), name(Optional), profile(Optional`
 - **Credentials**:      `True`
 - **Auth required**:    `Yes`
 
