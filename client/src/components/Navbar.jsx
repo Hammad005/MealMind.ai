@@ -11,6 +11,7 @@ import {
   MessageSquareQuote,
   Sparkle,
   User,
+  User2,
   X,
 } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -121,7 +122,7 @@ const Navbar = () => {
         </Link>
 
         <div className="flex gap-4">
-          <div className="lg:flex items-center justify-center gap-8 hidden ">
+          <div className="xl:flex items-center justify-center gap-8 hidden ">
             <Link
               to="/"
               className={`${
@@ -145,6 +146,17 @@ const Navbar = () => {
               <BrainCircuit size={18} className="text-primary" />
               Generate
             </Link>
+            {user && <Link
+              to="/profile"
+              className={`${
+                location.pathname === "/profile"
+                  ? "font-bold text-sm flex items-start gap-2 text-primary"
+                  : "font-semibold text-sm flex items-start gap-2 hover:text-primary"
+              }`}
+            >
+              <User2 size={18} className="text-primary" />
+              Profile
+            </Link>}
             <Link
               to="/faq"
               className={
@@ -171,7 +183,7 @@ const Navbar = () => {
             <ModeToggle />
           </div>
 
-          <div className="lg:hidden flex items-center justify-center gap-4 z-50">
+          <div className="xl:hidden flex items-center justify-center gap-4 z-50">
             <Button
               onClick={() => menuTlRef.current?.play()}
               variant="outline"
@@ -238,7 +250,7 @@ const Navbar = () => {
 
       <aside
         ref={asideRef}
-        className="lg:hidden flex items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-0 -translate-y-full  z-50 bg-primary/10 overflow-y-auto"
+        className="xl:hidden flex items-center justify-center gap-4 backdrop-blur-lg h-screen w-full fixed top-0 -translate-y-full  z-50 bg-primary/10 overflow-y-auto"
       >
         <div ref={asideDataRef} className="flex flex-col items-start justify-center gap-4">
         <div>
@@ -274,6 +286,17 @@ const Navbar = () => {
           <BrainCircuit size={22} className="text-primary" />
           Generate
         </Link>
+        {user && <Link
+          to="/profile"
+          className={`${
+            location.pathname === "/profile"
+              ? "font-bold text-xl flex items-start gap-2 text-primary"
+              : "font-semibold text-xl flex items-start gap-2 hover:text-primary"
+          }`}
+        >
+          <User2 size={22} className="text-primary" />
+          Profile
+        </Link>}
         <Link
           to="/faq"
           className={
