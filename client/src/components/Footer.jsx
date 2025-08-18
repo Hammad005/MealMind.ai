@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
         <p className="text-sm text-primary">
           Copyright &copy; 2025 MealMind.ai - All rights reserved by 
-          <Link to={"https://www.facebook.com/profile.php?id=61579227553830"} target="_blank" className="px-1 hover:underline text-foreground">
+          <Link to={"https://myportfolio-khaki-psi.vercel.app/"} target="_blank" className="px-1 hover:underline text-foreground">
             Hammad Khatri
           </Link>
           ♡
