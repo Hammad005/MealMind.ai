@@ -17,7 +17,7 @@ export const useAuthStore = create((set) => ({
     const steps = [0, 35, 60, 85, 100];
 
     for (let value of steps) {
-      await delay(1000);
+      await delay(1200);
       set({ progress: value });
     }
 

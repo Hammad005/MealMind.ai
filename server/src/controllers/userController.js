@@ -50,8 +50,6 @@ export const googleAuth = async (req, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "3d",
   });
-  const userWithoutPassword = { ...user._doc };
-  delete userWithoutPassword.password;
 
   return res
     .cookie("MealMindAiAuth", token, {
@@ -60,10 +58,7 @@ export const googleAuth = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
       secure: process.env.NODE_ENV === "production",
     })
-    .status(201)
-    .json({
-      user: userWithoutPassword,
-    });
+    .status(201);
 };
 
 export const signup = async (req, res) => {
