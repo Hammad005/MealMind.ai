@@ -6,7 +6,9 @@ import { OAuth2Client } from 'google-auth-library';
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_CALLBACK_URL);
 export const googleAuth = async (req, res) => {
   const { code } = req.body;
-  const { tokens } = await client.getToken(code);
+  const { tokens } = await client.getToken({code,
+    redirect_uri: process.env.GOOGLE_CALLBACK_URL
+  });
   const ticket = await client.verifyIdToken({
     idToken: tokens.id_token,
     audience: process.env.GOOGLE_CLIENT_ID,
@@ -50,6 +52,8 @@ export const googleAuth = async (req, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "3d",
   });
+  const userWithoutPassword = { ...user._doc };
+  delete userWithoutPassword.password;
 
   return res
     .cookie("MealMindAiAuth", token, {
@@ -58,7 +62,10 @@ export const googleAuth = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
       secure: process.env.NODE_ENV === "production",
     })
-    .status(201);
+    .status(201)
+    .json({
+      user: userWithoutPassword,
+    });
 };
 
 export const signup = async (req, res) => {
