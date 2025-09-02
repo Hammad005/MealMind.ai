@@ -21,6 +21,7 @@ import History from "./pages/History";
 import SavedRecipe from "./pages/SavedRecipe";
 import SharedRecipe from "./pages/SharedRecipe";
 import Faq from "./pages/Faq";
+import NotFound from "./components/NotFound";
 
 const protectRoutes = (condition, children, naivagate) => {
   return condition ? children : <Navigate to={naivagate} />
@@ -73,7 +74,7 @@ const App = () => {
         <div className="z-20">
           <Navbar />
           <Routes>
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFound/>} />
             <Route path="/" element={<Home/>} />
             <Route path="/profile" element={protectRoutes(authenticated, <Profile/>, "/login")} />
             <Route path="/generate" element={protectRoutes(authenticated, <Generate/>, "/login")} />

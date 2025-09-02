@@ -1,15 +1,37 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Progress } from "./ui/progress";
 import { useAuthStore } from "@/store/useAuthStore";
+import axios from "@/lib/axios";
+import { useNavigate } from "react-router-dom";
 
 const LoadingScreen = () => {
+  const navigate = useNavigate();
   const { progress } = useAuthStore();
   const animationRef = useRef(null);
   const spoonRef = useRef(null);
   const steamRef = useRef(null);
   const loadingRef = useRef(null);
+
+  useEffect(() => {
+    const handleGoogleAuth = async () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+
+        if (code){
+          await axios.post("/auth/google", { code });
+          navigate("/");
+        }
+      } catch (err) {
+        console.error("Google login failed", err);
+        navigate("/");
+      }
+    };
+
+    handleGoogleAuth();
+  }, []);
 
   useGSAP(() => {
     const tl = gsap.timeline();
